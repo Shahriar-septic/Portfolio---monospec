@@ -1,0 +1,13 @@
+{
+  "name": "cinematic-frame-scroll",
+  "version": "1.0.0",
+  "description": "Smooth cinematic video frame scroll animation",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs"
+  },
+  "keywords": ["scroll-animation", "canvas", "video-frames"],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Pricing & Packages — MonoSpec Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="pricing-page">
+  <!-- Top Progress Indicator for Video Frames Buffer -->
+  <div id="loader" class="loader">
+    <div id="loader-bar" class="loader-bar"></div>
+  </div>
+
+  <!-- Pinned Fullscreen Background Canvas for 130-frame Video Scroll Animation -->
+  <canvas id="cinema-canvas"></canvas>
+
+  <!-- Ambient Cinematic Gradient Overlay -->
+  <div class="ambient-vignette"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">MonoSpec</a>
+
+      <nav class="nav-pill">
+        <a href="index.html#overview" class="nav-link">Overview</a>
+        <a href="index.html#process" class="nav-link">Process</a>
+        <a href="pricing.html" class="nav-link active">Services</a>
+        <a href="contact.html" class="nav-link">Contact Me</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20inquire%20about%20your%20pricing%20plans" target="_blank" rel="noreferrer" class="social-icon whatsapp" aria-label="WhatsApp (+880 1700620388)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.311.045-.698.073-2.027-.478-1.696-.704-2.775-2.435-2.859-2.548-.083-.113-.679-.904-.679-1.724 0-.82.43-1.224.582-1.391.153-.167.334-.209.446-.209.112 0 .224.001.321.006.104.005.244-.04.381.291.144.348.491 1.199.534 1.286.043.087.072.189.014.305-.058.116-.087.189-.174.29-.087.102-.183.228-.261.306-.087.087-.178.182-.077.355.101.173.45 1.002.965 1.462.664.592 1.224.776 1.397.863.173.087.275.073.376-.044.101-.116.433-.506.549-.68.116-.174.232-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.044.073.044.423-.1.828z"/>
+          </svg>
+        </a>
+        <a href="https://dribbble.com" target="_blank" rel="noreferrer" class="social-icon" aria-label="Dribbble">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M19.13 5.09C15.22 9.14 10 10.44 2.25 10.94"/>
+            <path d="M21.75 12.84c-6.62-1.41-12.14 1-16.38 6.32"/>
+            <path d="M8.53 2.5a18.5 18.5 0 014.28 18.9"/>
+          </svg>
+        </a>
+        <a href="contact.html" class="btn-contact">
+          <span>Contact Me</span>
+          <span class="btn-circle-arrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pricing Main Content Section -->
+  <main class="pricing-main-wrap">
+
+    <!-- Giant Stylized Watermark Typography from Reference 2 -->
+    <div class="pricing-watermark" aria-hidden="true">Services</div>
+
+    <!-- Header Block -->
+    <div class="pricing-hero-header">
+      <div class="section-eyebrow">
+        <span class="eyebrow-num">MONOSPEC STUDIO /</span> SERVICES & PACKAGES
+      </div>
+      <h1 class="pricing-headline">
+        Pick the plan that fits<br><span class="highlight-orange">Every Digital Scale</span>
+      </h1>
+      <p class="pricing-subheadline">
+        Every website is built with zero templates, custom code architecture, and high-conversion design engineering. Click any package to view full tiers.
+      </p>
+
+      <!-- Sleek Toggle Switch matching Reference 2 -->
+      <div class="pricing-toggle-container">
+        <span class="toggle-text">Standard Timeline</span>
+        <label class="switch" for="delivery-toggle">
+          <input type="checkbox" id="delivery-toggle" checked>
+          <span class="slider round"></span>
+        </label>
+        <span class="toggle-text highlight">Express Launch <span class="badge-discount">Priority</span></span>
+      </div>
+    </div>
+
+    <!-- 6 Glassmorphic Pricing Cards Grid (Linking to dedicated plan pages) -->
+    <div class="pricing-cards-grid">
+
+      <!-- CARD 1: Shopify Store -->
+      <div class="pricing-card glass-card">
+        <div class="card-top">
+          <div class="card-type-row">
+            <span class="plan-name">Shopify store</span>
+          </div>
+          <div class="price-row">
+            <span class="price-prefix">From</span>
+            <span class="price-amount">Tk 15,000</span>
+          </div>
+          <p class="plan-summary">
+            A ready to sell Shopify shop, set up and styled for your brand.
+          </p>
+        </div>
+
+        <div class="card-features">
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Complete store configuration & theme styling</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Payment gateway & automated checkout setup</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Up to 30 initial product uploads & categories</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Mobile-first responsive shopping experience</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Speed optimization & conversion layout</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-footer">
+          <a href="plan-shopify.html" class="btn-choose-plan">See plans</a>
+        </div>
+      </div>
+
+      <!-- CARD 2: WooCommerce Store (FEATURED with glowing amber border like Reference 2) -->
+      <div class="pricing-card glass-card featured">
+        <div class="card-top">
+          <div class="card-type-row">
+            <span class="plan-name">WooCommerce store</span>
+            <span class="featured-badge">MOST POPULAR</span>
+          </div>
+          <div class="price-row">
+            <span class="price-prefix">From</span>
+            <span class="price-amount">Tk 12,000</span>
+          </div>
+          <p class="plan-summary">
+            Your own shop on WordPress, with no monthly fee to a platform.
+          </p>
+        </div>
+
+        <div class="card-features">
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon orange">✓</span>
+              <span>WordPress + WooCommerce native installation</span>
+            </li>
+            <li>
+              <span class="check-icon orange">✓</span>
+              <span>100% full ownership with 0% ongoing platform cuts</span>
+            </li>
+            <li>
+              <span class="check-icon orange">✓</span>
+              <span>bKash, Nagad, Rocket & card payment gateways</span>
+            </li>
+            <li>
+              <span class="check-icon orange">✓</span>
+              <span>Inventory, order alerts & customer dashboard</span>
+            </li>
+            <li>
+              <span class="check-icon orange">✓</span>
+              <span>High-speed caching & secure SSL hardening</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-footer">
+          <a href="plan-woocommerce.html" class="btn-choose-plan featured-btn">See plans</a>
+        </div>
+      </div>
+
+      <!-- CARD 3: Portfolio sites -->
+      <div class="pricing-card glass-card">
+        <div class="card-top">
+          <div class="card-type-row">
+            <span class="plan-name">Portfolio sites</span>
+          </div>
+          <div class="price-row">
+            <span class="price-prefix">From</span>
+            <span class="price-amount">Tk 10,000</span>
+          </div>
+          <p class="plan-summary">
+            A clean site that shows your work and gets you hired.
+          </p>
+        </div>
+
+        <div class="card-features">
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Bespoke case study layouts & gallery grids</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Cinematic micro-interactions & fluid motion</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Instant WhatsApp & direct inquiry contact hook</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>SEO-ready structure & social media card previews</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Ultra-fast 95+ Google PageSpeed score</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-footer">
+          <a href="plan-portfolio.html" class="btn-choose-plan">See plans</a>
+        </div>
+      </div>
+
+      <!-- CARD 4: Agency sites -->
+      <div class="pricing-card glass-card">
+        <div class="card-top">
+          <div class="card-type-row">
+            <span class="plan-name">Agency sites</span>
+          </div>
+          <div class="price-row">
+            <span class="price-prefix">From</span>
+            <span class="price-amount">Tk 10,000</span>
+          </div>
+          <p class="plan-summary">
+            A site that makes your company look as good as your work is.
+          </p>
+        </div>
+
+        <div class="card-features">
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Corporate identity & high-authority design system</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Multi-service breakdowns & client proof sections</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Interactive lead capture form with WhatsApp routing</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Dynamic CMS for posting blogs, news & updates</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Responsive perfection across mobile, tablet & desktop</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-footer">
+          <a href="plan-agency.html" class="btn-choose-plan">See plans</a>
+        </div>
+      </div>
+
+      <!-- CARD 5: Travel sites -->
+      <div class="pricing-card glass-card">
+        <div class="card-top">
+          <div class="card-type-row">
+            <span class="plan-name">Travel sites</span>
+          </div>
+          <div class="price-row">
+            <span class="price-prefix">From</span>
+            <span class="price-amount">Tk 15,000</span>
+          </div>
+          <p class="plan-summary">
+            Tour packages, booking requests, and prices that stay up to date.
+          </p>
+        </div>
+
+        <div class="card-features">
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Tour package cards with itinerary timeline views</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Instant booking request modals & WhatsApp triggers</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>High-resolution visual destination carousels</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Dynamic pricing per person & seasonal rate tags</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Interactive map routes & traveler FAQ modules</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-footer">
+          <a href="plan-travel.html" class="btn-choose-plan">See plans</a>
+        </div>
+      </div>
+
+      <!-- CARD 6: Landing page (Renamed from Custom code) -->
+      <div class="pricing-card glass-card">
+        <div class="card-top">
+          <div class="card-type-row">
+            <span class="plan-name">Landing page</span>
+            <span class="featured-badge subtle">HIGH CONVERTING</span>
+          </div>
+          <div class="price-row">
+            <span class="price-prefix">From</span>
+            <span class="price-amount">Tk 15,000</span>
+          </div>
+          <p class="plan-summary">
+            A high-converting single-page experience engineered for ads & launches.
+          </p>
+        </div>
+
+        <div class="card-features">
+          <ul class="feature-list">
+            <li>
+              <span class="check-icon">✓</span>
+              <span>AIDA psychological conversion copywriting structure</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Custom 3D / scroll motion animations & visual hooks</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Facebook Pixel, Google Analytics & Meta tag hooks</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Frictionless 1-click WhatsApp & lead capture integration</span>
+            </li>
+            <li>
+              <span class="check-icon">✓</span>
+              <span>Sub-second page load times for low ad bounce rate</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-footer">
+          <a href="plan-landing-page.html" class="btn-choose-plan">See plans</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom CTA Bar -->
+    <div class="pricing-bottom-cta">
+      <h3>Need a completely custom enterprise scope?</h3>
+      <p>Talk directly with our lead architects on WhatsApp to engineer a solution tailored to your exact roadmap.</p>
+      <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20discuss%20a%20custom%20enterprise%20scope" target="_blank" rel="noreferrer" class="btn-start-project">Chat on WhatsApp</a>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

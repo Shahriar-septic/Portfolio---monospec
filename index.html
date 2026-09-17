@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>MonoSpec Studio — Digital Architecture & Engineering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Top Progress Indicator for Video Frames Buffer -->
+  <div id="loader" class="loader">
+    <div id="loader-bar" class="loader-bar"></div>
+  </div>
+
+  <!-- Pinned Fullscreen Background Canvas for 130-frame Video Scroll Animation -->
+  <canvas id="cinema-canvas"></canvas>
+
+  <!-- Ambient Cinematic Gradient Overlay to ensure perfect typography legibility -->
+  <div class="ambient-vignette"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">MonoSpec</a>
+
+      <nav class="nav-pill">
+        <a href="#overview" class="nav-link active">Overview</a>
+        <a href="#process" class="nav-link">Process</a>
+        <a href="pricing.html" class="nav-link">Services</a>
+        <a href="contact.html" class="nav-link">Contact Me</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20inquire%20about%20your%20services" target="_blank" rel="noreferrer" class="social-icon whatsapp" aria-label="WhatsApp (+880 1700620388)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.311.045-.698.073-2.027-.478-1.696-.704-2.775-2.435-2.859-2.548-.083-.113-.679-.904-.679-1.724 0-.82.43-1.224.582-1.391.153-.167.334-.209.446-.209.112 0 .224.001.321.006.104.005.244-.04.381.291.144.348.491 1.199.534 1.286.043.087.072.189.014.305-.058.116-.087.189-.174.29-.087.102-.183.228-.261.306-.087.087-.178.182-.077.355.101.173.45 1.002.965 1.462.664.592 1.224.776 1.397.863.173.087.275.073.376-.044.101-.116.433-.506.549-.68.116-.174.232-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.044.073.044.423-.1.828z"/>
+          </svg>
+        </a>
+        <a href="https://dribbble.com" target="_blank" rel="noreferrer" class="social-icon" aria-label="Dribbble">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M19.13 5.09C15.22 9.14 10 10.44 2.25 10.94"/>
+            <path d="M21.75 12.84c-6.62-1.41-12.14 1-16.38 6.32"/>
+            <path d="M8.53 2.5a18.5 18.5 0 014.28 18.9"/>
+          </svg>
+        </a>
+        <a href="contact.html" class="btn-contact">
+          <span>Contact Me</span>
+          <span class="btn-circle-arrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Content flowing over the Canvas Scroll Animation -->
+  <main class="page-container">
+
+    <!-- HERO SECTION -->
+    <section class="hero-section" id="overview">
+      <div class="hero-content-grid">
+
+        <!-- Left Main Headline -->
+        <div class="hero-headline-wrap">
+          <h1 class="hero-title">
+            Design That<br>
+            Reveals The True<br>
+            Essence Of Your<br>
+            Brand
+          </h1>
+        </div>
+
+        <!-- Top Right Card: FUTURE-READY -->
+        <div class="card-future-ready glass-card">
+          <div class="card-future-info">
+            <span class="badge-tag">FUTURE-READY</span>
+            <p class="card-desc">
+              Integrating advanced AI solutions and high-end design to keep your brand ahead of the digital wave.
+            </p>
+          </div>
+          <div class="card-future-visual">
+            <img src="./assets/card_ai_avatar.jpg" alt="AI Silhouette" class="ai-avatar-img">
+          </div>
+        </div>
+
+        <!-- Bottom Left Floating Group -->
+        <div class="hero-bottom-left">
+          <!-- Orange Strategy Badge -->
+          <div class="badge-strategy">
+            <div class="micro-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <span class="strategy-label">DIGITAL<br>STRATEGY &<br>RESEARCH</span>
+          </div>
+
+          <!-- White Full-Cycle Card -->
+          <div class="card-full-cycle">
+            <div class="full-cycle-content">
+              <span class="full-cycle-tag">FULL-CYCLE</span>
+              <p class="full-cycle-desc">
+                From deep market strategy to flawless UX/UI. We build the core of your digital success.
+              </p>
+              <a href="pricing.html" class="full-cycle-link">
+                <span>View services</span>
+                <span class="circle-icon">↘</span>
+              </a>
+            </div>
+            <div class="full-cycle-visual">
+              <img src="./assets/card_fluid_swirl.jpg" alt="Abstract 3D fluid swirl" class="swirl-img">
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Right Agency Title & CTA -->
+        <div class="hero-bottom-right">
+          <div class="agency-badge">
+            <h2 class="agency-title">digital<br>agency</h2>
+            <a href="contact.html" class="btn-start-project">Start a Project</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 01: PHILOSOPHY -->
+    <section class="philosophy-section" id="process">
+      <div class="section-header">
+        <div class="section-eyebrow">
+          <span class="eyebrow-num">01/</span> philosophy
+        </div>
+        <h2 class="philosophy-statement">
+          We don't just draw interfaces. <span class="highlight-orange">We build the invisible architecture</span> that supports your brand's growth. Engineering aesthetics for visionaries.
+        </h2>
+      </div>
+
+      <!-- 3-Column Philosophy Cards Grid -->
+      <div class="philosophy-grid">
+        <!-- Col 1: Text Block -->
+        <div class="philo-text-card glass-panel">
+          <h3 class="philo-heading">DECONSTRUCT.<br>STRUCTURE. ELEVATE.</h3>
+          <p class="philo-para">
+            We strip away the digital noise to find the core of your business. By structuring meanings, logic and UX/UI, we create digital ecosystems that command authority and drive growth.
+          </p>
+        </div>
+
+        <!-- Col 2: Architectural Perspective Image Card -->
+        <div class="philo-image-card">
+          <img src="./assets/card_tunnel.jpg" alt="Architectural perspective corridor" class="tunnel-img">
+        </div>
+
+        <!-- Col 3: Creative Bespoke Zero Templates Card -->
+        <div class="philo-zero-card">
+          <div class="zero-card-header">
+            <div class="card-header-dots">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <span class="zero-badge">100% BESPOKE ARCHITECTURE</span>
+          </div>
+
+          <div class="zero-artwork-wrap">
+            <img src="./assets/card_zero_templates.jpg" alt="Zero Templates Bespoke 3D Architecture" class="zero-artwork-img">
+          </div>
+
+          <div class="zero-card-body">
+            <h3 class="zero-title">Zero <span class="highlight-orange">Templates</span></h3>
+            <p class="zero-desc">
+              We design from absolute scratch. Every digital solution by MonoSpec is tailored exclusively to your business objectives, creating a distinctive market presence that cannot be replicated.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: MOBILE INTERFACE ADAPTATION -->
+    <section class="mobile-section" id="projects">
+      <div class="mobile-section-container">
+        <!-- Text Column -->
+        <div class="mobile-info">
+          <h2 class="mobile-title">Mobile interface<br>adaptation</h2>
+          <p class="mobile-desc">
+            Translating the desktop structure to smartphone screens. All navigation elements, text blocks, and photography are rearranged for comfortable scrolling on mobile devices.
+          </p>
+        </div>
+
+        <!-- Smartphone Device Mockup floating over canvas -->
+        <div class="mobile-mockup-wrapper">
+          <div class="smartphone-frame">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <!-- Mini Mobile UI mirroring the experience -->
+              <div class="phone-navbar">
+                <div class="phone-menu-icon">
+                  <span></span><span></span><span></span>
+                </div>
+                <div class="phone-logo">MonoSpec</div>
+                <div class="phone-circle-btn"></div>
+              </div>
+
+              <div class="phone-body">
+                <div class="phone-card-fullcycle">
+                  <div class="p-fc-text">
+                    <span class="p-tag">FULL-CYCLE</span>
+                    <p>From deep-rooted strategy to flawless UX/UI. We build the core of your digital success.</p>
+                    <a href="pricing.html" class="p-link" style="text-decoration:none; color:inherit;">View services ↘</a>
+                  </div>
+                  <img src="./assets/card_fluid_swirl.jpg" alt="Swirl" class="p-img">
+                </div>
+
+                <div class="phone-hero-text">
+                  <h3>Design That<br>Reveals The True<br>Essence Of Your<br>Brand</h3>
+                </div>
+
+                <div class="phone-bottom">
+                  <div class="p-agency-tag">digital<br>agency</div>
+                  <button class="p-btn-orange">Start a Project</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

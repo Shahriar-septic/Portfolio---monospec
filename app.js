@@ -1,0 +1,328 @@
+// Fallback list of frames for Create_a_cinematic__realistic_video_20260917081853_frames
+const FALLBACK_FRAMES = [
+  "frame_001.jpg","frame_002.jpg","frame_003.jpg","frame_004.jpg","frame_005.jpg",
+  "frame_006.jpg","frame_007.jpg","frame_008.jpg","frame_009.jpg","frame_010.jpg",
+  "frame_011.jpg","frame_012.jpg","frame_013.jpg","frame_014.jpg","frame_015.jpg",
+  "frame_016.jpg","frame_017.jpg","frame_018.jpg","frame_019.jpg","frame_020.jpg",
+  "frame_021.jpg","frame_022.jpg","frame_023.jpg","frame_024.jpg","frame_025.jpg",
+  "frame_026.jpg","frame_027.jpg","frame_028.jpg","frame_029.jpg","frame_030.jpg",
+  "frame_031.jpg","frame_032.jpg","frame_033.jpg","frame_034.jpg","frame_035.jpg",
+  "frame_036.jpg","frame_037.jpg","frame_038.jpg","frame_039.jpg","frame_040.jpg",
+  "frame_041.jpg","frame_042.jpg","frame_043.jpg","frame_044.jpg","frame_045.jpg",
+  "frame_046.jpg","frame_047.jpg","frame_048.jpg","frame_049.jpg","frame_050.jpg",
+  "frame_051.jpg","frame_052.jpg","frame_053.jpg","frame_054.jpg","frame_055.jpg",
+  "frame_056.jpg","frame_057.jpg","frame_058.jpg","frame_059.jpg","frame_060.jpg",
+  "frame_061.jpg","frame_062.jpg","frame_063.jpg","frame_064.jpg","frame_065.jpg",
+  "frame_066.jpg","frame_067.jpg","frame_068.jpg","frame_069.jpg","frame_070.jpg",
+  "frame_071.jpg","frame_072.jpg","frame_073.jpg","frame_074.jpg","frame_075.jpg",
+  "frame_076.jpg","frame_077.jpg","frame_078.jpg","frame_079.jpg","frame_080.jpg",
+  "frame_081.jpg","frame_082.jpg","frame_083.jpg","frame_084.jpg","frame_085.jpg",
+  "frame_086.jpg","frame_087.jpg","frame_088.jpg","frame_089.jpg","frame_090.jpg",
+  "frame_091.jpg","frame_092.jpg","frame_093.jpg","frame_094.jpg","frame_095.jpg",
+  "frame_096.jpg","frame_097.jpg","frame_098.jpg","frame_099.jpg","frame_100.jpg",
+  "frame_101.jpg","frame_102.jpg","frame_103.jpg","frame_104.jpg","frame_105.jpg",
+  "frame_106.jpg","frame_107.jpg","frame_108.jpg","frame_109.jpg","frame_110.jpg",
+  "frame_111.jpg","frame_112.jpg","frame_113.jpg","frame_114.jpg","frame_115.jpg",
+  "frame_116.jpg","frame_117.jpg","frame_118.jpg","frame_119.jpg","frame_120.jpg",
+  "frame_121.jpg","frame_122.jpg","frame_123.jpg","frame_124.jpg","frame_125.jpg",
+  "frame_126.jpg","frame_127.jpg","frame_129.jpg","frame_130.jpg","frame_131.jpg"
+];
+
+let frameFiles = FALLBACK_FRAMES;
+let totalFrames = frameFiles.length;
+const BASE_PATH = './frames/';
+
+const canvas = document.getElementById('cinema-canvas');
+const ctx = canvas ? canvas.getContext('2d', { alpha: false }) : null;
+const loader = document.getElementById('loader');
+const loaderBar = document.getElementById('loader-bar');
+const navbar = document.querySelector('.navbar');
+const navLinks = document.querySelectorAll('.nav-link');
+
+let loadedImages = [];
+let loadedCount = 0;
+let targetFrame = 0;
+let currentFrame = 0;
+let lastRenderedIndex = -1;
+const LERP_FACTOR = 0.085;
+
+// Dynamic High-DPI Canvas resize
+function resizeCanvas() {
+  if (!canvas || !ctx) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = Math.floor(window.innerWidth * dpr);
+  canvas.height = Math.floor(window.innerHeight * dpr);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+
+  if (lastRenderedIndex >= 0) {
+    const img = getClosestLoadedFrame(lastRenderedIndex);
+    if (img) drawImageCover(img);
+  }
+}
+
+if (canvas && ctx) {
+  window.addEventListener('resize', resizeCanvas, { passive: true });
+  resizeCanvas();
+}
+
+// Draw image covering entire canvas without distortion
+function drawImageCover(img) {
+  if (!img || !img.complete || img.naturalWidth === 0) return;
+
+  const cw = canvas.width;
+  const ch = canvas.height;
+  const iw = img.naturalWidth;
+  const ih = img.naturalHeight;
+
+  const scale = Math.max(cw / iw, ch / ih);
+  const dw = iw * scale;
+  const dh = ih * scale;
+  const dx = (cw - dw) * 0.5;
+  const dy = (ch - dh) * 0.5;
+
+  ctx.drawImage(img, dx, dy, dw, dh);
+}
+
+// Fallback to nearest neighbor frame during fast scrubbing
+function getClosestLoadedFrame(index) {
+  if (loadedImages[index] && loadedImages[index].complete && loadedImages[index].naturalWidth > 0) {
+    return loadedImages[index];
+  }
+  for (let offset = 1; offset < totalFrames; offset++) {
+    const prev = index - offset;
+    if (prev >= 0 && loadedImages[prev] && loadedImages[prev].complete && loadedImages[prev].naturalWidth > 0) {
+      return loadedImages[prev];
+    }
+    const next = index + offset;
+    if (next < totalFrames && loadedImages[next] && loadedImages[next].complete && loadedImages[next].naturalWidth > 0) {
+      return loadedImages[next];
+    }
+  }
+  return null;
+}
+
+// Scroll position mapper & Navigation Active Pill
+function updateTarget() {
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollY = window.scrollY || window.pageYOffset || 0;
+  const progress = Math.max(0, Math.min(1, scrollY / (maxScroll || 1)));
+  targetFrame = progress * (totalFrames - 1);
+
+  // Navbar subtle blur background toggle on scroll
+  if (navbar) {
+    if (scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  }
+
+  // Update active pill indicator based on scroll section
+  const sections = document.querySelectorAll('section[id]');
+  let currentSection = 'overview';
+  sections.forEach(sec => {
+    const top = sec.offsetTop - 200;
+    if (scrollY >= top) {
+      currentSection = sec.getAttribute('id');
+    }
+  });
+
+  navLinks.forEach(link => {
+    if (link.getAttribute('href') === `#${currentSection}`) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', updateTarget, { passive: true });
+
+// Momentum interpolation loop for video frames
+function animate() {
+  const diff = targetFrame - currentFrame;
+  if (Math.abs(diff) > 0.0005) {
+    currentFrame += diff * LERP_FACTOR;
+  } else {
+    currentFrame = targetFrame;
+  }
+
+  const frameIndex = Math.min(totalFrames - 1, Math.max(0, Math.round(currentFrame)));
+  if (frameIndex !== lastRenderedIndex) {
+    const img = getClosestLoadedFrame(frameIndex);
+    if (img) {
+      drawImageCover(img);
+      lastRenderedIndex = frameIndex;
+    }
+  }
+
+  requestAnimationFrame(animate);
+}
+
+// Preload all frames in memory
+function preloadFrames() {
+  if (!canvas || !ctx) return;
+  loadedImages = new Array(totalFrames);
+  loadedCount = 0;
+  if (loader) loader.classList.remove('hidden');
+  if (loaderBar) loaderBar.style.width = '0%';
+
+  frameFiles.forEach((filename, index) => {
+    const img = new Image();
+
+    img.onload = () => {
+      loadedImages[index] = img;
+      loadedCount++;
+
+      // Instantly render first frame as soon as it arrives
+      if (index === 0 && lastRenderedIndex === -1) {
+        drawImageCover(img);
+        lastRenderedIndex = 0;
+      }
+
+      const pct = Math.round((loadedCount / totalFrames) * 100);
+      if (loaderBar) loaderBar.style.width = `${pct}%`;
+
+      if (loadedCount === totalFrames) {
+        setTimeout(() => {
+          if (loader) loader.classList.add('hidden');
+        }, 200);
+      }
+    };
+
+    img.onerror = () => {
+      console.warn('Failed to load frame:', filename);
+      loadedCount++;
+    };
+
+    img.src = BASE_PATH + filename;
+  });
+}
+
+// ===================================================
+// SLEEK INTERACTIVE CURSOR ANIMATION
+// ===================================================
+function initCustomCursor() {
+  // Respect coarse pointer / mobile touch devices
+  if (window.matchMedia('(hover: none) or (pointer: coarse)').matches) return;
+
+  let dot = document.getElementById('cursor-dot');
+  let ring = document.getElementById('cursor-ring');
+
+  if (!dot) {
+    dot = document.createElement('div');
+    dot.id = 'cursor-dot';
+    dot.className = 'cursor-dot';
+    document.body.appendChild(dot);
+  }
+  if (!ring) {
+    ring = document.createElement('div');
+    ring.id = 'cursor-ring';
+    ring.className = 'cursor-ring';
+    document.body.appendChild(ring);
+  }
+
+  let mouseX = -100;
+  let mouseY = -100;
+  let ringX = -100;
+  let ringY = -100;
+  let isVisible = false;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    if (!isVisible) {
+      isVisible = true;
+      dot.classList.add('visible');
+      ring.classList.add('visible');
+      ringX = mouseX;
+      ringY = mouseY;
+    }
+
+    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+  }, { passive: true });
+
+  document.addEventListener('mouseleave', () => {
+    isVisible = false;
+    dot.classList.remove('visible');
+    ring.classList.remove('visible');
+  });
+
+  document.addEventListener('mouseenter', () => {
+    isVisible = true;
+    dot.classList.add('visible');
+    ring.classList.add('visible');
+  });
+
+  window.addEventListener('mousedown', () => {
+    ring.classList.add('is-active');
+  });
+
+  window.addEventListener('mouseup', () => {
+    ring.classList.remove('is-active');
+  });
+
+  // Butter-smooth lerp loop for the glowing trailing ring
+  const RING_LERP = 0.18;
+  function renderCursor() {
+    if (isVisible) {
+      ringX += (mouseX - ringX) * RING_LERP;
+      ringY += (mouseY - ringY) * RING_LERP;
+      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
+    }
+    requestAnimationFrame(renderCursor);
+  }
+  requestAnimationFrame(renderCursor);
+
+  // Hover detection for all interactive elements
+  const interactiveSelector = 'a, button, input, select, textarea, .contact-info-card, .pricing-card, .tier-card, .btn-choose-plan, .btn-contact, .ask-whatsapp-btn, .curr-btn, .social-icon, .btn-start-project, .btn-send-message';
+
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target.closest(interactiveSelector);
+    if (target) {
+      ring.classList.add('is-hovering');
+      dot.classList.add('is-hovering');
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    const target = e.target.closest(interactiveSelector);
+    if (target) {
+      ring.classList.remove('is-hovering');
+      dot.classList.remove('is-hovering');
+    }
+  });
+}
+
+// Initialize sequence
+async function init() {
+  initCustomCursor();
+
+  if (canvas && ctx) {
+    try {
+      const res = await fetch('/api/frames');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          frameFiles = data;
+          totalFrames = frameFiles.length;
+        }
+      }
+    } catch (err) {
+      console.log('Using default fallback frame list', err);
+    }
+
+    updateTarget();
+    preloadFrames();
+    requestAnimationFrame(animate);
+  }
+}
+
+// Start when document is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

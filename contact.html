@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Contact Me — MonoSpec Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="contact-page">
+  <!-- Custom Sleek Cursor Elements -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- Background Video Canvas & Ambient Glow -->
+  <div id="loader" class="loader"><div id="loader-bar" class="loader-bar"></div></div>
+  <canvas id="cinema-canvas"></canvas>
+  <div class="ambient-vignette"></div>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">MonoSpec</a>
+
+      <nav class="nav-pill">
+        <a href="index.html#overview" class="nav-link">Overview</a>
+        <a href="index.html#process" class="nav-link">Process</a>
+        <a href="pricing.html" class="nav-link">Services</a>
+        <a href="contact.html" class="nav-link active">Contact Me</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20connect%20with%20you" target="_blank" rel="noreferrer" class="social-icon whatsapp" aria-label="WhatsApp (+880 1700620388)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.311.045-.698.073-2.027-.478-1.696-.704-2.775-2.435-2.859-2.548-.083-.113-.679-.904-.679-1.724 0-.82.43-1.224.582-1.391.153-.167.334-.209.446-.209.112 0 .224.001.321.006.104.005.244-.04.381.291.144.348.491 1.199.534 1.286.043.087.072.189.014.305-.058.116-.087.189-.174.29-.087.102-.183.228-.261.306-.087.087-.178.182-.077.355.101.173.45 1.002.965 1.462.664.592 1.224.776 1.397.863.173.087.275.073.376-.044.101-.116.433-.506.549-.68.116-.174.232-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.044.073.044.423-.1.828z"/>
+          </svg>
+        </a>
+        <a href="https://dribbble.com" target="_blank" rel="noreferrer" class="social-icon" aria-label="Dribbble">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M19.13 5.09C15.22 9.14 10 10.44 2.25 10.94"/>
+            <path d="M21.75 12.84c-6.62-1.41-12.14 1-16.38 6.32"/>
+            <path d="M8.53 2.5a18.5 18.5 0 014.28 18.9"/>
+          </svg>
+        </a>
+        <a href="contact.html" class="btn-contact">
+          <span>Contact Me</span>
+          <span class="btn-circle-arrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contact Main Section (Matching reference screenshot) -->
+  <main class="contact-main-wrapper">
+    <div class="contact-neon-frame">
+
+      <!-- Header -->
+      <div class="contact-header">
+        <span class="contact-eyebrow">GET IN TOUCH</span>
+        <h1 class="contact-title">Contact <span class="accent-me">Me</span></h1>
+        <div class="contact-underline-bar"></div>
+      </div>
+
+      <!-- 2-Column Grid: Left Info Cards & Right Form -->
+      <div class="contact-grid">
+
+        <!-- Left Column: Contact Cards -->
+        <div class="contact-info-col">
+
+          <!-- Card 1: Email -->
+          <a href="mailto:shahriarrafi1200@gmail.com" class="contact-info-card">
+            <div class="info-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </div>
+            <div class="info-text-wrap">
+              <span class="info-label">Email</span>
+              <span class="info-value">shahriarrafi1200@gmail.com</span>
+            </div>
+          </a>
+
+          <!-- Card 2: Phone / WhatsApp -->
+          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20discuss%20a%20project" target="_blank" rel="noreferrer" class="contact-info-card">
+            <div class="info-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
+            <div class="info-text-wrap">
+              <span class="info-label">Phone / WhatsApp</span>
+              <span class="info-value">+880 1700620388</span>
+            </div>
+          </a>
+
+          <!-- Card 3: Location -->
+          <div class="contact-info-card">
+            <div class="info-icon-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C12.95 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="info-text-wrap">
+              <span class="info-label">Location</span>
+              <span class="info-value">Mirpur, Dhaka, Bangladesh</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Interactive Form -->
+        <div class="contact-form-col">
+          <form id="contact-intake-form" class="intake-form">
+
+            <!-- Name -->
+            <div class="form-group">
+              <label for="user-name" class="form-label">Your Name</label>
+              <input type="text" id="user-name" class="form-input" placeholder="John Doe" required autocomplete="name">
+            </div>
+
+            <!-- Phone / WhatsApp Number -->
+            <div class="form-group">
+              <label for="user-phone" class="form-label">Phone / WhatsApp Number</label>
+              <input type="tel" id="user-phone" class="form-input" placeholder="+880 1700-000000" required autocomplete="tel">
+            </div>
+
+            <!-- Plan Selection (Dropdown with all options & tiers) -->
+            <div class="form-group">
+              <label for="user-plan" class="form-label">Which plan do you want to purchase and discuss?</label>
+              <div class="custom-select-wrapper">
+                <select id="user-plan" class="form-input form-select" required>
+                  <option value="" disabled selected>Select a plan or service...</option>
+                  <optgroup label="Shopify Store">
+                    <option value="Shopify Store — Launch (Tk 15,000 - 25,000)">Shopify Store — Launch (Tk 15,000 - 25,000)</option>
+                    <option value="Shopify Store — Scale (Tk 30,000 - 60,000)">Shopify Store — Scale (Tk 30,000 - 60,000) [Most picked]</option>
+                    <option value="Shopify Store — Dominate (Custom Quote)">Shopify Store — Dominate (Custom Quote)</option>
+                  </optgroup>
+                  <optgroup label="WooCommerce Store">
+                    <option value="WooCommerce Store — Launch (Tk 12,000 - 20,000)">WooCommerce Store — Launch (Tk 12,000 - 20,000)</option>
+                    <option value="WooCommerce Store — Scale (Tk 25,000 - 50,000)">WooCommerce Store — Scale (Tk 25,000 - 50,000) [Most picked]</option>
+                    <option value="WooCommerce Store — Dominate (Custom Quote)">WooCommerce Store — Dominate (Custom Quote)</option>
+                  </optgroup>
+                  <optgroup label="Agency Sites">
+                    <option value="Agency Sites — Launch (Tk 10,000 - 20,000)">Agency Sites — Launch (Tk 10,000 - 20,000)</option>
+                    <option value="Agency Sites — Scale (Tk 25,000 - 70,000)">Agency Sites — Scale (Tk 25,000 - 70,000) [Most picked]</option>
+                    <option value="Agency Sites — Dominate (Custom Quote)">Agency Sites — Dominate (Custom Quote)</option>
+                  </optgroup>
+                  <optgroup label="Portfolio Sites">
+                    <option value="Portfolio Sites — Launch (Tk 10,000 - 15,000)">Portfolio Sites — Launch (Tk 10,000 - 15,000)</option>
+                    <option value="Portfolio Sites — Scale (Tk 20,000 - 60,000)">Portfolio Sites — Scale (Tk 20,000 - 60,000) [Most picked]</option>
+                    <option value="Portfolio Sites — Dominate (Custom Quote)">Portfolio Sites — Dominate (Custom Quote)</option>
+                  </optgroup>
+                  <optgroup label="Travel Sites">
+                    <option value="Travel Sites — Launch (Tk 15,000 - 25,000)">Travel Sites — Launch (Tk 15,000 - 25,000)</option>
+                    <option value="Travel Sites — Scale (Tk 30,000 - 80,000)">Travel Sites — Scale (Tk 30,000 - 80,000) [Most picked]</option>
+                    <option value="Travel Sites — Dominate (Custom Quote)">Travel Sites — Dominate (Custom Quote)</option>
+                  </optgroup>
+                  <optgroup label="Landing Page">
+                    <option value="Landing Page — Launch (Tk 15,000 - 25,000)">Landing Page — Launch (Tk 15,000 - 25,000)</option>
+                    <option value="Landing Page — Scale (Tk 25,000 - 55,000)">Landing Page — Scale (Tk 25,000 - 55,000) [Most picked]</option>
+                    <option value="Landing Page — Dominate (Custom Quote)">Landing Page — Dominate (Custom Quote)</option>
+                  </optgroup>
+                  <optgroup label="Custom / Other">
+                    <option value="Custom Bespoke Enterprise Scope">Custom Bespoke Enterprise Scope</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+
+            <!-- Requirements in Detail -->
+            <div class="form-group">
+              <label for="user-req" class="form-label">Requirements for your plan in detail</label>
+              <textarea id="user-req" class="form-input form-textarea" rows="4" placeholder="Tell me about your project, target audience, preferred features, timeline..." required></textarea>
+            </div>
+
+            <!-- Submit Button (Solid Amber Button matching screenshot) -->
+            <button type="submit" class="btn-send-message">
+              <span>Send Message</span>
+            </button>
+
+            <!-- Success Notice -->
+            <div id="form-status" class="form-status-msg" style="display: none;">
+              ✓ Details formatted! Opening WhatsApp directly...
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    // Form Handler: formats all fields and directly launches WhatsApp + mailto
+    const form = document.getElementById('contact-intake-form');
+    const statusMsg = document.getElementById('form-status');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('user-name').value.trim();
+      const phone = document.getElementById('user-phone').value.trim();
+      const plan = document.getElementById('user-plan').value;
+      const req = document.getElementById('user-req').value.trim();
+
+      const messageText = `*New Project Inquiry — MonoSpec Studio*\n\n*Name:* ${name}\n*Phone / WhatsApp:* ${phone}\n*Plan Selected:* ${plan}\n\n*Project Requirements:*\n${req}`;
+      
+      statusMsg.style.display = 'block';
+
+      // Launch WhatsApp with prefilled message
+      const encodedMsg = encodeURIComponent(messageText);
+      const whatsappUrl = `https://wa.me/8801700620388?text=${encodedMsg}`;
+      
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+      }, 300);
+    });
+  </script>
+</body>
+</html>

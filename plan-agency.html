@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Agency Sites Plans — MonoSpec Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="plan-detail-page">
+  <div id="loader" class="loader"><div id="loader-bar" class="loader-bar"></div></div>
+  <canvas id="cinema-canvas"></canvas>
+  <div class="ambient-vignette"></div>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">MonoSpec</a>
+
+      <nav class="nav-pill">
+        <a href="index.html#overview" class="nav-link">Overview</a>
+        <a href="index.html#process" class="nav-link">Process</a>
+        <a href="pricing.html" class="nav-link active">Services</a>
+        <a href="contact.html" class="nav-link">Contact Me</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20have%20a%20question%20about%20Agency%20sites%20plans" target="_blank" rel="noreferrer" class="social-icon whatsapp" aria-label="WhatsApp (+880 1700620388)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.311.045-.698.073-2.027-.478-1.696-.704-2.775-2.435-2.859-2.548-.083-.113-.679-.904-.679-1.724 0-.82.43-1.224.582-1.391.153-.167.334-.209.446-.209.112 0 .224.001.321.006.104.005.244-.04.381.291.144.348.491 1.199.534 1.286.043.087.072.189.014.305-.058.116-.087.189-.174.29-.087.102-.183.228-.261.306-.087.087-.178.182-.077.355.101.173.45 1.002.965 1.462.664.592 1.224.776 1.397.863.173.087.275.073.376-.044.101-.116.433-.506.549-.68.116-.174.232-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.044.073.044.423-.1.828z"/>
+          </svg>
+        </a>
+        <a href="https://dribbble.com" target="_blank" rel="noreferrer" class="social-icon" aria-label="Dribbble">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M19.13 5.09C15.22 9.14 10 10.44 2.25 10.94"/>
+            <path d="M21.75 12.84c-6.62-1.41-12.14 1-16.38 6.32"/>
+            <path d="M8.53 2.5a18.5 18.5 0 014.28 18.9"/>
+          </svg>
+        </a>
+        <a href="contact.html" class="btn-contact">
+          <span>Contact Me</span>
+          <span class="btn-circle-arrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M7 17L17 7M17 7H7M17 7V17"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="plan-detail-main">
+    <!-- Top WhatsApp Prompt Banner -->
+    <div class="top-ask-banner">
+      <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20ask%20about%20Agency%20sites%20on%20WhatsApp" target="_blank" rel="noreferrer" class="ask-whatsapp-btn">
+        Ask about Agency sites on WhatsApp
+      </a>
+    </div>
+
+    <!-- Header Block -->
+    <div class="plan-header-block">
+      <span class="section-tag-sm">PRICING</span>
+      <h1 class="plan-main-title">Pick the plan that fits</h1>
+      <div class="plan-header-sub-row">
+        <p class="plan-sub-text">You can move up later. Every price switches with your currency.</p>
+        <div class="currency-switcher">
+          <button class="curr-btn active" data-curr="bdt">BDT</button>
+          <button class="curr-btn" data-curr="usd">USD</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Tier Cards Grid -->
+    <div class="tier-cards-grid">
+
+      <!-- TIER 1: LAUNCH -->
+      <div class="tier-card glass-panel">
+        <div class="tier-top">
+          <h2 class="tier-name">LAUNCH</h2>
+          <p class="tier-tagline">Get to market fast. Built right.</p>
+          <div class="tier-price" data-bdt="Tk 10,000 - 20,000" data-usd="$85 - $170">Tk 10,000 - 20,000</div>
+        </div>
+        <div class="tier-features">
+          <ul>
+            <li><span class="check">✓</span><span>Up to five pages</span></li>
+            <li><span class="check">✓</span><span>Services and about pages</span></li>
+            <li><span class="check">✓</span><span>Contact form to your WhatsApp</span></li>
+            <li><span class="check">✓</span><span>Works well on phones</span></li>
+            <li><span class="check">✓</span><span>Two rounds of changes</span></li>
+          </ul>
+        </div>
+        <div class="tier-action">
+          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20want%20to%20start%20with%20the%20LAUNCH%20plan%20for%20Agency%20sites%20(Tk%2010%2C000%20-%2020%2C000)" target="_blank" rel="noreferrer" class="btn-tier white">Start with LAUNCH</a>
+        </div>
+      </div>
+
+      <!-- TIER 2: SCALE (Most Picked) -->
+      <div class="tier-card glass-panel featured-tier">
+        <div class="tier-top">
+          <div class="tier-name-badge-row">
+            <h2 class="tier-name">SCALE</h2>
+            <span class="most-picked-pill">Most picked</span>
+          </div>
+          <p class="tier-tagline">Built to grow. Built to convert.</p>
+          <div class="tier-price" data-bdt="Tk 25,000 - 70,000" data-usd="$210 - $590">Tk 25,000 - 70,000</div>
+        </div>
+        <div class="tier-features">
+          <ul>
+            <li><span class="check orange">✓</span><span>Up to twelve pages</span></li>
+            <li><span class="check orange">✓</span><span>One page per service</span></li>
+            <li><span class="check orange">✓</span><span>Case study pages</span></li>
+            <li><span class="check orange">✓</span><span>Team and careers pages</span></li>
+            <li><span class="check orange">✓</span><span>Basic search setup</span></li>
+            <li><span class="check orange">✓</span><span>One month of support after launch</span></li>
+          </ul>
+        </div>
+        <div class="tier-action">
+          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20want%20to%20start%20with%20the%20SCALE%20plan%20for%20Agency%20sites%20(Tk%2025%2C000%20-%2070%2C000)" target="_blank" rel="noreferrer" class="btn-tier orange">Start with SCALE</a>
+        </div>
+      </div>
+
+      <!-- TIER 3: DOMINATE -->
+      <div class="tier-card glass-panel">
+        <div class="tier-top">
+          <h2 class="tier-name">DOMINATE</h2>
+          <p class="tier-tagline">Built to dominate the category.</p>
+          <div class="tier-price">Custom Quote</div>
+        </div>
+        <div class="tier-features">
+          <ul>
+            <li><span class="check">✓</span><span>Pages with no limit</span></li>
+            <li><span class="check">✓</span><span>Full custom design</span></li>
+            <li><span class="check">✓</span><span>You can edit everything yourself</span></li>
+            <li><span class="check">✓</span><span>Blog and news section</span></li>
+            <li><span class="check">✓</span><span>Bangla and English</span></li>
+            <li><span class="check">✓</span><span>Two months of support after launch</span></li>
+          </ul>
+        </div>
+        <div class="tier-action">
+          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20want%20to%20get%20a%20custom%20quote%20for%20the%20DOMINATE%20plan%20for%20Agency%20sites" target="_blank" rel="noreferrer" class="btn-tier outline">Get a quote on WhatsApp</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footnotes matching image -->
+    <div class="tier-footnotes">
+      <p>The Dominate tier is custom-quoted to match your brand's scale.</p>
+      <p>Payment terms: 30 percent advance, 70 percent on delivery.</p>
+      <div class="back-link-wrap">
+        <a href="pricing.html" class="back-to-pricing-link">← Back to All Plans</a>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    const currBtns = document.querySelectorAll('.curr-btn');
+    const priceEls = document.querySelectorAll('.tier-price[data-bdt]');
+    currBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const curr = btn.getAttribute('data-curr');
+        priceEls.forEach(el => {
+          el.textContent = curr === 'usd' ? el.getAttribute('data-usd') : el.getAttribute('data-bdt');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
