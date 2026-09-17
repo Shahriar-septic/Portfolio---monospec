@@ -302,8 +302,11 @@ async function init() {
 
   if (canvas && ctx) {
     try {
-      const res = await fetch('/api/frames');
-      if (res.ok) {
+      let res = await fetch('/api/frames').catch(() => null);
+      if (!res || !res.ok) {
+        res = await fetch('/api/frames.json').catch(() => null);
+      }
+      if (res && res.ok) {
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           frameFiles = data;

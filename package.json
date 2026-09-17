@@ -4,8 +4,8 @@
   "description": "Smooth cinematic video frame scroll animation",
   "type": "module",
   "scripts": {
-    "start": "node server.mjs",
-    "dev": "node server.mjs"
+    "dev": "node server.mjs",
+    "start:local": "node server.mjs"
   },
   "keywords": ["scroll-animation", "canvas", "video-frames"],
   "author": "",

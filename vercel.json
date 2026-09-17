@@ -1,6 +1,7 @@
 {
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/api/frames", "destination": "/api/frames.json" },
     { "source": "/services", "destination": "/pricing.html" },
     { "source": "/pricing", "destination": "/pricing.html" },
     { "source": "/contact", "destination": "/contact.html" }
