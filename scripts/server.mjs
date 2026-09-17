@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const ROOT_DIR = path.join(__dirname, '..');
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
@@ -33,7 +34,7 @@ const server = http.createServer((req, res) => {
   }
 
   if (reqPath === '/api/frames') {
-    const framesDir = path.join(__dirname, 'frames');
+    const framesDir = path.join(ROOT_DIR, 'frames');
     fs.readdir(framesDir, (err, files) => {
       if (err) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
@@ -52,10 +53,10 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  const filePath = path.join(__dirname, reqPath);
+  const filePath = path.join(ROOT_DIR, reqPath);
 
   // Security check to prevent directory traversal
-  if (!filePath.startsWith(__dirname)) {
+  if (!filePath.startsWith(ROOT_DIR)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
     res.end('403 Forbidden');
     return;

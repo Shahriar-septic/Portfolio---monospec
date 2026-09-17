@@ -297,26 +297,10 @@ function initCustomCursor() {
 }
 
 // Initialize sequence
-async function init() {
+function init() {
   initCustomCursor();
 
   if (canvas && ctx) {
-    try {
-      let res = await fetch('/api/frames').catch(() => null);
-      if (!res || !res.ok) {
-        res = await fetch('/api/frames.json').catch(() => null);
-      }
-      if (res && res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          frameFiles = data;
-          totalFrames = frameFiles.length;
-        }
-      }
-    } catch (err) {
-      console.log('Using default fallback frame list', err);
-    }
-
     updateTarget();
     preloadFrames();
     requestAnimationFrame(animate);
