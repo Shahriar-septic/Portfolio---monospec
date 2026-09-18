@@ -424,10 +424,138 @@ function initMobileNav() {
   }, { passive: true });
 }
 
+// ===================================================
+// SERVICES PRICING TIMELINE & EXPRESS LAUNCH CONTROLLER
+// ===================================================
+function initPricingTimelineToggle() {
+  const deliveryToggle = document.getElementById('delivery-toggle');
+  if (!deliveryToggle) return;
+
+  const labelStandard = document.getElementById('toggle-label-standard');
+  const labelExpress = document.getElementById('toggle-label-express');
+  const priorityBanner = document.getElementById('express-priority-banner');
+  const bannerText = document.getElementById('priority-banner-text');
+  const pricingCards = document.querySelectorAll('.pricing-card[data-plan-key]');
+
+  // Ensure default is Standard Timeline when navigating to services section
+  deliveryToggle.checked = false;
+
+  function updatePrices(isExpress, animate = true) {
+    // Update toggle label active states
+    if (labelStandard) labelStandard.classList.toggle('active', !isExpress);
+    if (labelExpress) labelExpress.classList.toggle('active', isExpress);
+
+    // Update Priority Guarantee Banner
+    if (priorityBanner) {
+      priorityBanner.classList.toggle('is-active', isExpress);
+    }
+    if (bannerText) {
+      if (isExpress) {
+        bannerText.innerHTML = '<strong>⚡ Top Priority Production:</strong> Developer prioritizes Express Launch orders at the top of the production queue ahead of other existing orders.';
+      } else {
+        bannerText.innerHTML = '<strong>Standard Delivery:</strong> Dedicated milestone-based development with scheduled review cycles.';
+      }
+    }
+
+    pricingCards.forEach(card => {
+      const priceAmountEl = card.querySelector('[data-price-bdt]');
+      const priceUsdEl = card.querySelector('[data-price-usd]');
+      const expressPillEl = card.querySelector('[data-express-pill]');
+      const timelinePillEl = card.querySelector('[data-timeline-pill]');
+      const timelineTextEl = card.querySelector('[data-timeline-text]');
+
+      const stdNum = parseInt(card.getAttribute('data-std-num') || '0', 10);
+      const expNum = parseInt(card.getAttribute('data-exp-num') || '0', 10);
+      const targetNum = isExpress ? expNum : stdNum;
+      const startNum = isExpress ? stdNum : expNum;
+
+      const stdUsd = card.getAttribute('data-std-usd') || '';
+      const expUsd = card.getAttribute('data-exp-usd') || '';
+      const stdTime = card.getAttribute('data-std-time') || '';
+      const expTime = card.getAttribute('data-exp-time') || '';
+
+      // Animate price amount
+      if (priceAmountEl) {
+        if (animate) {
+          animateNumber(priceAmountEl, startNum, targetNum, 350);
+        } else {
+          priceAmountEl.textContent = `Tk ${targetNum.toLocaleString()}`;
+        }
+      }
+
+      // Update USD subtext
+      if (priceUsdEl) {
+        priceUsdEl.textContent = `(${isExpress ? expUsd : stdUsd})`;
+        priceUsdEl.classList.toggle('highlight', isExpress);
+      }
+
+      // Update Express Delta badge
+      if (expressPillEl) {
+        expressPillEl.classList.toggle('visible', isExpress);
+      }
+
+      // Update Timeline pill
+      if (timelinePillEl) {
+        timelinePillEl.classList.toggle('is-express', isExpress);
+      }
+      if (timelineTextEl) {
+        timelineTextEl.textContent = isExpress ? expTime : stdTime;
+      }
+    });
+  }
+
+  function animateNumber(element, start, end, duration = 350) {
+    const startTime = performance.now();
+    element.classList.add('price-animating');
+    setTimeout(() => element.classList.remove('price-animating'), duration + 60);
+
+    function frame(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 4); // easeOutQuart
+      const currentVal = Math.round(start + (end - start) * ease);
+      element.textContent = `Tk ${currentVal.toLocaleString()}`;
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        element.textContent = `Tk ${end.toLocaleString()}`;
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // Event listener for toggle switch
+  deliveryToggle.addEventListener('change', () => {
+    updatePrices(deliveryToggle.checked, true);
+  });
+
+  // Clicking labels toggles switch directly
+  if (labelStandard) {
+    labelStandard.addEventListener('click', () => {
+      if (deliveryToggle.checked) {
+        deliveryToggle.checked = false;
+        updatePrices(false, true);
+      }
+    });
+  }
+  if (labelExpress) {
+    labelExpress.addEventListener('click', () => {
+      if (!deliveryToggle.checked) {
+        deliveryToggle.checked = true;
+        updatePrices(true, true);
+      }
+    });
+  }
+
+  // Initial setup without animation
+  updatePrices(false, false);
+}
+
 // Initialize sequence
 function init() {
   initCustomCursor();
   initMobileNav();
+  initPricingTimelineToggle();
 
   if (canvas && ctx) {
     updateTarget();

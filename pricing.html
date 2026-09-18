@@ -138,65 +138,36 @@
 
       <!-- Sleek Toggle Switch matching Reference 2 -->
       <div class="pricing-toggle-container">
-        <span class="toggle-text">Standard Timeline</span>
-        <label class="switch" for="delivery-toggle">
-          <input type="checkbox" id="delivery-toggle" checked>
+        <span class="toggle-text active" id="toggle-label-standard">Standard Timeline</span>
+        <label class="switch" for="delivery-toggle" aria-label="Toggle Express Launch Priority">
+          <input type="checkbox" id="delivery-toggle">
           <span class="slider round"></span>
         </label>
-        <span class="toggle-text highlight">Express Launch <span class="badge-discount">Priority</span></span>
+        <span class="toggle-text highlight" id="toggle-label-express">
+          Express Launch <span class="badge-discount">Priority</span>
+        </span>
+      </div>
+
+      <!-- Priority Queue Guarantee Banner -->
+      <div class="express-priority-banner" id="express-priority-banner">
+        <span class="priority-banner-icon">⚡</span>
+        <span class="priority-banner-text" id="priority-banner-text">
+          <strong>Top Priority Production:</strong> Developer prioritizes Express Launch orders at the top of the production queue ahead of other existing orders.
+        </span>
       </div>
     </div>
 
-    <!-- 6 Glassmorphic Pricing Cards Grid (Linking to dedicated plan pages) -->
+    <!-- 5 Glassmorphic Pricing Cards Grid (Shopify removed, 5 core digital architectures) -->
     <div class="pricing-cards-grid">
 
-      <!-- CARD 1: Shopify Store -->
-      <div class="pricing-card glass-card">
-        <div class="card-top">
-          <div class="card-type-row">
-            <span class="plan-name">Shopify store</span>
-          </div>
-          <div class="price-row">
-            <span class="price-prefix">From</span>
-            <span class="price-amount">Tk 15,000</span>
-          </div>
-          <p class="plan-summary">
-            A ready to sell Shopify shop, set up and styled for your brand.
-          </p>
-        </div>
-
-        <div class="card-features">
-          <ul class="feature-list">
-            <li>
-              <span class="check-icon">✓</span>
-              <span>Complete store configuration & theme styling</span>
-            </li>
-            <li>
-              <span class="check-icon">✓</span>
-              <span>Payment gateway & automated checkout setup</span>
-            </li>
-            <li>
-              <span class="check-icon">✓</span>
-              <span>Up to 30 initial product uploads & categories</span>
-            </li>
-            <li>
-              <span class="check-icon">✓</span>
-              <span>Mobile-first responsive shopping experience</span>
-            </li>
-            <li>
-              <span class="check-icon">✓</span>
-              <span>Speed optimization & conversion layout</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="card-footer">
-          <a href="plan-shopify.html" class="btn-choose-plan">See plans</a>
-        </div>
-      </div>
-
-      <!-- CARD 2: WooCommerce Store (FEATURED with glowing amber border like Reference 2) -->
-      <div class="pricing-card glass-card featured">
+      <!-- CARD 1: WooCommerce Store (FEATURED with glowing amber border like Reference 2) -->
+      <div class="pricing-card glass-card featured" 
+           data-plan-key="woocommerce"
+           data-std-bdt="Tk 12,000" data-exp-bdt="Tk 22,000"
+           data-std-usd="$100 USD" data-exp-usd="$199 USD"
+           data-std-num="12000" data-exp-num="22000"
+           data-std-time="20-25 days delivery" data-exp-time="10-15 days (⚡ Top Priority)"
+           data-delta="+Tk 10,000 (+100 USD)">
         <div class="card-top">
           <div class="card-type-row">
             <span class="plan-name">WooCommerce store</span>
@@ -204,7 +175,16 @@
           </div>
           <div class="price-row">
             <span class="price-prefix">From</span>
-            <span class="price-amount">Tk 12,000</span>
+            <span class="price-amount" data-price-bdt>Tk 12,000</span>
+            <span class="price-usd-sub" data-price-usd>($100 USD)</span>
+            <span class="express-delta-pill" data-express-pill>+Tk 10,000 Express</span>
+          </div>
+          <div class="card-timeline-pill" data-timeline-pill>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span class="delivery-time-label" data-timeline-text>20-25 days delivery</span>
           </div>
           <p class="plan-summary">
             Your own shop on WordPress, with no monthly fee to a platform.
@@ -241,15 +221,30 @@
         </div>
       </div>
 
-      <!-- CARD 3: Portfolio sites -->
-      <div class="pricing-card glass-card">
+      <!-- CARD 2: Portfolio sites -->
+      <div class="pricing-card glass-card"
+           data-plan-key="portfolio"
+           data-std-bdt="Tk 10,000" data-exp-bdt="Tk 15,000"
+           data-std-usd="$85 USD" data-exp-usd="$149 USD"
+           data-std-num="10000" data-exp-num="15000"
+           data-std-time="7-10 days delivery" data-exp-time="3-5 days (⚡ Top Priority)"
+           data-delta="+Tk 5,000 (+50 USD)">
         <div class="card-top">
           <div class="card-type-row">
             <span class="plan-name">Portfolio sites</span>
           </div>
           <div class="price-row">
             <span class="price-prefix">From</span>
-            <span class="price-amount">Tk 10,000</span>
+            <span class="price-amount" data-price-bdt>Tk 10,000</span>
+            <span class="price-usd-sub" data-price-usd>($85 USD)</span>
+            <span class="express-delta-pill" data-express-pill>+Tk 5,000 Express</span>
+          </div>
+          <div class="card-timeline-pill" data-timeline-pill>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span class="delivery-time-label" data-timeline-text>7-10 days delivery</span>
           </div>
           <p class="plan-summary">
             A clean site that shows your work and gets you hired.
@@ -286,15 +281,30 @@
         </div>
       </div>
 
-      <!-- CARD 4: Agency sites -->
-      <div class="pricing-card glass-card">
+      <!-- CARD 3: Agency sites -->
+      <div class="pricing-card glass-card"
+           data-plan-key="agency"
+           data-std-bdt="Tk 10,000" data-exp-bdt="Tk 15,000"
+           data-std-usd="$85 USD" data-exp-usd="$149 USD"
+           data-std-num="10000" data-exp-num="15000"
+           data-std-time="12-18 days delivery" data-exp-time="6-8 days (⚡ Top Priority)"
+           data-delta="+Tk 5,000 (+50 USD)">
         <div class="card-top">
           <div class="card-type-row">
             <span class="plan-name">Agency sites</span>
           </div>
           <div class="price-row">
             <span class="price-prefix">From</span>
-            <span class="price-amount">Tk 10,000</span>
+            <span class="price-amount" data-price-bdt>Tk 10,000</span>
+            <span class="price-usd-sub" data-price-usd>($85 USD)</span>
+            <span class="express-delta-pill" data-express-pill>+Tk 5,000 Express</span>
+          </div>
+          <div class="card-timeline-pill" data-timeline-pill>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span class="delivery-time-label" data-timeline-text>12-18 days delivery</span>
           </div>
           <p class="plan-summary">
             A site that makes your company look as good as your work is.
@@ -331,15 +341,30 @@
         </div>
       </div>
 
-      <!-- CARD 5: Travel sites -->
-      <div class="pricing-card glass-card">
+      <!-- CARD 4: Travel sites -->
+      <div class="pricing-card glass-card"
+           data-plan-key="travel"
+           data-std-bdt="Tk 15,000" data-exp-bdt="Tk 25,000"
+           data-std-usd="$125 USD" data-exp-usd="$249 USD"
+           data-std-num="15000" data-exp-num="25000"
+           data-std-time="15-20 days delivery" data-exp-time="7-10 days (⚡ Top Priority)"
+           data-delta="+Tk 10,000 (+100 USD)">
         <div class="card-top">
           <div class="card-type-row">
             <span class="plan-name">Travel sites</span>
           </div>
           <div class="price-row">
             <span class="price-prefix">From</span>
-            <span class="price-amount">Tk 15,000</span>
+            <span class="price-amount" data-price-bdt>Tk 15,000</span>
+            <span class="price-usd-sub" data-price-usd>($125 USD)</span>
+            <span class="express-delta-pill" data-express-pill>+Tk 10,000 Express</span>
+          </div>
+          <div class="card-timeline-pill" data-timeline-pill>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span class="delivery-time-label" data-timeline-text>15-20 days delivery</span>
           </div>
           <p class="plan-summary">
             Tour packages, booking requests, and prices that stay up to date.
@@ -376,8 +401,14 @@
         </div>
       </div>
 
-      <!-- CARD 6: Landing page (Renamed from Custom code) -->
-      <div class="pricing-card glass-card">
+      <!-- CARD 5: Landing page -->
+      <div class="pricing-card glass-card"
+           data-plan-key="landing"
+           data-std-bdt="Tk 15,000" data-exp-bdt="Tk 20,000"
+           data-std-usd="$125 USD" data-exp-usd="$199 USD"
+           data-std-num="15000" data-exp-num="20000"
+           data-std-time="5-7 days delivery" data-exp-time="2-3 days (⚡ Top Priority)"
+           data-delta="+Tk 5,000 (+50 USD)">
         <div class="card-top">
           <div class="card-type-row">
             <span class="plan-name">Landing page</span>
@@ -385,7 +416,16 @@
           </div>
           <div class="price-row">
             <span class="price-prefix">From</span>
-            <span class="price-amount">Tk 15,000</span>
+            <span class="price-amount" data-price-bdt>Tk 15,000</span>
+            <span class="price-usd-sub" data-price-usd>($125 USD)</span>
+            <span class="express-delta-pill" data-express-pill>+Tk 5,000 Express</span>
+          </div>
+          <div class="card-timeline-pill" data-timeline-pill>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span class="delivery-time-label" data-timeline-text>5-7 days delivery</span>
           </div>
           <p class="plan-summary">
             A high-converting single-page experience engineered for ads & launches.
