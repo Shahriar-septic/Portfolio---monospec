@@ -44,16 +44,32 @@ let loadedCount = 0;
 let targetFrame = 0;
 let currentFrame = 0;
 let lastRenderedIndex = -1;
-const LERP_FACTOR = 0.085;
+const LERP_FACTOR = 0.14;
+const FRAME_WIDTH = 1920;
+const FRAME_HEIGHT = 1080;
 
-// Dynamic High-DPI Canvas resize
-function resizeCanvas() {
+let cachedMaxScroll = 0;
+
+function recalculateMaxScroll() {
+  const docHeight = Math.max(
+    document.body ? document.body.scrollHeight : 0,
+    document.documentElement ? document.documentElement.scrollHeight : 0,
+    document.body ? document.body.offsetHeight : 0,
+    document.documentElement ? document.documentElement.offsetHeight : 0
+  );
+  const vpHeight = document.documentElement ? document.documentElement.clientHeight : window.innerHeight;
+  cachedMaxScroll = Math.max(1, docHeight - vpHeight);
+}
+
+// Fixed 1920x1080 canvas buffer paired with CSS object-fit: cover
+// This prevents mobile address-bar collapse from clearing the canvas or distorting the aspect ratio
+function setupCanvas() {
   if (!canvas || !ctx) return;
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = Math.floor(window.innerWidth * dpr);
-  canvas.height = Math.floor(window.innerHeight * dpr);
+  canvas.width = FRAME_WIDTH;
+  canvas.height = FRAME_HEIGHT;
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = 'high';
+  recalculateMaxScroll();
 
   if (lastRenderedIndex >= 0) {
     const img = getClosestLoadedFrame(lastRenderedIndex);
@@ -62,26 +78,15 @@ function resizeCanvas() {
 }
 
 if (canvas && ctx) {
-  window.addEventListener('resize', resizeCanvas, { passive: true });
-  resizeCanvas();
+  setupCanvas();
+  window.addEventListener('resize', recalculateMaxScroll, { passive: true });
+  window.addEventListener('orientationchange', () => setTimeout(recalculateMaxScroll, 150), { passive: true });
 }
 
-// Draw image covering entire canvas without distortion
+// Draw image covering 1920x1080 canvas buffer without distortion
 function drawImageCover(img) {
-  if (!img || !img.complete || img.naturalWidth === 0) return;
-
-  const cw = canvas.width;
-  const ch = canvas.height;
-  const iw = img.naturalWidth;
-  const ih = img.naturalHeight;
-
-  const scale = Math.max(cw / iw, ch / ih);
-  const dw = iw * scale;
-  const dh = ih * scale;
-  const dx = (cw - dw) * 0.5;
-  const dy = (ch - dh) * 0.5;
-
-  ctx.drawImage(img, dx, dy, dw, dh);
+  if (!img || !img.complete || img.naturalWidth === 0 || !ctx) return;
+  ctx.drawImage(img, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 }
 
 // Fallback to nearest neighbor frame during fast scrubbing
@@ -104,9 +109,9 @@ function getClosestLoadedFrame(index) {
 
 // Scroll position mapper & Navigation Active Pill
 function updateTarget() {
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  if (!cachedMaxScroll) recalculateMaxScroll();
   const scrollY = window.scrollY || window.pageYOffset || 0;
-  const progress = Math.max(0, Math.min(1, scrollY / (maxScroll || 1)));
+  const progress = Math.max(0, Math.min(1, scrollY / (cachedMaxScroll || 1)));
   targetFrame = progress * (totalFrames - 1);
 
   // Navbar subtle blur background toggle on scroll
@@ -154,7 +159,7 @@ window.addEventListener('scroll', updateTarget, { passive: true });
 // Momentum interpolation loop for video frames
 function animate() {
   const diff = targetFrame - currentFrame;
-  if (Math.abs(diff) > 0.0005) {
+  if (Math.abs(diff) > 0.001) {
     currentFrame += diff * LERP_FACTOR;
   } else {
     currentFrame = targetFrame;
@@ -172,7 +177,7 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-// Preload all frames in memory
+// Preload all frames in memory with priority for the hero section
 function preloadFrames() {
   if (!canvas || !ctx) return;
   loadedImages = new Array(totalFrames);
@@ -180,26 +185,37 @@ function preloadFrames() {
   if (loader) loader.classList.remove('hidden');
   if (loaderBar) loaderBar.style.width = '0%';
 
-  frameFiles.forEach((filename, index) => {
+  function onFrameReady(index, img) {
+    loadedImages[index] = img;
+    loadedCount++;
+
+    // Instantly render first frame as soon as it arrives
+    if (index === 0 && lastRenderedIndex === -1) {
+      drawImageCover(img);
+      lastRenderedIndex = 0;
+    }
+
+    const pct = Math.round((loadedCount / totalFrames) * 100);
+    if (loaderBar) loaderBar.style.width = `${pct}%`;
+
+    if (loadedCount === totalFrames) {
+      setTimeout(() => {
+        if (loader) loader.classList.add('hidden');
+      }, 250);
+    }
+  }
+
+  function loadSingleFrame(index) {
+    const filename = frameFiles[index];
     const img = new Image();
 
     img.onload = () => {
-      loadedImages[index] = img;
-      loadedCount++;
-
-      // Instantly render first frame as soon as it arrives
-      if (index === 0 && lastRenderedIndex === -1) {
-        drawImageCover(img);
-        lastRenderedIndex = 0;
-      }
-
-      const pct = Math.round((loadedCount / totalFrames) * 100);
-      if (loaderBar) loaderBar.style.width = `${pct}%`;
-
-      if (loadedCount === totalFrames) {
-        setTimeout(() => {
-          if (loader) loader.classList.add('hidden');
-        }, 200);
+      if ('decode' in img) {
+        img.decode()
+          .then(() => onFrameReady(index, img))
+          .catch(() => onFrameReady(index, img));
+      } else {
+        onFrameReady(index, img);
       }
     };
 
@@ -209,7 +225,29 @@ function preloadFrames() {
     };
 
     img.src = BASE_PATH + filename;
-  });
+  }
+
+  // Phase 1: Load the first 24 frames immediately for instant, smooth hero interaction
+  const immediateFrames = Math.min(24, totalFrames);
+  for (let i = 0; i < immediateFrames; i++) {
+    loadSingleFrame(i);
+  }
+
+  // Phase 2: Progressively queue the remaining frames in small batches so network isn't clogged
+  let nextBatchStart = immediateFrames;
+  const batchSize = 16;
+  function loadNextBatch() {
+    if (nextBatchStart >= totalFrames) return;
+    const batchEnd = Math.min(nextBatchStart + batchSize, totalFrames);
+    for (let i = nextBatchStart; i < batchEnd; i++) {
+      loadSingleFrame(i);
+    }
+    nextBatchStart = batchEnd;
+    if (nextBatchStart < totalFrames) {
+      setTimeout(loadNextBatch, 50);
+    }
+  }
+  setTimeout(loadNextBatch, 80);
 }
 
 // ===================================================
