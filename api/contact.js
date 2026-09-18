@@ -20,10 +20,38 @@ export default async function handler(req, res) {
   try {
     const { name, contact, plan, message, req: messageAlt } = req.body || {};
 
-    const clientName = name || 'N/A';
-    const clientContact = contact || 'N/A';
+    const clientName = (name || '').trim();
+    const clientContact = (contact || '').trim();
     const clientPlan = plan || 'Not specified';
-    const clientMessage = message || messageAlt || '';
+    const clientMessage = (message || messageAlt || '').trim();
+
+    // 1. Name validation
+    if (!clientName || clientName.length < 2 || !/[a-zA-Z]/.test(clientName) || /^(.)\1+$/.test(clientName)) {
+      return res.status(400).json({ error: 'Please provide a valid name.' });
+    }
+
+    // 2. Phone / WhatsApp Number validation (minimum 11 digits, starts with 01 for local)
+    const cleanedContact = clientContact.replace(/[\s\-\(\)\.]/g, '');
+    const digitsOnly = cleanedContact.replace(/\D/g, '');
+    const sequentialDummies = ['123456', '12341234', '12345678', '123456789', '1234567890', '12345678901', '987654321', '9876543210'];
+    if (!cleanedContact || /^(\d)\1+$/.test(digitsOnly) || sequentialDummies.includes(digitsOnly)) {
+      return res.status(400).json({ error: 'Please enter a valid WhatsApp or mobile number, not a placeholder.' });
+    }
+    if (!cleanedContact.startsWith('+')) {
+      if (digitsOnly.length < 11 || !/^01[3-9]\d{8}$/.test(digitsOnly)) {
+        return res.status(400).json({ error: 'Local phone numbers must be 11 digits starting with 01 (e.g. 01XXXXXXXXX).' });
+      }
+    } else if (digitsOnly.length < 10 || digitsOnly.length > 15) {
+      return res.status(400).json({ error: 'International numbers must be between 10 and 15 digits.' });
+    }
+
+    // 3. Meaningful message validation (detect keyboard mash and gibberish)
+    if (!clientMessage || clientMessage.length < 2 || !/[a-zA-Z]/.test(clientMessage)) {
+      return res.status(400).json({ error: 'Please provide a meaningful message describing your project.' });
+    }
+    if (/[bcdfghjklmnpqrstvwxz]{5,}/i.test(clientMessage) || /asdf|wasd|asda|qwerty/i.test(clientMessage)) {
+      return res.status(400).json({ error: 'Message contains unrecognized keyboard typing. Please write in meaningful words.' });
+    }
 
     const now = new Date();
     // Human-readable formatted Date & Time

@@ -53,10 +53,26 @@ function doPost(e) {
     var formattedDateTime = Utilities.formatDate(now, Session.getScriptTimeZone() || "GMT+6", "yyyy-MM-dd hh:mm:ss a");
     var submissionId = "INQ-" + Utilities.formatDate(now, "GMT", "yyyyMMdd") + "-" + Math.floor(1000 + Math.random() * 9000);
 
-    var name = data.name || data["user-name"] || "N/A";
-    var contact = data.contact || data["user-contact"] || "N/A";
+    var name = (data.name || data["user-name"] || "").trim();
+    var contact = (data.contact || data["user-contact"] || "").trim();
     var plan = data.plan || data["user-plan"] || "Not specified";
-    var message = data.message || data.req || data["user-req"] || "";
+    var message = (data.message || data.req || data["user-req"] || "").trim();
+
+    // Phone / WhatsApp validation: at least 11 digits, reject repeating or sequential dummies
+    var digitsOnly = contact.replace(/\D/g, "");
+    var dummyNumbers = ["123456", "12341234", "12345678", "123456789", "1234567890", "12345678901"];
+    if (!contact || digitsOnly.length < 11 || /^(\d)\1+$/.test(digitsOnly) || dummyNumbers.indexOf(digitsOnly) !== -1) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: "error", message: "Invalid phone number. Local numbers must be at least 11 digits." }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // Message validation: must have letters and cannot be gibberish keyboard smash
+    if (!message || message.length < 2 || !/[a-zA-Z]/.test(message) || /[bcdfghjklmnpqrstvwxz]{5,}/i.test(message) || /asdf|wasd|asda|qwerty/i.test(message)) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: "error", message: "Invalid message: Please write a meaningful message." }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
 
     // Append new lead row
     sheet.appendRow([

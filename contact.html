@@ -189,17 +189,16 @@
         <p class="contact-subtext">Have questions or ready to transform your business with digital architecture &amp; custom web engineering?</p>
 
         <div class="contact-info-list">
-          <!-- Card 1: Email -->
-          <a href="mailto:shahriarrafi1200@gmail.com" class="contact-glass-item">
+          <!-- Card 1: WhatsApp -->
+          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20discuss%20a%20project" target="_blank" rel="noreferrer" class="contact-glass-item">
             <div class="glass-item-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
               </svg>
             </div>
             <div class="glass-item-text">
-              <span class="glass-item-label">Email us</span>
-              <span class="glass-item-value">shahriarrafi1200@gmail.com</span>
+              <span class="glass-item-label">WhatsApp</span>
+              <span class="glass-item-value">+880 1700620388</span>
             </div>
             <div class="glass-item-arrow">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -255,12 +254,15 @@
 
             <!-- Name -->
             <div class="glass-field-group">
-              <input type="text" id="user-name" class="glass-field-input" placeholder="Name" required autocomplete="name">
+              <input type="text" id="user-name" class="glass-field-input" placeholder="Your Name" required autocomplete="name">
+              <div class="field-error-msg" id="name-error" style="display: none;"></div>
             </div>
 
-            <!-- Email / Phone -->
+            <!-- WhatsApp / Phone Number -->
             <div class="glass-field-group">
-              <input type="text" id="user-contact" class="glass-field-input" placeholder="Email or WhatsApp" required autocomplete="email">
+              <input type="tel" id="user-contact" class="glass-field-input" placeholder="WhatsApp or Mobile Number (e.g. 017XXXXXXXX)" required autocomplete="tel">
+              <span class="glass-field-subtext">We will only contact through whatsapp or phone calls</span>
+              <div class="field-error-msg" id="contact-error" style="display: none;"></div>
             </div>
 
             <!-- Plan Selection (Dropdown with all options & tiers) -->
@@ -298,11 +300,13 @@
                   </optgroup>
                 </select>
               </div>
+              <div class="field-error-msg" id="plan-error" style="display: none;"></div>
             </div>
 
             <!-- Message -->
             <div class="glass-field-group">
               <textarea id="user-req" class="glass-field-input glass-field-textarea" rows="5" placeholder="Message (Tell me about your project, timeline, features...)" required></textarea>
+              <div class="field-error-msg" id="req-error" style="display: none;"></div>
             </div>
 
             <!-- Submit Button (Solid White Pill Button matching Reference) -->
@@ -362,6 +366,16 @@
     const GOOGLE_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyNcC2xJMiYkat1GuYaeTPe0LhyRd3buZfgQv6mRQ6IGtafDJv5HxMlNmQPhwzpGfua1w/exec";
 
     const form = document.getElementById('contact-intake-form');
+    const nameInput = document.getElementById('user-name');
+    const contactInput = document.getElementById('user-contact');
+    const planSelect = document.getElementById('user-plan');
+    const reqInput = document.getElementById('user-req');
+
+    const nameError = document.getElementById('name-error');
+    const contactError = document.getElementById('contact-error');
+    const planError = document.getElementById('plan-error');
+    const reqError = document.getElementById('req-error');
+
     const submitBtn = document.getElementById('btn-submit');
     const statusMsg = document.getElementById('form-status');
     const successCard = document.getElementById('form-success-card');
@@ -369,19 +383,252 @@
     const metaTime = document.getElementById('meta-time');
     const resetBtn = document.getElementById('btn-reset-form');
 
+    // UI Helper: show field error
+    function showFieldError(inputEl, errorEl, message) {
+      inputEl.classList.add('has-error');
+      errorEl.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>' + message + '</span>';
+      errorEl.style.display = 'flex';
+    }
+
+    // UI Helper: clear field error
+    function clearFieldError(inputEl, errorEl) {
+      inputEl.classList.remove('has-error');
+      errorEl.style.display = 'none';
+      errorEl.innerHTML = '';
+    }
+
+    // Real-time error clearing as user types
+    nameInput.addEventListener('input', () => clearFieldError(nameInput, nameError));
+    contactInput.addEventListener('input', () => clearFieldError(contactInput, contactError));
+    planSelect.addEventListener('change', () => clearFieldError(planSelect, planError));
+    reqInput.addEventListener('input', () => clearFieldError(reqInput, reqError));
+
+    // 1. Name Validator
+    function validateName(raw) {
+      const name = (raw || '').trim();
+      if (!name || name.length < 2) {
+        return { valid: false, message: 'Please enter your name (at least 2 letters).' };
+      }
+      if (!/[a-zA-Z]/.test(name)) {
+        return { valid: false, message: 'Name must contain letters.' };
+      }
+      if (/^(.)\1+$/.test(name)) {
+        return { valid: false, message: 'Please enter your real name.' };
+      }
+      if (/asdf|qwerty|zxcv/i.test(name)) {
+        return { valid: false, message: 'Please enter a genuine name.' };
+      }
+      return { valid: true };
+    }
+
+    // 2. Phone / WhatsApp Number Validator (At least 11 digits, starts with 01 for local)
+    function validatePhoneNumber(raw) {
+      const val = (raw || '').trim();
+      if (!val) {
+        return { valid: false, message: 'Please enter your WhatsApp or mobile number.' };
+      }
+
+      // Clean out spaces, dashes, dots, parentheses
+      const cleaned = val.replace(/[\s\-\(\)\.]/g, '');
+
+      // Check if it contains invalid characters
+      if (!/^\+?\d+$/.test(cleaned)) {
+        return { valid: false, message: 'Phone number can only contain digits and an optional leading "+".' };
+      }
+
+      const digitsOnly = cleaned.replace(/\D/g, '');
+
+      // Block dummy repetitive numbers (e.g. 11111111111, 00000000000)
+      if (/^(\d)\1+$/.test(digitsOnly)) {
+        return { valid: false, message: 'Please type a valid mobile number, not repeating digits.' };
+      }
+
+      // Block dummy sequential patterns like 12341234, 123456, 12345678901
+      const sequentialDummies = [
+        '123456', '12341234', '12345678', '123456789', '1234567890', '12345678901',
+        '987654321', '9876543210', '0123456789', '12121212', '123123123'
+      ];
+      if (sequentialDummies.includes(digitsOnly) || '0123456789012345'.includes(digitsOnly) || '9876543210987654'.includes(digitsOnly)) {
+        return { valid: false, message: 'Please type the number correctly, not a dummy placeholder.' };
+      }
+
+      // Check international Bangladesh format (+8801... or 8801...)
+      if (cleaned.startsWith('+8801') || cleaned.startsWith('8801')) {
+        const localPart = cleaned.replace(/^\+?88/, '');
+        if (/^01[3-9]\d{8}$/.test(localPart)) {
+          return { valid: true };
+        } else {
+          return { valid: false, message: 'Bangladesh numbers must have 11 digits starting with 01 (e.g. +8801700-000000).' };
+        }
+      }
+
+      // International number with other country codes (starts with +)
+      if (cleaned.startsWith('+')) {
+        if (digitsOnly.length >= 10 && digitsOnly.length <= 15) {
+          return { valid: true };
+        }
+        return { valid: false, message: 'International number must have 10 to 15 digits including country code.' };
+      }
+
+      // Local Bangladesh Mobile Number rules:
+      // Must be 11 digits and start with 01
+      if (cleaned.length < 11) {
+        return { valid: false, message: 'Mobile number must be at least 11 digits (starts with 01, like 01XXXXXXXXX).' };
+      }
+
+      if (cleaned.length > 11 && !cleaned.startsWith('+')) {
+        return { valid: false, message: 'Local numbers must be exactly 11 digits (e.g. 01XXXXXXXXX). Use "+" for international.' };
+      }
+
+      if (!/^01[3-9]\d{8}$/.test(cleaned)) {
+        return { valid: false, message: 'Local number must start with 01 followed by operator digit (e.g. 017..., 018..., 019..., 013..., 014..., 015..., 016...).' };
+      }
+
+      return { valid: true };
+    }
+
+    // 3. Meaningful Message Validator (Prevents keyboard smash like "asilhjdbalsib", "ijbnasjidb", "asdasdawdasda")
+    const COMMON_WORDS = new Set([
+      'hi', 'hello', 'hey', 'greetings', 'i', 'we', 'you', 'my', 'our', 'am', 'is', 'are',
+      'want', 'need', 'know', 'more', 'about', 'to', 'for', 'the', 'a', 'an', 'and', 'or',
+      'project', 'website', 'web', 'site', 'app', 'design', 'development', 'developer',
+      'portfolio', 'agency', 'store', 'ecommerce', 'woocommerce', 'shopify', 'landing',
+      'page', 'services', 'pricing', 'price', 'cost', 'quote', 'timeline', 'features',
+      'details', 'info', 'information', 'help', 'discuss', 'talk', 'call', 'contact',
+      'interested', 'inquiry', 'inquire', 'create', 'build', 'make', 'launch', 'scale',
+      'dominate', 'custom', 'scope', 'work', 'business', 'company', 'brand', 'start',
+      'fast', 'urgent', 'express', 'standard', 'budget', 'taka', 'bdt', 'usd', 'dollar',
+      'please', 'can', 'could', 'would', 'like', 'love', 'have', 'do', 'how', 'much',
+      'what', 'when', 'where', 'who', 'why', 'tell', 'me', 'us', 'send', 'proposal',
+      'brochure', 'consultation', 'advice', 'audit', 'redesign', 'revamp', 'seo', 'ui', 'ux',
+      'graphic', 'logo', 'clean', 'modern', 'responsive', 'mobile', 'frontend', 'backend',
+      'fullstack', 'software', 'tech', 'technology', 'system', 'expert', 'hire', 'team',
+      'kemon', 'achen', 'bhai', 'dorkar', 'lagbe', 'janbo', 'janaben', 'khoj', 'khobor',
+      'question', 'questions', 'ready', 'transform', 'digital', 'architecture', 'engineering'
+    ]);
+
+    function validateMessage(raw) {
+      const text = (raw || '').trim();
+      if (!text || text.length < 2) {
+        return { valid: false, message: 'Please write a message describing your project or inquiry (e.g. "Hi, I want to know more").' };
+      }
+
+      // Check if message has alphabetic characters
+      if (!/[a-zA-Z]/.test(text)) {
+        return { valid: false, message: 'Your message should contain meaningful text, not only numbers or symbols.' };
+      }
+
+      // Tokenize words
+      const words = text.toLowerCase().match(/[a-z]+/g) || [];
+      if (!words.length) {
+        return { valid: false, message: 'Please write meaningful words in your message.' };
+      }
+
+      // Check if any recognized common word is present (e.g. "hi", "want", "more", "project")
+      const hasCommonWord = words.some(w => COMMON_WORDS.has(w));
+
+      // Examine words for keyboard smash & gibberish patterns
+      for (const word of words) {
+        // Repeated single letter (e.g. aaaaa, zzzzz)
+        if (/(.)\1{3,}/.test(word)) {
+          return { valid: false, message: 'Please type a real message, not repeating characters.' };
+        }
+
+        // Keyboard rows and mash patterns (e.g. asdf, wasd, asda, hjkl)
+        const KEYBOARD_PATTERNS = [
+          'asdf', 'fdsa', 'qwerty', 'ytrewq', 'zxcv', 'vcxz',
+          'hjkl', 'lkjh', 'asda', 'sdas', 'wasd', 'dsaw',
+          'ghjk', 'kjhg', 'bnm', 'mnb'
+        ];
+        for (const pat of KEYBOARD_PATTERNS) {
+          if (word.includes(pat) && !COMMON_WORDS.has(word)) {
+            return { valid: false, message: 'Your message appears to contain random keyboard typing. Please write something meaningful.' };
+          }
+        }
+
+        // 5 or more consecutive consonants (e.g. asilhjdbalsib -> lhjdb, ijbnasjidb -> bnasj)
+        if (/[bcdfghjklmnpqrstvwxz]{5,}/.test(word)) {
+          return { valid: false, message: 'Please write meaningful words. Unreadable words like "' + word.slice(0, 8) + '..." are not allowed.' };
+        }
+
+        // Words >= 5 letters with NO vowels at all (e.g. qwrtyp, zxcvb)
+        if (word.length >= 5 && !/[aeiouy]/.test(word)) {
+          return { valid: false, message: 'Please type meaningful words with vowels.' };
+        }
+
+        // Long words (10+ chars) with repeating syllables or abnormal vowel distribution
+        if (word.length >= 10 && !COMMON_WORDS.has(word)) {
+          const sub = word.slice(0, 4);
+          if (word.split(sub).length > 2) {
+            return { valid: false, message: 'Please type a real message, not repeating letter combinations.' };
+          }
+          const vowels = (word.match(/[aeiouy]/g) || []).length;
+          if (vowels / word.length < 0.2 || vowels / word.length > 0.8) {
+            return { valid: false, message: 'Please write a real, meaningful message (e.g. "Hi, I want to know more about your services").' };
+          }
+        }
+      }
+
+      // If only 1 word and >= 7 characters, check that it's not gibberish
+      if (words.length === 1 && words[0].length >= 7 && !hasCommonWord) {
+        const w = words[0];
+        const vowels = (w.match(/[aeiouy]/g) || []).length;
+        if (vowels / w.length < 0.28) {
+          return { valid: false, message: 'Please type a meaningful message (e.g. "Hi, I want to know more").' };
+        }
+      }
+
+      return { valid: true };
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const name = document.getElementById('user-name').value.trim();
-      const contact = document.getElementById('user-contact').value.trim();
-      const plan = document.getElementById('user-plan').value;
-      const req = document.getElementById('user-req').value.trim();
+      // Clear any prior errors
+      clearFieldError(nameInput, nameError);
+      clearFieldError(contactInput, contactError);
+      clearFieldError(planSelect, planError);
+      clearFieldError(reqInput, reqError);
 
-      if (!name || !contact) return;
+      const name = nameInput.value.trim();
+      const contact = contactInput.value.trim();
+      const plan = planSelect.value;
+      const req = reqInput.value.trim();
+
+      // 1. Validate Name
+      const nameCheck = validateName(name);
+      if (!nameCheck.valid) {
+        showFieldError(nameInput, nameError, nameCheck.message);
+        nameInput.focus();
+        return;
+      }
+
+      // 2. Validate WhatsApp / Phone Number
+      const phoneCheck = validatePhoneNumber(contact);
+      if (!phoneCheck.valid) {
+        showFieldError(contactInput, contactError, phoneCheck.message);
+        contactInput.focus();
+        return;
+      }
+
+      // 3. Validate Plan
+      if (!plan) {
+        showFieldError(planSelect, planError, 'Please select a plan or service from the dropdown.');
+        planSelect.focus();
+        return;
+      }
+
+      // 4. Validate Message
+      const messageCheck = validateMessage(req);
+      if (!messageCheck.valid) {
+        showFieldError(reqInput, reqError, messageCheck.message);
+        reqInput.focus();
+        return;
+      }
 
       // Loading state
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="btn-spinner"></span><span>Saving Inquiry...</span>';
+      submitBtn.innerHTML = '<span class="btn-spinner"></span><span>Logging to Spreadsheet...</span>';
       statusMsg.style.display = 'none';
       statusMsg.className = 'form-status-msg';
 
@@ -399,14 +646,14 @@
       const payload = {
         name: name,
         contact: contact,
-        plan: plan || 'Not specified',
+        plan: plan,
         message: req,
         req: req,
         dateTime: formattedDateTime,
         timestamp: now.toISOString()
       };
 
-      // 1. Submit to Google Apps Script Web App if configured
+      // 1. Submit to Google Apps Script Web App
       if (GOOGLE_SCRIPT_WEBAPP_URL && GOOGLE_SCRIPT_WEBAPP_URL.startsWith('http')) {
         try {
           await fetch(GOOGLE_SCRIPT_WEBAPP_URL, {
@@ -431,11 +678,11 @@
         console.warn('Serverless API post attempt:', err);
       }
 
-      // Transition to Frosted Glass Confirmation Card (replaces WhatsApp redirect)
+      // Transition to Frosted Glass Confirmation Card (no WhatsApp redirect)
       setTimeout(() => {
         form.style.display = 'none';
         successCard.style.display = 'flex';
-        successDesc.textContent = `Thank you, ${name}! Your project details have been successfully recorded in our priority queue. We will review your request and get in touch with you at ${contact} shortly.`;
+        successDesc.textContent = `Thank you, ${name}! Your project details have been successfully recorded in our priority queue. We will review your request and reach out to you via WhatsApp or phone call shortly.`;
         metaTime.textContent = `Logged: ${formattedDateTime}`;
       }, 400);
     });
@@ -443,6 +690,10 @@
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
         form.reset();
+        clearFieldError(nameInput, nameError);
+        clearFieldError(contactInput, contactError);
+        clearFieldError(planSelect, planError);
+        clearFieldError(reqInput, reqError);
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<span>Submit</span>';
         successCard.style.display = 'none';
