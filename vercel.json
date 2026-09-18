@@ -1,8 +1,19 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/services", "destination": "/pricing.html" },
+    { "source": "/services", "destination": "/services.html" },
     { "source": "/pricing", "destination": "/pricing.html" },
     { "source": "/contact", "destination": "/contact.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
   ]
 }
