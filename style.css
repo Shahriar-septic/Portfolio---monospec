@@ -2,6 +2,16 @@
    STRUCT — MODERN CINEMATIC DESIGN SYSTEM
    =================================================== */
 
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+}
+::view-transition-group(nav-indicator-pill) {
+  animation-duration: 0.38s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 :root {
   --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -153,6 +163,7 @@ body {
 }
 
 .nav-pill {
+  position: relative;
   display: flex;
   align-items: center;
   background: rgba(255, 255, 255, 0.07);
@@ -162,16 +173,77 @@ body {
   border-radius: 999px;
   padding: 4px;
   gap: 2px;
+  isolation: isolate;
+}
+
+/* Pulse Frosted Glass Sliding Indicator */
+.nav-indicator-pill {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  height: calc(100% - 8px);
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 1;
+  background: linear-gradient(135deg, rgba(255, 138, 0, 0.35) 0%, rgba(255, 95, 0, 0.2) 100%);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 175, 55, 0.55);
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+    0 0 16px rgba(255, 122, 0, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), width 0.42s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  animation: nav-pill-pulse 3.2s ease-in-out infinite alternate;
+  view-transition-name: nav-indicator-pill;
+  opacity: 0;
+}
+
+.nav-indicator-pill.is-active {
+  opacity: 1;
+}
+
+.nav-indicator-pill.no-transition {
+  transition: none !important;
+}
+
+@keyframes nav-pill-pulse {
+  0% {
+    box-shadow: 
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.4),
+      0 0 12px 1px rgba(255, 122, 0, 0.35),
+      0 2px 8px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 160, 50, 0.45);
+  }
+  50% {
+    box-shadow: 
+      inset 0 1px 2px 0 rgba(255, 255, 255, 0.65),
+      0 0 24px 3px rgba(255, 140, 20, 0.65),
+      0 0 40px rgba(255, 100, 0, 0.25),
+      0 4px 14px rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 205, 110, 0.75);
+  }
+  100% {
+    box-shadow: 
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.4),
+      0 0 12px 1px rgba(255, 122, 0, 0.35),
+      0 2px 8px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 160, 50, 0.45);
+  }
 }
 
 .nav-link {
+  position: relative;
+  z-index: 2;
   font-size: 13px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.72);
   text-decoration: none;
   padding: 8px 18px;
   border-radius: 999px;
-  transition: all 0.25s ease;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+  user-select: none;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -179,10 +251,19 @@ body {
 }
 
 .nav-link.active {
-  background: var(--color-brand-orange);
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 2px 10px rgba(255, 122, 0, 0.4);
+  text-shadow: 0 0 12px rgba(255, 140, 0, 0.55);
+}
+
+/* Fallback before sliding indicator initializes */
+.nav-pill:not(.has-indicator) .nav-link.active {
+  background: linear-gradient(135deg, rgba(255, 138, 0, 0.35) 0%, rgba(255, 95, 0, 0.2) 100%);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 175, 55, 0.55);
+  box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), 0 0 16px rgba(255, 122, 0, 0.4);
+  animation: nav-pill-pulse 3.2s ease-in-out infinite alternate;
 }
 
 .nav-actions {
@@ -409,9 +490,14 @@ body {
 }
 
 .mobile-nav-link.active {
-  background: rgba(255, 122, 0, 0.14);
-  border-color: rgba(255, 122, 0, 0.4);
-  box-shadow: 0 4px 20px rgba(255, 122, 0, 0.2);
+  background: linear-gradient(135deg, rgba(255, 138, 0, 0.24) 0%, rgba(255, 95, 0, 0.12) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-color: rgba(255, 175, 55, 0.55);
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.35),
+    0 4px 24px rgba(255, 122, 0, 0.35);
+  animation: nav-pill-pulse 3.2s ease-in-out infinite alternate;
 }
 
 .m-link-num {
@@ -2787,16 +2873,40 @@ input:checked + .slider:before {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
-.btn-glass-submit:hover {
+.btn-glass-submit:hover:not(:disabled) {
   background: #f4f4f5;
   transform: translateY(-1.5px);
   box-shadow: 0 8px 25px rgba(255, 255, 255, 0.12);
 }
 
-.btn-glass-submit:active {
+.btn-glass-submit:active:not(:disabled) {
   transform: translateY(0);
+}
+
+.btn-glass-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(0, 0, 0, 0.2);
+  border-top-color: #070709;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .form-status-msg {
@@ -2809,6 +2919,95 @@ input:checked + .slider:before {
   text-align: center;
   font-weight: 500;
   margin-top: 4px;
+}
+
+.form-status-msg.error {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.28);
+  color: #f87171;
+}
+
+/* Frosted Glass Success Card */
+.form-success-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 16px;
+  gap: 16px;
+  animation: fadeInScale 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.form-success-icon {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 138, 0, 0.22) 0%, rgba(34, 197, 94, 0.22) 100%);
+  border: 1px solid rgba(255, 175, 55, 0.5);
+  box-shadow: 0 0 28px rgba(255, 122, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  animation: nav-pill-pulse 3s infinite alternate;
+}
+
+.form-success-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.form-success-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #a1a1aa;
+  max-width: 380px;
+}
+
+.form-success-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: #d4d4d8;
+}
+
+.form-reset-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.form-reset-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.32);
+  transform: translateY(-1px);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Responsive adjustments */

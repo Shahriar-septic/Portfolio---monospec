@@ -687,10 +687,241 @@ function initPlanTierToggle() {
   renderPlanTiers(false);
 }
 
+// ===================================================
+// PULSE FROSTED GLASS SLIDING NAVIGATION
+// ===================================================
+function initSlidingNav() {
+  const navPill = document.querySelector('.nav-pill');
+  if (!navPill) return;
+
+  const links = Array.from(navPill.querySelectorAll('.nav-link'));
+  if (!links.length) return;
+
+  navPill.classList.add('has-indicator');
+
+  let indicator = navPill.querySelector('.nav-indicator-pill');
+  if (!indicator) {
+    indicator = document.createElement('div');
+    indicator.className = 'nav-indicator-pill';
+    indicator.setAttribute('aria-hidden', 'true');
+    navPill.appendChild(indicator);
+  }
+
+  function getTargetActiveLink() {
+    const pathname = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+
+    // 1. Contact page
+    if (pathname.includes('contact')) {
+      const match = links.find(l => {
+        const txt = l.textContent.trim().toLowerCase();
+        const href = (l.getAttribute('href') || '').toLowerCase();
+        return txt.includes('contact') || href.includes('contact');
+      });
+      if (match) return match;
+    }
+
+    // 2. Services / Pricing / Plan pages
+    if (pathname.includes('services') || pathname.includes('pricing') || pathname.includes('plan-')) {
+      const match = links.find(l => {
+        const txt = l.textContent.trim().toLowerCase();
+        const href = (l.getAttribute('href') || '').toLowerCase();
+        return txt.includes('service') || href.includes('service') || href.includes('pricing');
+      });
+      if (match) return match;
+    }
+
+    // 3. Home / Index page with hash
+    if (hash === '#process') {
+      const match = links.find(l => {
+        const txt = l.textContent.trim().toLowerCase();
+        const href = (l.getAttribute('href') || '').toLowerCase();
+        return txt.includes('process') || href.includes('process');
+      });
+      if (match) return match;
+    }
+
+    // 4. Default home / overview
+    if (pathname === '/' || pathname.endsWith('/index.html') || pathname.endsWith('/index') || pathname === '') {
+      const match = links.find(l => {
+        const txt = l.textContent.trim().toLowerCase();
+        const href = (l.getAttribute('href') || '').toLowerCase();
+        return txt.includes('overview') || href.includes('overview');
+      });
+      if (match) return match;
+    }
+
+    // 5. Fallback: check class 'active'
+    const preActive = links.find(l => l.classList.contains('active'));
+    if (preActive) return preActive;
+
+    return links[0];
+  }
+
+  function getLinkMetrics(link) {
+    const pillRect = navPill.getBoundingClientRect();
+    const linkRect = link.getBoundingClientRect();
+    return {
+      left: Math.round(linkRect.left - pillRect.left),
+      width: Math.round(linkRect.width)
+    };
+  }
+
+  function moveToLink(link, instant = false) {
+    if (!link) return;
+    const { left, width } = getLinkMetrics(link);
+    if (instant) {
+      indicator.classList.add('no-transition');
+    } else {
+      indicator.classList.remove('no-transition');
+    }
+    indicator.style.transform = `translate3d(${left}px, 0, 0)`;
+    indicator.style.width = `${width}px`;
+    indicator.classList.add('is-active');
+
+    if (instant) {
+      void indicator.offsetWidth; // force reflow
+      indicator.classList.remove('no-transition');
+    }
+  }
+
+  let currentActiveLink = getTargetActiveLink();
+
+  function setActiveLink(link, animatePill = true) {
+    if (!link) return;
+    currentActiveLink = link;
+    links.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+
+    // Sync mobile drawer navigation
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+    const linkText = link.textContent.trim().toLowerCase();
+    mobileLinks.forEach(m => {
+      const mText = m.textContent.trim().toLowerCase();
+      if (mText.includes(linkText) || linkText.includes(mText)) {
+        m.classList.add('active');
+      } else {
+        m.classList.remove('active');
+      }
+    });
+
+    if (animatePill) {
+      moveToLink(link, false);
+    }
+  }
+
+  // Cross-page redirect animation
+  const SESSION_KEY = 'monospec_nav_active_idx';
+  const SESSION_TIME_KEY = 'monospec_nav_timestamp';
+  let prevIndex = -1;
+  try {
+    const prevIndexStr = sessionStorage.getItem(SESSION_KEY);
+    const prevTimestamp = parseInt(sessionStorage.getItem(SESSION_TIME_KEY) || '0', 10);
+    const isRecentRedirect = (Date.now() - prevTimestamp) < 4000;
+    if (isRecentRedirect && prevIndexStr !== null) {
+      prevIndex = parseInt(prevIndexStr, 10);
+    }
+    sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(SESSION_TIME_KEY);
+  } catch (err) {
+    // sessionStorage may fail in private mode
+  }
+
+  const targetActive = currentActiveLink || links[0];
+  const targetIndex = links.indexOf(targetActive);
+
+  if (prevIndex >= 0 && prevIndex < links.length && prevIndex !== targetIndex) {
+    // Start at previous link position instantly, then glide smoothly to target link!
+    moveToLink(links[prevIndex], true);
+    setActiveLink(targetActive, false);
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        moveToLink(targetActive, false);
+      }, 35);
+    });
+  } else {
+    setActiveLink(targetActive, false);
+    moveToLink(targetActive, true);
+    indicator.classList.add('is-active');
+  }
+
+  // Hover & Click behaviors
+  links.forEach((link, idx) => {
+    link.addEventListener('click', (e) => {
+      try {
+        sessionStorage.setItem(SESSION_KEY, idx.toString());
+        sessionStorage.setItem(SESSION_TIME_KEY, Date.now().toString());
+      } catch (err) {}
+
+      const href = link.getAttribute('href') || '';
+      if (href.startsWith('#')) {
+        const targetEl = document.querySelector(href);
+        if (targetEl) {
+          e.preventDefault();
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+          if (history.pushState) {
+            history.pushState(null, '', href);
+          }
+          setActiveLink(link, true);
+        }
+      }
+    });
+
+    link.addEventListener('mouseenter', () => {
+      moveToLink(link, false);
+    });
+  });
+
+  navPill.addEventListener('mouseleave', () => {
+    moveToLink(currentActiveLink, false);
+  });
+
+  // Scroll spy for index.html (Overview vs Process)
+  const overviewSec = document.getElementById('overview');
+  const processSec = document.getElementById('process');
+  if (overviewSec && processSec) {
+    const overviewLink = links.find(l => l.textContent.trim().toLowerCase().includes('overview'));
+    const processLink = links.find(l => l.textContent.trim().toLowerCase().includes('process'));
+
+    let isTicking = false;
+    window.addEventListener('scroll', () => {
+      if (!isTicking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY || window.pageYOffset;
+          const processTop = processSec.offsetTop - 280;
+          if (scrollY >= processTop && processLink) {
+            if (currentActiveLink !== processLink) {
+              setActiveLink(processLink, true);
+            }
+          } else if (overviewLink) {
+            if (currentActiveLink !== overviewLink) {
+              setActiveLink(overviewLink, true);
+            }
+          }
+          isTicking = false;
+        });
+        isTicking = true;
+      }
+    }, { passive: true });
+  }
+
+  // Window resize & orientation handlers
+  window.addEventListener('resize', () => {
+    if (currentActiveLink) moveToLink(currentActiveLink, true);
+  }, { passive: true });
+
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      if (currentActiveLink) moveToLink(currentActiveLink, true);
+    }, 150);
+  }, { passive: true });
+}
+
 // Initialize sequence
 function init() {
   initCustomCursor();
   initMobileNav();
+  initSlidingNav();
   initPricingTimelineToggle();
   initPlanTierToggle();
 

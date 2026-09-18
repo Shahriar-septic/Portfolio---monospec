@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260918d">
+  <link rel="stylesheet" href="style.css?v=20260918e">
 </head>
 <body class="contact-page">
   <!-- Custom Sleek Cursor Elements -->
@@ -27,7 +27,7 @@
       <nav class="nav-pill">
         <a href="index.html#overview" class="nav-link">Overview</a>
         <a href="index.html#process" class="nav-link">Process</a>
-        <a href="pricing.html" class="nav-link">Services</a>
+        <a href="services.html" class="nav-link">Services</a>
         <a href="contact.html" class="nav-link active">Contact Me</a>
       </nav>
 
@@ -75,7 +75,7 @@
             <span class="m-link-text">Process</span>
             <span class="m-link-arrow">→</span>
           </a>
-          <a href="pricing.html" class="mobile-nav-link">
+          <a href="services.html" class="mobile-nav-link">
             <span class="m-link-num">03</span>
             <span class="m-link-text">Services &amp; Pricing</span>
             <span class="m-link-arrow">→</span>
@@ -306,23 +306,41 @@
             </div>
 
             <!-- Submit Button (Solid White Pill Button matching Reference) -->
-            <button type="submit" class="btn-glass-submit">
+            <button type="submit" id="btn-submit" class="btn-glass-submit">
               <span>Submit</span>
             </button>
 
-            <!-- Success Notice -->
-            <div id="form-status" class="form-status-msg" style="display: none;">
-              ✓ Details formatted! Opening WhatsApp directly...
-            </div>
+            <!-- Status Notice -->
+            <div id="form-status" class="form-status-msg" style="display: none;"></div>
 
           </form>
+
+          <!-- Frosted Glass Success Card (shown upon successful submission) -->
+          <div id="form-success-card" class="form-success-card" style="display: none;">
+            <div class="form-success-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h3 class="form-success-title">Inquiry Received</h3>
+            <p class="form-success-desc" id="success-desc">
+              Thank you! Your project details have been successfully recorded in our priority queue. We will review them and reach out shortly.
+            </p>
+            <div class="form-success-meta" id="success-meta">
+              <span id="meta-time"></span>
+            </div>
+            <button type="button" class="form-reset-btn" id="btn-reset-form">
+              Send Another Inquiry
+            </button>
+          </div>
+
         </div>
       </div>
 
     </div>
   </main>
 
-  <script src="app.js?v=20260918c"></script>
+  <script src="app.js?v=20260918e"></script>
   <script>
     // Interactive mouse tracking spotlight over glass card
     const glassCard = document.getElementById('contact-glass-card');
@@ -340,29 +358,98 @@
       });
     }
 
-    // Form Handler: formats all fields and directly launches WhatsApp
-    const form = document.getElementById('contact-intake-form');
-    const statusMsg = document.getElementById('form-status');
+    // Google Sheets Webhook Configuration
+    // Paste your deployed Google Apps Script Web App URL below (see GOOGLE_SHEETS_SETUP.md)
+    const GOOGLE_SCRIPT_WEBAPP_URL = "";
 
-    form.addEventListener('submit', (e) => {
+    const form = document.getElementById('contact-intake-form');
+    const submitBtn = document.getElementById('btn-submit');
+    const statusMsg = document.getElementById('form-status');
+    const successCard = document.getElementById('form-success-card');
+    const successDesc = document.getElementById('success-desc');
+    const metaTime = document.getElementById('meta-time');
+    const resetBtn = document.getElementById('btn-reset-form');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+
       const name = document.getElementById('user-name').value.trim();
       const contact = document.getElementById('user-contact').value.trim();
       const plan = document.getElementById('user-plan').value;
       const req = document.getElementById('user-req').value.trim();
 
-      const messageText = `*New Project Inquiry — MonoSpec Studio*\n\n*Name:* ${name}\n*Contact:* ${contact}\n*Plan Selected:* ${plan}\n\n*Project Requirements:*\n${req}`;
-      
-      statusMsg.style.display = 'block';
+      if (!name || !contact) return;
 
-      // Launch WhatsApp with prefilled message
-      const encodedMsg = encodeURIComponent(messageText);
-      const whatsappUrl = `https://wa.me/8801700620388?text=${encodedMsg}`;
-      
+      // Loading state
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="btn-spinner"></span><span>Saving Inquiry...</span>';
+      statusMsg.style.display = 'none';
+      statusMsg.className = 'form-status-msg';
+
+      const now = new Date();
+      const formattedDateTime = now.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      });
+
+      const payload = {
+        name: name,
+        contact: contact,
+        plan: plan || 'Not specified',
+        message: req,
+        req: req,
+        dateTime: formattedDateTime,
+        timestamp: now.toISOString()
+      };
+
+      // 1. Submit to Google Apps Script Web App if configured
+      if (GOOGLE_SCRIPT_WEBAPP_URL && GOOGLE_SCRIPT_WEBAPP_URL.startsWith('http')) {
+        try {
+          await fetch(GOOGLE_SCRIPT_WEBAPP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.warn('Google Script Web App post attempt:', err);
+        }
+      }
+
+      // 2. Also send to Serverless Function endpoint /api/contact
+      try {
+        await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.warn('Serverless API post attempt:', err);
+      }
+
+      // Transition to Frosted Glass Confirmation Card (replaces WhatsApp redirect)
       setTimeout(() => {
-        window.open(whatsappUrl, '_blank');
-      }, 300);
+        form.style.display = 'none';
+        successCard.style.display = 'flex';
+        successDesc.textContent = `Thank you, ${name}! Your project details have been successfully recorded in our priority queue. We will review your request and get in touch with you at ${contact} shortly.`;
+        metaTime.textContent = `Logged: ${formattedDateTime}`;
+      }, 400);
     });
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Submit</span>';
+        successCard.style.display = 'none';
+        form.style.display = 'flex';
+      });
+    }
   </script>
 </body>
 </html>

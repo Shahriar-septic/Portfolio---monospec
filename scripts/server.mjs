@@ -27,10 +27,22 @@ const server = http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
   if (reqPath === '/' || reqPath === '') {
     reqPath = '/index.html';
-  } else if (reqPath === '/pricing' || reqPath === '/services') {
+  } else if (reqPath === '/services') {
+    reqPath = '/services.html';
+  } else if (reqPath === '/pricing') {
     reqPath = '/pricing.html';
   } else if (reqPath === '/contact') {
     reqPath = '/contact.html';
+  }
+
+  if (reqPath === '/api/contact' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'success', message: 'Inquiry logged locally' }));
+    });
+    return;
   }
 
   if (reqPath === '/api/frames') {
