@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260918c">
+  <link rel="stylesheet" href="style.css?v=20260918d">
 </head>
 <body class="contact-page">
   <!-- Custom Sleek Cursor Elements -->
@@ -116,87 +116,157 @@
   </div>
 
 
-  <!-- Contact Main Section (Matching reference screenshot) -->
+  <!-- Contact Main Section (Matching reference design) -->
   <main class="contact-main-wrapper">
-    <div class="contact-neon-frame">
+    <!-- Ambient Backlight (Warm Brand Glow) -->
+    <div class="contact-ambient-glow" aria-hidden="true"></div>
 
-      <!-- Header -->
-      <div class="contact-header">
-        <span class="contact-eyebrow">GET IN TOUCH</span>
-        <h1 class="contact-title">Contact <span class="accent-me">Me</span></h1>
-        <div class="contact-underline-bar"></div>
-      </div>
+    <!-- Tech Circuit Line Traces (Left & Right Flanks) -->
+    <div class="contact-circuit-decor contact-circuit-left" aria-hidden="true">
+      <svg width="280" height="180" viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="circuit-grad-l1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+            <stop offset="40%" stop-color="#ffffff" stop-opacity="0.3" />
+            <stop offset="85%" stop-color="#ffffff" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="1" />
+          </linearGradient>
+          <linearGradient id="circuit-grad-l2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+            <stop offset="60%" stop-color="#ffffff" stop-opacity="0.25" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.7" />
+          </linearGradient>
+        </defs>
+        <path d="M0 40 L90 40 L135 85 L250 85" stroke="url(#circuit-grad-l1)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <circle cx="250" cy="85" r="3.5" fill="#ffffff" />
+        <path d="M0 120 L70 120 L100 150 L200 150" stroke="url(#circuit-grad-l2)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <circle cx="200" cy="150" r="2.5" fill="#a1a1aa" />
+      </svg>
+    </div>
 
-      <!-- 2-Column Grid: Left Info Cards & Right Form -->
-      <div class="contact-grid">
+    <div class="contact-circuit-decor contact-circuit-right" aria-hidden="true">
+      <svg width="280" height="180" viewBox="0 0 280 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="circuit-grad-r1" x1="100%" y1="0%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+            <stop offset="40%" stop-color="#ffffff" stop-opacity="0.3" />
+            <stop offset="85%" stop-color="#ffffff" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="1" />
+          </linearGradient>
+          <linearGradient id="circuit-grad-r2" x1="100%" y1="0%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0" />
+            <stop offset="60%" stop-color="#ffffff" stop-opacity="0.25" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0.7" />
+          </linearGradient>
+        </defs>
+        <path d="M280 40 L190 40 L145 85 L30 85" stroke="url(#circuit-grad-r1)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <circle cx="30" cy="85" r="3.5" fill="#ffffff" />
+        <path d="M280 120 L210 120 L180 150 L80 150" stroke="url(#circuit-grad-r2)" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <circle cx="80" cy="150" r="2.5" fill="#a1a1aa" />
+      </svg>
+    </div>
 
-        <!-- Left Column: Contact Cards -->
-        <div class="contact-info-col">
+    <!-- Giant Background Typography with Bottom Mask Fade -->
+    <div class="contact-bg-text" aria-hidden="true">CONTACT</div>
 
+    <!-- 2-Column Grid: Left Info Cards & Right Frosted Glass Form Card -->
+    <div class="contact-grid">
+
+      <!-- Left Column: Contact Cards -->
+      <div class="contact-info-col">
+        <div class="contact-pill-badge">
+          <span class="badge-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </span>
+          <span>Contact</span>
+        </div>
+
+        <h1 class="contact-headline">Get in touch</h1>
+        <p class="contact-subtext">Have questions or ready to transform your business with digital architecture &amp; custom web engineering?</p>
+
+        <div class="contact-info-list">
           <!-- Card 1: Email -->
-          <a href="mailto:shahriarrafi1200@gmail.com" class="contact-info-card">
-            <div class="info-icon-box">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <a href="mailto:shahriarrafi1200@gmail.com" class="contact-glass-item">
+            <div class="glass-item-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="2" y="4" width="20" height="16" rx="2"/>
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
               </svg>
             </div>
-            <div class="info-text-wrap">
-              <span class="info-label">Email</span>
-              <span class="info-value">shahriarrafi1200@gmail.com</span>
+            <div class="glass-item-text">
+              <span class="glass-item-label">Email us</span>
+              <span class="glass-item-value">shahriarrafi1200@gmail.com</span>
+            </div>
+            <div class="glass-item-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+              </svg>
             </div>
           </a>
 
           <!-- Card 2: Phone / WhatsApp -->
-          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20discuss%20a%20project" target="_blank" rel="noreferrer" class="contact-info-card">
-            <div class="info-icon-box">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20discuss%20a%20project" target="_blank" rel="noreferrer" class="contact-glass-item">
+            <div class="glass-item-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
             </div>
-            <div class="info-text-wrap">
-              <span class="info-label">Phone / WhatsApp</span>
-              <span class="info-value">+880 1700620388</span>
+            <div class="glass-item-text">
+              <span class="glass-item-label">Call us</span>
+              <span class="glass-item-value">(+880) 1700620388</span>
+            </div>
+            <div class="glass-item-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+              </svg>
             </div>
           </a>
 
           <!-- Card 3: Location -->
-          <div class="contact-info-card">
-            <div class="info-icon-box">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <div class="contact-glass-item contact-glass-item-static">
+            <div class="glass-item-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C12.95 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/>
                 <circle cx="12" cy="10" r="3"/>
               </svg>
             </div>
-            <div class="info-text-wrap">
-              <span class="info-label">Location</span>
-              <span class="info-value">Mirpur, Dhaka, Bangladesh</span>
+            <div class="glass-item-text">
+              <span class="glass-item-label">Our location</span>
+              <span class="glass-item-value">Mirpur, Dhaka, Bangladesh</span>
+            </div>
+            <div class="glass-item-arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+              </svg>
             </div>
           </div>
-
         </div>
 
-        <!-- Right Column: Interactive Form -->
-        <div class="contact-form-col">
-          <form id="contact-intake-form" class="intake-form">
+      </div>
+
+      <!-- Right Column: Interactive Frosted Glass Form Card -->
+      <div class="contact-form-col">
+        <div class="contact-glass-card" id="contact-glass-card">
+          <form id="contact-intake-form" class="intake-form-glass">
 
             <!-- Name -->
-            <div class="form-group">
-              <label for="user-name" class="form-label">Your Name</label>
-              <input type="text" id="user-name" class="form-input" placeholder="John Doe" required autocomplete="name">
+            <div class="glass-field-group">
+              <input type="text" id="user-name" class="glass-field-input" placeholder="Name" required autocomplete="name">
             </div>
 
-            <!-- Phone / WhatsApp Number -->
-            <div class="form-group">
-              <label for="user-phone" class="form-label">Phone / WhatsApp Number</label>
-              <input type="tel" id="user-phone" class="form-input" placeholder="+880 1700-000000" required autocomplete="tel">
+            <!-- Email / Phone -->
+            <div class="glass-field-group">
+              <input type="text" id="user-contact" class="glass-field-input" placeholder="Email or WhatsApp" required autocomplete="email">
             </div>
 
             <!-- Plan Selection (Dropdown with all options & tiers) -->
-            <div class="form-group">
-              <label for="user-plan" class="form-label">Which plan do you want to purchase and discuss?</label>
-              <div class="custom-select-wrapper">
-                <select id="user-plan" class="form-input form-select" required>
+            <div class="glass-field-group">
+              <div class="glass-select-wrap">
+                <select id="user-plan" class="glass-field-input glass-field-select" required>
                   <option value="" disabled selected>Select a plan or service...</option>
                   <optgroup label="WooCommerce Store">
                     <option value="WooCommerce Store — Launch (Tk 12,000 - 20,000)">WooCommerce Store — Launch (Tk 12,000 - 20,000)</option>
@@ -230,15 +300,14 @@
               </div>
             </div>
 
-            <!-- Requirements in Detail -->
-            <div class="form-group">
-              <label for="user-req" class="form-label">Requirements for your plan in detail</label>
-              <textarea id="user-req" class="form-input form-textarea" rows="4" placeholder="Tell me about your project, target audience, preferred features, timeline..." required></textarea>
+            <!-- Message -->
+            <div class="glass-field-group">
+              <textarea id="user-req" class="glass-field-input glass-field-textarea" rows="5" placeholder="Message (Tell me about your project, timeline, features...)" required></textarea>
             </div>
 
-            <!-- Submit Button (Solid Amber Button matching screenshot) -->
-            <button type="submit" class="btn-send-message">
-              <span>Send Message</span>
+            <!-- Submit Button (Solid White Pill Button matching Reference) -->
+            <button type="submit" class="btn-glass-submit">
+              <span>Submit</span>
             </button>
 
             <!-- Success Notice -->
@@ -248,7 +317,6 @@
 
           </form>
         </div>
-
       </div>
 
     </div>
@@ -256,18 +324,34 @@
 
   <script src="app.js?v=20260918c"></script>
   <script>
-    // Form Handler: formats all fields and directly launches WhatsApp + mailto
+    // Interactive mouse tracking spotlight over glass card
+    const glassCard = document.getElementById('contact-glass-card');
+    if (glassCard) {
+      glassCard.addEventListener('mousemove', (e) => {
+        const rect = glassCard.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        glassCard.style.setProperty('--mouse-x', `${x}px`);
+        glassCard.style.setProperty('--mouse-y', `${y}px`);
+      });
+      glassCard.addEventListener('mouseleave', () => {
+        glassCard.style.setProperty('--mouse-x', '50%');
+        glassCard.style.setProperty('--mouse-y', '25%');
+      });
+    }
+
+    // Form Handler: formats all fields and directly launches WhatsApp
     const form = document.getElementById('contact-intake-form');
     const statusMsg = document.getElementById('form-status');
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('user-name').value.trim();
-      const phone = document.getElementById('user-phone').value.trim();
+      const contact = document.getElementById('user-contact').value.trim();
       const plan = document.getElementById('user-plan').value;
       const req = document.getElementById('user-req').value.trim();
 
-      const messageText = `*New Project Inquiry — MonoSpec Studio*\n\n*Name:* ${name}\n*Phone / WhatsApp:* ${phone}\n*Plan Selected:* ${plan}\n\n*Project Requirements:*\n${req}`;
+      const messageText = `*New Project Inquiry — MonoSpec Studio*\n\n*Name:* ${name}\n*Contact:* ${contact}\n*Plan Selected:* ${plan}\n\n*Project Requirements:*\n${req}`;
       
       statusMsg.style.display = 'block';
 
