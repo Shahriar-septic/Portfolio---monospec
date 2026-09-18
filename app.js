@@ -30,7 +30,9 @@ const FALLBACK_FRAMES = [
 
 let frameFiles = FALLBACK_FRAMES;
 let totalFrames = frameFiles.length;
-const BASE_PATH = './frames/';
+const BASE_PATH = '/frames/';
+
+const isHeroPage = !!document.querySelector('.hero-section');
 
 const canvas = document.getElementById('cinema-canvas');
 const ctx = canvas ? canvas.getContext('2d', { alpha: false }) : null;
@@ -77,10 +79,13 @@ function setupCanvas() {
   }
 }
 
-if (canvas && ctx) {
+if (canvas && ctx && isHeroPage) {
   setupCanvas();
   window.addEventListener('resize', recalculateMaxScroll, { passive: true });
   window.addEventListener('orientationchange', () => setTimeout(recalculateMaxScroll, 150), { passive: true });
+} else if (loader) {
+  loader.classList.add('hidden');
+  loader.style.display = 'none';
 }
 
 // Draw image covering 1920x1080 canvas buffer without distortion
@@ -157,7 +162,9 @@ function updateTarget() {
   }
 }
 
-window.addEventListener('scroll', updateTarget, { passive: true });
+if (isHeroPage) {
+  window.addEventListener('scroll', updateTarget, { passive: true });
+}
 
 // Momentum interpolation loop for video frames
 function animate() {
@@ -467,9 +474,10 @@ function initMobileNav() {
         return;
       }
 
+      const cleanPath = (p) => (p || '').toLowerCase().replace(/\/index\.html$/, '').replace(/\/index$/, '').replace(/\.html$/, '').replace(/\/$/, '') || '/';
       const targetUrl = new URL(link.href, window.location.origin);
-      const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
-      const targetPath = targetUrl.pathname.replace(/\/$/, '') || '/';
+      const currentPath = cleanPath(window.location.pathname);
+      const targetPath = cleanPath(targetUrl.pathname);
       const targetHash = targetUrl.hash;
 
       // Case 1: Tapping link to the exact current page without hash - just close drawer smoothly
@@ -493,9 +501,10 @@ function initMobileNav() {
         return;
       }
 
-      // Case 3: Navigating to another page - guard against duplicate concurrent clicks during page unload
+      // Case 3: Navigating to another page - prevent touch aborts and execute direct navigation
+      e.preventDefault();
       drawer.style.pointerEvents = 'none';
-      closeMenu();
+      window.location.href = targetUrl.href;
     });
   });
 
@@ -1171,7 +1180,7 @@ function init() {
   initInteractivePhoneMockup();
   initProjectInquiryModal();
 
-  if (canvas && ctx) {
+  if (canvas && ctx && isHeroPage) {
     updateTarget();
     preloadFrames();
     requestAnimationFrame(animate);
