@@ -42,8 +42,8 @@ export default async function handler(req, res) {
       isoTimestamp: now.toISOString()
     };
 
-    // Forward to Google Apps Script Web App if configured
-    const googleScriptUrl = process.env.GOOGLE_SCRIPT_WEBAPP_URL;
+    // Forward to Google Apps Script Web App
+    const googleScriptUrl = process.env.GOOGLE_SCRIPT_WEBAPP_URL || "https://script.google.com/macros/s/AKfycbyNcC2xJMiYkat1GuYaeTPe0LhyRd3buZfgQv6mRQ6IGtafDJv5HxMlNmQPhwzpGfua1w/exec";
     if (googleScriptUrl) {
       try {
         await fetch(googleScriptUrl, {
