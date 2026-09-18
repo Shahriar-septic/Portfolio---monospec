@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/server.mjs",
-    "start:local": "node scripts/server.mjs",
-    "optimize:frames": "node scripts/optimize-frames.mjs"
+    "start:local": "node scripts/server.mjs"
   },
   "keywords": [
     "scroll-animation",
@@ -14,8 +13,5 @@
     "video-frames"
   ],
   "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "sharp": "^0.35.4"
-  }
+  "license": "ISC"
 }
