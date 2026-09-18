@@ -436,6 +436,7 @@ function initPricingTimelineToggle() {
   const priorityBanner = document.getElementById('express-priority-banner');
   const bannerText = document.getElementById('priority-banner-text');
   const pricingCards = document.querySelectorAll('.pricing-card[data-plan-key]');
+  if (pricingCards.length === 0) return;
 
   // Ensure default is Standard Timeline when navigating to services section
   deliveryToggle.checked = false;
@@ -551,11 +552,147 @@ function initPricingTimelineToggle() {
   updatePrices(false, false);
 }
 
+/**
+ * Plan Detail Page Timeline & Pricing Toggle (LAUNCH / SCALE / DOMINATE)
+ */
+function initPlanTierToggle() {
+  const deliveryToggle = document.getElementById('plan-delivery-toggle') || document.getElementById('delivery-toggle');
+  const tierCards = document.querySelectorAll('.tier-card[data-std-bdt]');
+  if (tierCards.length === 0) return;
+
+  let currentCurrency = 'bdt';
+  let isExpress = false;
+
+  const labelStandard = document.getElementById('toggle-label-standard');
+  const labelExpress = document.getElementById('toggle-label-express');
+  const priorityBanner = document.getElementById('express-priority-banner');
+  const bannerText = document.getElementById('priority-banner-text');
+  const currBtns = document.querySelectorAll('.curr-btn');
+
+  if (deliveryToggle) {
+    deliveryToggle.checked = false;
+  }
+
+  function renderPlanTiers(animate = false) {
+    // Update toggle labels
+    if (labelStandard) labelStandard.classList.toggle('active', !isExpress);
+    if (labelExpress) labelExpress.classList.toggle('active', isExpress);
+
+    // Update Priority Banner
+    if (priorityBanner) {
+      priorityBanner.classList.toggle('is-active', isExpress);
+    }
+    if (bannerText) {
+      const expressMsg = bannerText.getAttribute('data-express-msg') || '<strong>⚡ Top Priority Production:</strong> Developer prioritizes Express Launch orders at the top of the production queue ahead of other existing orders.';
+      const standardMsg = bannerText.getAttribute('data-standard-msg') || '<strong>Standard Delivery:</strong> Dedicated milestone-based development with scheduled review cycles.';
+      bannerText.innerHTML = isExpress ? expressMsg : standardMsg;
+    }
+
+    tierCards.forEach(card => {
+      const priceEl = card.querySelector('[data-tier-price]');
+      const expressPill = card.querySelector('[data-express-pill]');
+      const timelinePill = card.querySelector('[data-tier-timeline]');
+      const timelineText = card.querySelector('[data-timeline-text]');
+      const actionBtn = card.querySelector('.btn-tier');
+
+      const stdBdt = card.getAttribute('data-std-bdt') || '';
+      const expBdt = card.getAttribute('data-exp-bdt') || '';
+      const stdUsd = card.getAttribute('data-std-usd') || '';
+      const expUsd = card.getAttribute('data-exp-usd') || '';
+
+      const stdTime = card.getAttribute('data-std-time') || '';
+      const expTime = card.getAttribute('data-exp-time') || '';
+
+      const extraBdt = card.getAttribute('data-extra-bdt') || '+Tk 10,000 Express';
+      const extraUsd = card.getAttribute('data-extra-usd') || '+$100 USD Express';
+
+      let targetPrice = '';
+      if (currentCurrency === 'usd') {
+        targetPrice = isExpress ? (expUsd || stdUsd) : stdUsd;
+      } else {
+        targetPrice = isExpress ? (expBdt || stdBdt) : stdBdt;
+      }
+
+      if (priceEl) {
+        if (animate) {
+          priceEl.classList.add('price-animating');
+          setTimeout(() => priceEl.classList.remove('price-animating'), 350);
+        }
+        priceEl.textContent = targetPrice;
+      }
+
+      if (expressPill) {
+        expressPill.textContent = currentCurrency === 'usd' ? extraUsd : extraBdt;
+        expressPill.classList.toggle('visible', isExpress);
+      }
+
+      if (timelinePill) {
+        timelinePill.classList.toggle('is-express', isExpress);
+      }
+      if (timelineText) {
+        timelineText.textContent = isExpress ? expTime : stdTime;
+      }
+
+      // Update WhatsApp action link
+      if (actionBtn) {
+        const baseMsg = card.getAttribute('data-wa-base') || '';
+        if (baseMsg) {
+          const planTimelineTag = isExpress ? ' (Express Priority - ' + (currentCurrency === 'usd' ? expUsd : expBdt) + ')' : ' (Standard Timeline - ' + (currentCurrency === 'usd' ? stdUsd : stdBdt) + ')';
+          const fullMsg = encodeURIComponent(baseMsg + planTimelineTag);
+          actionBtn.href = `https://wa.me/8801700620388?text=${fullMsg}`;
+        }
+      }
+    });
+  }
+
+  // Currency Switcher
+  currBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      currBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCurrency = btn.getAttribute('data-curr') || 'bdt';
+      renderPlanTiers(false);
+    });
+  });
+
+  // Timeline Switcher
+  if (deliveryToggle) {
+    deliveryToggle.addEventListener('change', () => {
+      isExpress = deliveryToggle.checked;
+      renderPlanTiers(true);
+    });
+  }
+
+  if (labelStandard) {
+    labelStandard.addEventListener('click', () => {
+      if (deliveryToggle && deliveryToggle.checked) {
+        deliveryToggle.checked = false;
+        isExpress = false;
+        renderPlanTiers(true);
+      }
+    });
+  }
+
+  if (labelExpress) {
+    labelExpress.addEventListener('click', () => {
+      if (deliveryToggle && !deliveryToggle.checked) {
+        deliveryToggle.checked = true;
+        isExpress = true;
+        renderPlanTiers(true);
+      }
+    });
+  }
+
+  // Initial render
+  renderPlanTiers(false);
+}
+
 // Initialize sequence
 function init() {
   initCustomCursor();
   initMobileNav();
   initPricingTimelineToggle();
+  initPlanTierToggle();
 
   if (canvas && ctx) {
     updateTarget();

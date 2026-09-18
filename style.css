@@ -2069,6 +2069,87 @@ input:checked + .slider:before {
   box-shadow: 0 2px 8px rgba(255, 122, 0, 0.4);
 }
 
+/* Controls group in Plan detail pages (Timeline toggle + Currency switcher) */
+.plan-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.plan-timeline-toggle {
+  margin-bottom: 0 !important;
+}
+
+/* Plan page Priority Banner spacing */
+.plan-header-block .express-priority-banner {
+  margin-top: 24px;
+}
+
+/* Tier price row and extra charge badges */
+.tier-price-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.tier-price-row .tier-price {
+  margin-bottom: 0;
+  transition: color 0.25s ease, transform 0.2s ease;
+}
+
+.tier-express-pill {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #ff9d3b;
+  background: rgba(255, 122, 0, 0.15);
+  border: 1px solid rgba(255, 122, 0, 0.4);
+  padding: 3px 9px;
+  border-radius: 999px;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.tier-express-pill.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.tier-timeline-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #a1a1aa;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 4px 11px;
+  margin-bottom: 18px;
+  align-self: flex-start;
+  transition: all 0.25s ease;
+}
+
+.tier-timeline-pill.is-express {
+  color: #ff9d3b;
+  background: rgba(255, 122, 0, 0.14);
+  border-color: rgba(255, 122, 0, 0.42);
+  box-shadow: 0 0 14px rgba(255, 122, 0, 0.2);
+}
+
+.tier-timeline-pill svg {
+  flex-shrink: 0;
+}
+
 /* 3 Tier Cards Grid */
 .tier-cards-grid {
   display: grid;

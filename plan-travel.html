@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260918b">
+  <link rel="stylesheet" href="style.css?v=20260918c">
 </head>
 <body class="plan-detail-page">
   <div id="loader" class="loader"><div id="loader-bar" class="loader-bar"></div></div>
@@ -121,14 +121,39 @@
 
     <!-- Header Block -->
     <div class="plan-header-block">
-      <span class="section-tag-sm">PRICING</span>
+      <span class="section-tag-sm">PRICING &amp; DELIVERY</span>
       <h1 class="plan-main-title">Pick the plan that fits</h1>
       <div class="plan-header-sub-row">
-        <p class="plan-sub-text">You can move up later. Every price switches with your currency.</p>
-        <div class="currency-switcher">
-          <button class="curr-btn active" data-curr="bdt">BDT</button>
-          <button class="curr-btn" data-curr="usd">USD</button>
+        <p class="plan-sub-text">Choose your delivery timeline and currency. Extra charges for priority queue are calculated live.</p>
+        <div class="plan-controls-group">
+          <!-- Timeline Toggle -->
+          <div class="pricing-toggle-container plan-timeline-toggle">
+            <span class="toggle-text active" id="toggle-label-standard">Standard Timeline</span>
+            <label class="switch" for="plan-delivery-toggle" aria-label="Toggle Express Priority Launch">
+              <input type="checkbox" id="plan-delivery-toggle">
+              <span class="slider round"></span>
+            </label>
+            <span class="toggle-text highlight" id="toggle-label-express">
+              Express Priority <span class="badge-discount">+Tk 10,000 (+100 USD)</span>
+            </span>
+          </div>
+
+          <!-- Currency Switcher -->
+          <div class="currency-switcher">
+            <button class="curr-btn active" data-curr="bdt">BDT</button>
+            <button class="curr-btn" data-curr="usd">USD</button>
+          </div>
         </div>
+      </div>
+
+      <!-- Priority Queue Guarantee Banner -->
+      <div class="express-priority-banner" id="express-priority-banner">
+        <span class="priority-banner-icon">⚡</span>
+        <span class="priority-banner-text" id="priority-banner-text"
+              data-express-msg="<strong>⚡ Top Priority Production:</strong> Turnaround reduces from 15-20 days to <strong>7-10 days</strong>. Developer prioritizes your order at the very top of the production queue ahead of other existing orders (+Tk 10,000 / +$100 USD extra)."
+              data-standard-msg="<strong>Standard Timeline:</strong> 15-20 days delivery with comprehensive itinerary booking reviews.">
+          <strong>Standard Timeline:</strong> 15-20 days delivery with comprehensive itinerary booking reviews.
+        </span>
       </div>
     </div>
 
@@ -136,11 +161,31 @@
     <div class="tier-cards-grid">
 
       <!-- TIER 1: LAUNCH -->
-      <div class="tier-card glass-panel">
+      <div class="tier-card glass-panel"
+           data-tier="launch"
+           data-std-bdt="Tk 15,000 - 25,000"
+           data-exp-bdt="Tk 25,000 - 35,000"
+           data-std-usd="$125 - $299 USD"
+           data-exp-usd="$225 - $399 USD"
+           data-std-time="15-20 days delivery"
+           data-exp-time="7-10 days (⚡ Top Priority)"
+           data-extra-bdt="+Tk 10,000 Express"
+           data-extra-usd="+$100 USD Express"
+           data-wa-base="Hello MonoSpec Studio, I want to start with the LAUNCH plan for Travel sites">
         <div class="tier-top">
           <h2 class="tier-name">LAUNCH</h2>
           <p class="tier-tagline">Get to market fast. Built right.</p>
-          <div class="tier-price" data-bdt="Tk 15,000 - 25,000" data-usd="$125 - $299 USD">Tk 15,000 - 25,000</div>
+          <div class="tier-price-row">
+            <div class="tier-price" data-tier-price>Tk 15,000 - 25,000</div>
+            <span class="tier-express-pill" data-express-pill>+Tk 10,000 Express</span>
+          </div>
+          <div class="tier-timeline-pill" data-tier-timeline>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 16 14"></polyline>
+            </svg>
+            <span data-timeline-text>15-20 days delivery</span>
+          </div>
         </div>
         <div class="tier-features">
           <ul>
@@ -152,19 +197,39 @@
           </ul>
         </div>
         <div class="tier-action">
-          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20want%20to%20start%20with%20the%20LAUNCH%20plan%20for%20Travel%20sites%20(Tk%2015%2C000%20-%2025%2C000%20%2F%20%24125%20-%20%24299%20USD)" target="_blank" rel="noreferrer" class="btn-tier white">Start with LAUNCH</a>
+          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20want%20to%20start%20with%20the%20LAUNCH%20plan%20for%20Travel%20sites%20(Standard%20Timeline%20-%20Tk%2015%2C000%20-%2025%2C000)" target="_blank" rel="noreferrer" class="btn-tier white">Start with LAUNCH</a>
         </div>
       </div>
 
       <!-- TIER 2: SCALE (Most Picked) -->
-      <div class="tier-card glass-panel featured-tier">
+      <div class="tier-card glass-panel featured-tier"
+           data-tier="scale"
+           data-std-bdt="Tk 30,000 - 80,000"
+           data-exp-bdt="Tk 40,000 - 90,000"
+           data-std-usd="$250 - $699 USD"
+           data-exp-usd="$350 - $799 USD"
+           data-std-time="15-20 days delivery"
+           data-exp-time="7-10 days (⚡ Top Priority)"
+           data-extra-bdt="+Tk 10,000 Express"
+           data-extra-usd="+$100 USD Express"
+           data-wa-base="Hello MonoSpec Studio, I want to start with the SCALE plan for Travel sites">
         <div class="tier-top">
           <div class="tier-name-badge-row">
             <h2 class="tier-name">SCALE</h2>
             <span class="most-picked-pill">Most picked</span>
           </div>
           <p class="tier-tagline">Built to grow. Built to convert.</p>
-          <div class="tier-price" data-bdt="Tk 30,000 - 80,000" data-usd="$250 - $699 USD">Tk 30,000 - 80,000</div>
+          <div class="tier-price-row">
+            <div class="tier-price" data-tier-price>Tk 30,000 - 80,000</div>
+            <span class="tier-express-pill" data-express-pill>+Tk 10,000 Express</span>
+          </div>
+          <div class="tier-timeline-pill" data-tier-timeline>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 16 14"></polyline>
+            </svg>
+            <span data-timeline-text>15-20 days delivery</span>
+          </div>
         </div>
         <div class="tier-features">
           <ul>
@@ -177,16 +242,36 @@
           </ul>
         </div>
         <div class="tier-action">
-          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20want%20to%20start%20with%20the%20SCALE%20plan%20for%20Travel%20sites%20(Tk%2030%2C000%20-%2080%2C000%20%2F%20%24250%20-%20%24699%20USD)" target="_blank" rel="noreferrer" class="btn-tier orange">Start with SCALE</a>
+          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20want%20to%20start%20with%20the%20SCALE%20plan%20for%20Travel%20sites%20(Standard%20Timeline%20-%20Tk%2030%2C000%20-%2080%2C000)" target="_blank" rel="noreferrer" class="btn-tier orange">Start with SCALE</a>
         </div>
       </div>
 
       <!-- TIER 3: DOMINATE -->
-      <div class="tier-card glass-panel">
+      <div class="tier-card glass-panel"
+           data-tier="dominate"
+           data-std-bdt="Custom Quote"
+           data-exp-bdt="Custom Quote"
+           data-std-usd="Custom Quote"
+           data-exp-usd="Custom Quote"
+           data-std-time="Custom timeline"
+           data-exp-time="Priority Queue Expedited"
+           data-extra-bdt="Priority Queue"
+           data-extra-usd="Priority Queue"
+           data-wa-base="Hello MonoSpec Studio, I want to get a custom quote for the DOMINATE plan for Travel sites">
         <div class="tier-top">
           <h2 class="tier-name">DOMINATE</h2>
           <p class="tier-tagline">Built to dominate the category.</p>
-          <div class="tier-price">Custom Quote</div>
+          <div class="tier-price-row">
+            <div class="tier-price" data-tier-price>Custom Quote</div>
+            <span class="tier-express-pill" data-express-pill>Priority Queue</span>
+          </div>
+          <div class="tier-timeline-pill" data-tier-timeline>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 16 14"></polyline>
+            </svg>
+            <span data-timeline-text>Custom timeline</span>
+          </div>
         </div>
         <div class="tier-features">
           <ul>
@@ -207,7 +292,7 @@
 
     <!-- Footnotes matching image -->
     <div class="tier-footnotes">
-      <p><strong>Delivery Timelines:</strong> Standard delivery time is 15-20 days. With <strong>Express Launch (Priority Queue)</strong> (+Tk 10,000 / +$100 USD), turnaround reduces to 7-10 days and your project is prioritized at the top of the developer's queue ahead of other orders.</p>
+      <p><strong>Delivery Timelines:</strong> Standard delivery time is 15-20 days. With <strong>Express Priority (Priority Queue)</strong> (+Tk 10,000 / +$100 USD), turnaround reduces to 7-10 days and developer prioritizes your project at the very top of the production queue ahead of other orders.</p>
       <p>The Dominate tier is custom-quoted to match your brand's scale.</p>
       <p>Payment terms: 30 percent advance, 70 percent on delivery.</p>
       <div class="back-link-wrap">
@@ -216,20 +301,6 @@
     </div>
   </main>
 
-  <script src="app.js?v=20260918b"></script>
-  <script>
-    const currBtns = document.querySelectorAll('.curr-btn');
-    const priceEls = document.querySelectorAll('.tier-price[data-bdt]');
-    currBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        currBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const curr = btn.getAttribute('data-curr');
-        priceEls.forEach(el => {
-          el.textContent = curr === 'usd' ? el.getAttribute('data-usd') : el.getAttribute('data-bdt');
-        });
-      });
-    });
-  </script>
+  <script src="app.js?v=20260918c"></script>
 </body>
 </html>
