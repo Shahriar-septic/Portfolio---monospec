@@ -758,6 +758,7 @@ body.nav-open {
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 12px 36px rgba(0, 0, 0, 0.6));
   word-break: keep-all;
+  word-spacing: 0.35em;
   transform: translateZ(0);
   animation: sleek-glitch-base 4.8s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -772,6 +773,7 @@ body.nav-open {
   height: 100%;
   pointer-events: none;
   word-break: keep-all;
+  word-spacing: inherit;
   white-space: inherit;
   transform: translateZ(0);
 }
