@@ -3,13 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>MonoSpec Studio — Digital Architecture & Engineering</title>
+  <title>Shahriar Rafi — Creative Web Developer & UI/UX Designer</title>
+  <meta name="description" content="Bridging aesthetic design and precision engineering to build immersive, high-conversion web experiences that make brands unforgettable.">
+  
+  <!-- Preconnect & Typography: Clash Display + Bricolage Grotesque + Inter + Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260918e">
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800;12..96,900&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260918g">
 </head>
 <body>
+  <!-- Custom Sleek Cursor Elements -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
   <!-- Top Progress Indicator for Video Frames Buffer -->
   <div id="loader" class="loader">
     <div id="loader-bar" class="loader-bar"></div>
@@ -28,14 +36,14 @@
 
       <nav class="nav-pill">
         <a href="#overview" class="nav-link active">Overview</a>
-        <a href="#process" class="nav-link">Process</a>
+        <a href="#process" class="nav-link">Philosophy</a>
         <a href="services.html" class="nav-link">Services</a>
         <a href="contact.html" class="nav-link">Contact Me</a>
       </nav>
 
       <div class="nav-actions">
-        <a href="contact.html" class="btn-contact">
-          <span>Contact Me</span>
+        <a href="#contact" class="btn-contact open-inquiry-trigger">
+          <span>Start a Project</span>
           <span class="btn-circle-arrow">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M7 17L17 7M17 7H7M17 7V17"/>
@@ -74,7 +82,7 @@
           </a>
           <a href="#process" class="mobile-nav-link">
             <span class="m-link-num">02</span>
-            <span class="m-link-text">Process</span>
+            <span class="m-link-text">Work Philosophy</span>
             <span class="m-link-arrow">→</span>
           </a>
           <a href="services.html" class="mobile-nav-link">
@@ -92,7 +100,7 @@
         <div class="mobile-drawer-divider"></div>
 
         <div class="mobile-drawer-actions">
-          <a href="contact.html" class="mobile-btn-contact">
+          <a href="#contact" class="mobile-btn-contact open-inquiry-trigger">
             <span>Start a Project</span>
             <span class="btn-circle-arrow">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -101,7 +109,7 @@
             </span>
           </a>
 
-          <a href="https://wa.me/8801700620388?text=Hello%20MonoSpec%20Studio%2C%20I%20would%20like%20to%20inquire%20about%20your%20services" target="_blank" rel="noreferrer" class="mobile-btn-whatsapp">
+          <a href="https://wa.me/8801700620388?text=Hello%20Shahriar%2C%20I%20would%20like%20to%20inquire%20about%20your%20services" target="_blank" rel="noreferrer" class="mobile-btn-whatsapp">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.311.045-.698.073-2.027-.478-1.696-.704-2.775-2.435-2.859-2.548-.083-.113-.679-.904-.679-1.724 0-.82.43-1.224.582-1.391.153-.167.334-.209.446-.209.112 0 .224.001.321.006.104.005.244-.04.381.291.144.348.491 1.199.534 1.286.043.087.072.189.014.305-.058.116-.087.189-.174.29-.087.102-.183.228-.261.306-.087.087-.178.182-.077.355.101.173.45 1.002.965 1.462.664.592 1.224.776 1.397.863.173.087.275.073.376-.044.101-.116.433-.506.549-.68.116-.174.232-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.044.073.044.423-.1.828z"/>
             </svg>
@@ -111,7 +119,7 @@
 
         <div class="mobile-drawer-footer">
           <span class="m-status-indicator"></span>
-          <span class="m-status-text">Available for new projects</span>
+          <span class="m-status-text">Available for select projects</span>
         </div>
       </div>
     </div>
@@ -125,73 +133,95 @@
     <section class="hero-section" id="overview">
       <div class="hero-content-grid">
 
-        <!-- Left Main Headline -->
+        <!-- Left Hero Branding, Headline, Tagline, Badges & CTAs (Shifted Up & Left) -->
         <div class="hero-headline-wrap">
+          <div class="hero-eyebrow">
+            <span class="eyebrow-beacon"></span>
+            <span class="hero-role-text">Creative Web Developer &amp; UI/UX Designer</span>
+          </div>
+
           <h1 class="hero-title">
-            Design That<br>
-            Reveals The True<br>
-            Essence Of Your<br>
-            Brand
+            <span class="hero-intro-prefix">Hi, Myself</span>
+            <span class="hero-name-primary" data-text="Shahriar Rafi">Shahriar Rafi</span><span class="hero-title-dot">.</span>
           </h1>
+
+          <p class="hero-tagline">
+            Bridging aesthetic design and precision engineering to build immersive, high-conversion web experiences that make brands unforgettable.
+          </p>
+
+          <!-- 3 Client Attraction Badges -->
+          <div class="hero-badges-strip">
+            <div class="hero-badge badge-available">
+              <span class="badge-pulse-emerald"></span>
+              <span class="badge-label">Available for Select Projects</span>
+            </div>
+            <div class="hero-badge badge-bespoke">
+              <span class="badge-symbol">⚡</span>
+              <span class="badge-label">High-Performance &amp; Bespoke UI</span>
+            </div>
+            <div class="hero-badge badge-conversion">
+              <span class="badge-symbol">🎯</span>
+              <span class="badge-label">Conversion &amp; Interaction Focused</span>
+            </div>
+          </div>
+
+          <!-- Dual Call to Actions -->
+          <div class="hero-cta-group">
+            <a href="#contact" class="btn-primary-cta open-inquiry-trigger" id="hero-primary-cta">
+              <span>Start a Project</span>
+              <span class="cta-arrow-circle">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                </svg>
+              </span>
+            </a>
+
+            <a href="#work" class="btn-secondary-cta" id="hero-secondary-cta">
+              <span>Explore Selected Works</span>
+              <span class="cta-arrow-down">↓</span>
+            </a>
+          </div>
         </div>
 
-        <!-- Top Right Card: FUTURE-READY -->
+        <!-- Top Right Glass Card: Visual Showcase & Craft Credentials -->
         <div class="card-future-ready glass-card">
           <div class="card-future-info">
-            <span class="badge-tag">FUTURE-READY</span>
+            <div class="card-tag-row">
+              <span class="badge-tag">CREATIVE ARCHITECTURE</span>
+              <span class="craft-year">2026</span>
+            </div>
             <p class="card-desc">
-              Integrating advanced AI solutions and high-end design to keep your brand ahead of the digital wave.
+              Bespoke digital architecture where editorial typography, silky 60fps micro-motion, and ultra-fast loading speeds unite.
             </p>
+            <div class="card-metrics-grid">
+              <div class="metric-cell">
+                <span class="metric-val">60<small>FPS</small></span>
+                <span class="metric-lbl">Fluid Motion</span>
+              </div>
+              <div class="metric-cell">
+                <span class="metric-val">100<small>%</small></span>
+                <span class="metric-lbl">Custom Code</span>
+              </div>
+              <div class="metric-cell">
+                <span class="metric-val">&lt;1.0<small>s</small></span>
+                <span class="metric-lbl">Load Target</span>
+              </div>
+            </div>
           </div>
           <div class="card-future-visual">
-            <img src="./assets/card_ai_avatar.jpg" alt="AI Silhouette" class="ai-avatar-img">
-          </div>
-        </div>
-
-        <!-- Bottom Left Floating Group -->
-        <div class="hero-bottom-left">
-          <!-- Orange Strategy Badge -->
-          <div class="badge-strategy">
-            <div class="micro-dots">
-              <span></span><span></span><span></span>
-            </div>
-            <span class="strategy-label">DIGITAL<br>STRATEGY &<br>RESEARCH</span>
-          </div>
-
-          <!-- White Full-Cycle Card -->
-          <div class="card-full-cycle">
-            <div class="full-cycle-content">
-              <span class="full-cycle-tag">FULL-CYCLE</span>
-              <p class="full-cycle-desc">
-                From deep market strategy to flawless UX/UI. We build the core of your digital success.
-              </p>
-              <a href="pricing.html" class="full-cycle-link">
-                <span>View services</span>
-                <span class="circle-icon">↘</span>
-              </a>
-            </div>
-            <div class="full-cycle-visual">
-              <img src="./assets/card_fluid_swirl.jpg" alt="Abstract 3D fluid swirl" class="swirl-img">
-            </div>
-          </div>
-        </div>
-
-        <!-- Bottom Right Agency Title & CTA -->
-        <div class="hero-bottom-right">
-          <div class="agency-badge">
-            <h2 class="agency-title">digital<br>agency</h2>
-            <a href="contact.html" class="btn-start-project">Start a Project</a>
+            <img src="./assets/shahriar-avatar.jpg?v=20260918_v3" alt="Shahriar Rafi portrait" class="ai-avatar-img">
+            <div class="avatar-verified-badge" title="Verified Creator">✓</div>
           </div>
         </div>
 
       </div>
     </section>
 
-    <!-- SECTION 01: PHILOSOPHY -->
+    <!-- SECTION 01: WORK PRINCIPLES & PHILOSOPHY (3-COLUMN MINIMALIST GRID) -->
     <section class="philosophy-section" id="process">
       <div class="section-header">
         <div class="section-eyebrow">
-          <span class="eyebrow-num">01/</span> philosophy
+          <span class="eyebrow-num">01/</span> WORK PRINCIPLES &amp; PHILOSOPHY
         </div>
         <h2 class="philosophy-statement">
           We don't just draw interfaces. <span class="highlight-orange">We build the invisible architecture</span> that supports your brand's growth. Engineering aesthetics for visionaries.
@@ -200,94 +230,304 @@
 
       <!-- 3-Column Philosophy Cards Grid -->
       <div class="philosophy-grid">
-        <!-- Col 1: Text Block -->
-        <div class="philo-text-card glass-panel">
-          <h3 class="philo-heading">DECONSTRUCT.<br>STRUCTURE. ELEVATE.</h3>
-          <p class="philo-para">
-            We strip away the digital noise to find the core of your business. By structuring meanings, logic and UX/UI, we create digital ecosystems that command authority and drive growth.
-          </p>
-        </div>
-
-        <!-- Col 2: Architectural Perspective Image Card -->
-        <div class="philo-image-card">
-          <img src="./assets/card_tunnel.jpg" alt="Architectural perspective corridor" class="tunnel-img">
-        </div>
-
-        <!-- Col 3: Creative Bespoke Zero Templates Card -->
-        <div class="philo-zero-card">
-          <div class="zero-card-header">
-            <div class="card-header-dots">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <!-- Principle 01 -->
+        <div class="philo-card glass-panel" data-principle="01">
+          <div class="philo-card-header">
+            <div class="philo-meta">
+              <span class="philo-num">01</span>
+              <span class="philo-divider">/</span>
+              <span class="philo-tag">INTENTIONAL AESTHETICS</span>
             </div>
-            <span class="zero-badge">100% BESPOKE ARCHITECTURE</span>
+            <div class="philo-corner-dot"></div>
           </div>
+          <h3 class="philo-heading">Intentional<br>Aesthetics</h3>
+          <p class="philo-para">
+            Form never merely follows function—it elevates it. Every pixel, whitespace, and typographic choice serves a deliberate business objective and creates instant emotional resonance.
+          </p>
+          <div class="philo-card-accent-line"></div>
+        </div>
 
-          <div class="zero-artwork-wrap">
-            <img src="./assets/card_zero_templates.jpg" alt="Zero Templates Bespoke 3D Architecture" class="zero-artwork-img">
+        <!-- Principle 02 (Featured) -->
+        <div class="philo-card glass-panel featured-philo-card" data-principle="02">
+          <div class="philo-card-header">
+            <div class="philo-meta">
+              <span class="philo-num">02</span>
+              <span class="philo-divider">/</span>
+              <span class="philo-tag">FRICTIONLESS MOTION</span>
+            </div>
+            <div class="philo-corner-dot active-dot"></div>
           </div>
+          <h3 class="philo-heading">Frictionless<br>Motion</h3>
+          <p class="philo-para">
+            Interactions should feel fluid and alive. I engineer silky 60fps micro-interactions and transitions that guide users effortlessly without degrading site speed.
+          </p>
+          <div class="philo-card-accent-line"></div>
+        </div>
 
-          <div class="zero-card-body">
-            <h3 class="zero-title">Zero <span class="highlight-orange">Templates</span></h3>
-            <p class="zero-desc">
-              We design from absolute scratch. Every digital solution by MonoSpec is tailored exclusively to your business objectives, creating a distinctive market presence that cannot be replicated.
-            </p>
+        <!-- Principle 03 -->
+        <div class="philo-card glass-panel" data-principle="03">
+          <div class="philo-card-header">
+            <div class="philo-meta">
+              <span class="philo-num">03</span>
+              <span class="philo-divider">/</span>
+              <span class="philo-tag">CRAFT BEHIND CANVAS</span>
+            </div>
+            <div class="philo-corner-dot"></div>
+          </div>
+          <h3 class="philo-heading">Craft Behind<br>the Canvas</h3>
+          <p class="philo-para">
+            A great design deserves bulletproof code. Clean architecture, accessible components, and responsive perfection from 4K down to mobile.
+          </p>
+          <div class="philo-card-accent-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 02: MOBILE INTERFACE ADAPTATION & INTERACTIVE PHONE VIEWPORT -->
+    <section class="mobile-section" id="work">
+      <div class="mobile-section-container">
+        <!-- Text Column -->
+        <div class="mobile-info">
+          <div class="section-eyebrow">
+            <span class="eyebrow-num">02/</span> INTERACTIVE DEVICE SIMULATOR
+          </div>
+          <h2 class="mobile-title">Mobile interface<br>adaptation</h2>
+          <p class="mobile-desc">
+            Translating desktop elegance into responsive smartphone viewports. Try scrolling inside the device, switching tabs, hovering or tapping the live avatar, and triggering a project inquiry.
+          </p>
+          <div class="mobile-features-pills">
+            <span class="m-feat-pill">✦ Isolated internal scroll</span>
+            <span class="m-feat-pill">✦ Dynamic Island notch</span>
+            <span class="m-feat-pill">✦ Interactive SR. Monogram &amp; tabs</span>
+            <span class="m-feat-pill">✦ Active collaborator avatar</span>
+          </div>
+        </div>
+
+        <!-- Standalone Interactive Smartphone Mockup -->
+        <div class="mobile-mockup-wrapper">
+          <div class="smartphone-frame" id="interactive-smartphone-frame">
+            <!-- Dynamic Island / Speaker Pill -->
+            <div class="phone-dynamic-island" aria-hidden="true">
+              <div class="dynamic-island-pill">
+                <span class="dynamic-camera-lens"></span>
+              </div>
+            </div>
+
+            <!-- Internal Interactive Scrollable Viewport -->
+            <div class="phone-scroll-viewport" id="phone-scroll-viewport">
+              
+              <!-- Sticky Interactive Phone Header -->
+              <header class="phone-mockup-header">
+                <span class="phone-mockup-monogram">SR.</span>
+                <nav class="phone-mockup-tabs" id="phone-mockup-tabs" aria-label="Phone navigation tabs">
+                  <button type="button" class="phone-tab-btn active" data-tab="home">Home</button>
+                  <button type="button" class="phone-tab-btn" data-tab="work">Work</button>
+                  <button type="button" class="phone-tab-btn" data-tab="about">About</button>
+                </nav>
+              </header>
+
+              <!-- Phone Tab Panes Container -->
+              <div class="phone-tabs-container">
+
+                <!-- TAB PANE: HOME -->
+                <div class="phone-tab-pane active" id="phone-pane-home">
+                  <!-- Interactive Profile Avatar Card -->
+                  <div class="phone-avatar-card">
+                    <div class="phone-avatar-wrap" id="phone-avatar-trigger" role="button" tabindex="0" title="Tap for collaborator status">
+                      <img src="./assets/shahriar-avatar.jpg?v=20260918_v3" alt="Shahriar Rafi" class="phone-avatar-img">
+                      <span class="phone-live-indicator" aria-label="Available now"></span>
+                    </div>
+
+                    <div class="phone-profile-meta">
+                      <h4 class="phone-profile-name">Shahriar Rafi</h4>
+                      <p class="phone-profile-role">UI/UX &amp; Creative Dev</p>
+                    </div>
+
+                    <!-- Micro Tooltip on Click/Tap -->
+                    <div class="phone-micro-tooltip" id="phone-micro-tooltip" aria-hidden="true">
+                      <span>Shahriar Rafi — Ready to build.</span>
+                    </div>
+                  </div>
+
+                  <!-- Mini Preview Content Body -->
+                  <div class="phone-cards-stack">
+                    <div class="phone-card phone-status-card">
+                      <span class="phone-status-badge">STATUS</span>
+                      <p class="phone-status-desc">Accepting new clients &amp; product collaborations.</p>
+                    </div>
+
+                    <div class="phone-card phone-philo-snapshot">
+                      <h5 class="phone-snapshot-title">Philosophy Snapshot</h5>
+                      <p class="phone-snapshot-text">
+                        Intentional aesthetics with zero performance compromise.
+                      </p>
+                    </div>
+
+                    <div class="phone-card phone-showcase-card">
+                      <div class="phone-showcase-badge">FEATURED BUILD</div>
+                      <h5 class="phone-showcase-title">MonoSpec Studio</h5>
+                      <p class="phone-showcase-sub">Silky cinematic canvas scroll engine</p>
+                    </div>
+
+                    <!-- Functional Start Project CTA Button -->
+                    <button type="button" class="phone-start-project-btn" id="phone-start-project-btn">
+                      <span>Start Project →</span>
+                    </button>
+                  </div>
+
+                  <div class="phone-scroll-indicator">
+                    <span>Scroll down inside frame for preview ↓</span>
+                  </div>
+
+                  <!-- Internal Scroll Test Buffer Content -->
+                  <div class="phone-inner-scroll-buffer">
+                    <div class="phone-spec-card">
+                      <span class="p-spec-tag">CORE STACK</span>
+                      <p>Vanilla JS, Modern CSS, WebGL Canvas, Next.js, 60fps Micro-interactions</p>
+                    </div>
+                    <div class="phone-footer-signature">
+                      <span>SR. BESPOKE &copy; 2026</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TAB PANE: WORK -->
+                <div class="phone-tab-pane" id="phone-pane-work">
+                  <div class="phone-work-feed">
+                    <div class="phone-work-item">
+                      <span class="p-work-cat">LUXURY COMMERCE</span>
+                      <h5>Aura Atelier</h5>
+                      <p>High-conversion bespoke fragrance experience with 3D fluid motion.</p>
+                    </div>
+                    <div class="phone-work-item">
+                      <span class="p-work-cat">FINTECH DASHBOARD</span>
+                      <h5>Vortex Engine</h5>
+                      <p>Sub-second market analytics UI engineered with zero layout shifts.</p>
+                    </div>
+                    <div class="phone-work-item">
+                      <span class="p-work-cat">CREATIVE PORTFOLIO</span>
+                      <h5>MonoSpec 3.0</h5>
+                      <p>Frame-scrubbing cinema canvas with interactive viewport mirroring.</p>
+                    </div>
+                    <button type="button" class="phone-start-project-btn phone-work-cta">
+                      <span>Discuss a Custom Build →</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- TAB PANE: ABOUT -->
+                <div class="phone-tab-pane" id="phone-pane-about">
+                  <div class="phone-about-feed">
+                    <div class="phone-about-tag">DESIGNER &bull; ENGINEER</div>
+                    <h5>Bridging Art &amp; Logic</h5>
+                    <p>
+                      Specializing in bespoke digital architecture, high-conversion interfaces, and ultra-smooth web motion. Every project is crafted from absolute scratch without generic templates.
+                    </p>
+                    <div class="phone-skills-grid">
+                      <span>UI/UX</span>
+                      <span>CSS Architecture</span>
+                      <span>Interaction</span>
+                      <span>Canvas &amp; 3D</span>
+                    </div>
+                    <button type="button" class="phone-start-project-btn phone-about-cta">
+                      <span>Start Project →</span>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 02: MOBILE INTERFACE ADAPTATION -->
-    <section class="mobile-section" id="projects">
-      <div class="mobile-section-container">
-        <!-- Text Column -->
-        <div class="mobile-info">
-          <h2 class="mobile-title">Mobile interface<br>adaptation</h2>
-          <p class="mobile-desc">
-            Translating the desktop structure to smartphone screens. All navigation elements, text blocks, and photography are rearranged for comfortable scrolling on mobile devices.
+    <!-- SECTION 03: QUICK CONTACT & INQUIRY BRIDGE (Ensures #contact anchor always scrolls smoothly) -->
+    <section class="quick-contact-section" id="contact">
+      <div class="quick-contact-container glass-card">
+        <div class="quick-contact-header">
+          <div class="section-eyebrow">
+            <span class="eyebrow-num">03/</span> LET'S COLLABORATE
+          </div>
+          <h2 class="quick-contact-title">
+            Have a project in mind?<br>
+            <span class="highlight-orange">Let's build something unforgettable.</span>
+          </h2>
+          <p class="quick-contact-sub">
+            Available for select bespoke websites, creative frontend engineering, and conversion redesigns.
           </p>
         </div>
 
-        <!-- Smartphone Device Mockup floating over canvas -->
-        <div class="mobile-mockup-wrapper">
-          <div class="smartphone-frame">
-            <div class="phone-notch"></div>
-            <div class="phone-screen">
-              <!-- Mini Mobile UI mirroring the experience -->
-              <div class="phone-navbar">
-                <div class="phone-menu-icon">
-                  <span></span><span></span><span></span>
-                </div>
-                <div class="phone-logo">MonoSpec</div>
-                <div class="phone-circle-btn"></div>
-              </div>
+        <div class="quick-contact-actions">
+          <a href="contact.html" class="btn-primary-cta">
+            <span>Send Project Inquiry</span>
+            <span class="btn-circle-arrow">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+              </svg>
+            </span>
+          </a>
 
-              <div class="phone-body">
-                <div class="phone-card-fullcycle">
-                  <div class="p-fc-text">
-                    <span class="p-tag">FULL-CYCLE</span>
-                    <p>From deep-rooted strategy to flawless UX/UI. We build the core of your digital success.</p>
-                    <a href="pricing.html" class="p-link" style="text-decoration:none; color:inherit;">View services ↘</a>
-                  </div>
-                  <img src="./assets/card_fluid_swirl.jpg" alt="Swirl" class="p-img">
-                </div>
-
-                <div class="phone-hero-text">
-                  <h3>Design That<br>Reveals The True<br>Essence Of Your<br>Brand</h3>
-                </div>
-
-                <div class="phone-bottom">
-                  <div class="p-agency-tag">digital<br>agency</div>
-                  <button class="p-btn-orange">Start a Project</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <a href="https://wa.me/8801700620388?text=Hello%20Shahriar%2C%20I%20would%20like%20to%20collaborate%20on%20a%20new%20project" target="_blank" rel="noreferrer" class="btn-whatsapp-direct">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.311.045-.698.073-2.027-.478-1.696-.704-2.775-2.435-2.859-2.548-.083-.113-.679-.904-.679-1.724 0-.82.43-1.224.582-1.391.153-.167.334-.209.446-.209.112 0 .224.001.321.006.104.005.244-.04.381.291.144.348.491 1.199.534 1.286.043.087.072.189.014.305-.058.116-.087.189-.174.29-.087.102-.183.228-.261.306-.087.087-.178.182-.077.355.101.173.45 1.002.965 1.462.664.592 1.224.776 1.397.863.173.087.275.073.376-.044.101-.116.433-.506.549-.68.116-.174.232-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.044.073.044.423-.1.828z"/>
+            </svg>
+            <span>Direct WhatsApp</span>
+          </a>
         </div>
       </div>
     </section>
 
   </main>
 
-  <script src="app.js?v=20260918e"></script>
+  <!-- Interactive Project Inquiry Modal -->
+  <div id="project-inquiry-modal" class="project-modal" aria-hidden="true">
+    <div class="modal-backdrop" id="modal-backdrop"></div>
+    <div class="modal-card glass-card">
+      <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-header">
+        <div class="modal-status-badge">
+          <span class="badge-pulse-emerald"></span>
+          <span>AVAILABLE FOR SELECT PROJECTS</span>
+        </div>
+        <h3 class="modal-title">Start a Project with <span class="highlight-orange">Shahriar Rafi</span></h3>
+        <p class="modal-desc">
+          Ready to build an immersive, bespoke web experience? Choose your preferred way to connect below:
+        </p>
+      </div>
+
+      <div class="modal-body-actions">
+        <a href="contact.html" class="modal-action-btn primary-action">
+          <div class="action-icon">📝</div>
+          <div class="action-text">
+            <strong>Complete Project Brief Form</strong>
+            <span>Detail your timeline, budget, and project goals</span>
+          </div>
+          <span class="action-arrow">→</span>
+        </a>
+
+        <a href="https://wa.me/8801700620388?text=Hello%20Shahriar%2C%20I%20would%20like%20to%20discuss%20a%20project" target="_blank" rel="noreferrer" class="modal-action-btn whatsapp-action">
+          <div class="action-icon">💬</div>
+          <div class="action-text">
+            <strong>Fast Chat on WhatsApp</strong>
+            <span>Instant discussion and technical consultation</span>
+          </div>
+          <span class="action-arrow">→</span>
+        </a>
+
+        <div class="modal-direct-note">
+          <span>Direct Email: <strong>shahr1ar.rafi.business@gmail.com</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=20260918g"></script>
 </body>
 </html>

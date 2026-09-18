@@ -92,7 +92,7 @@ const server = http.createServer((req, res) => {
     };
 
     if (isImage) {
-      headers['Cache-Control'] = 'public, max-age=31536000, immutable';
+      headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
     } else {
       headers['Cache-Control'] = 'no-cache';
     }

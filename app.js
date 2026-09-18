@@ -327,7 +327,7 @@ function initCustomCursor() {
   requestAnimationFrame(renderCursor);
 
   // Hover detection for all interactive elements
-  const interactiveSelector = 'a, button, input, select, textarea, .contact-info-card, .pricing-card, .tier-card, .btn-choose-plan, .btn-contact, .ask-whatsapp-btn, .curr-btn, .social-icon, .btn-start-project, .btn-send-message, .hamburger-btn, .mobile-nav-link, .mobile-drawer-close, .mobile-btn-contact, .mobile-btn-whatsapp';
+  const interactiveSelector = 'a, button, input, select, textarea, .contact-info-card, .pricing-card, .tier-card, .btn-choose-plan, .btn-contact, .ask-whatsapp-btn, .curr-btn, .social-icon, .btn-start-project, .btn-send-message, .hamburger-btn, .mobile-nav-link, .mobile-drawer-close, .mobile-btn-contact, .mobile-btn-whatsapp, .btn-primary-cta, .btn-secondary-cta, .hero-badge, .philo-card, .phone-tab-btn, .phone-avatar-wrap, .phone-start-project-btn, .modal-action-btn, .modal-close-btn, .btn-whatsapp-direct';
 
   document.addEventListener('mouseover', (e) => {
     const target = e.target.closest(interactiveSelector);
@@ -876,12 +876,14 @@ function initSlidingNav() {
     moveToLink(currentActiveLink, false);
   });
 
-  // Scroll spy for index.html (Overview vs Process)
+  // Scroll spy for index.html (Overview vs Philosophy vs Work)
   const overviewSec = document.getElementById('overview');
   const processSec = document.getElementById('process');
+  const workSec = document.getElementById('work');
   if (overviewSec && processSec) {
     const overviewLink = links.find(l => l.textContent.trim().toLowerCase().includes('overview'));
-    const processLink = links.find(l => l.textContent.trim().toLowerCase().includes('process'));
+    const processLink = links.find(l => l.textContent.trim().toLowerCase().includes('process') || l.textContent.trim().toLowerCase().includes('philosophy'));
+    const workLink = links.find(l => l.textContent.trim().toLowerCase().includes('work') || l.textContent.trim().toLowerCase().includes('selected'));
 
     let isTicking = false;
     window.addEventListener('scroll', () => {
@@ -889,7 +891,12 @@ function initSlidingNav() {
         requestAnimationFrame(() => {
           const scrollY = window.scrollY || window.pageYOffset;
           const processTop = processSec.offsetTop - 280;
-          if (scrollY >= processTop && processLink) {
+          const workTop = workSec ? workSec.offsetTop - 280 : Infinity;
+          if (scrollY >= workTop && workLink) {
+            if (currentActiveLink !== workLink) {
+              setActiveLink(workLink, true);
+            }
+          } else if (scrollY >= processTop && processLink) {
             if (currentActiveLink !== processLink) {
               setActiveLink(processLink, true);
             }
@@ -917,6 +924,154 @@ function initSlidingNav() {
   }, { passive: true });
 }
 
+// ===================================================
+// INTERACTIVE PHONE VIEWPORT SIMULATOR
+// ===================================================
+function initInteractivePhoneMockup() {
+  const phoneViewport = document.getElementById('phone-scroll-viewport');
+  const tabs = document.querySelectorAll('.phone-tab-btn');
+  const tabPanes = document.querySelectorAll('.phone-tab-pane');
+  const avatarBtn = document.getElementById('phone-avatar-trigger');
+  const tooltip = document.getElementById('phone-micro-tooltip');
+  const phoneStartBtns = document.querySelectorAll('.phone-start-project-btn');
+
+  if (!phoneViewport) return;
+
+  // 1. Interactive Tabs Switching
+  tabs.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const targetTab = btn.getAttribute('data-tab');
+      tabs.forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+
+      tabPanes.forEach(pane => {
+        if (pane.id === `phone-pane-${targetTab}`) {
+          pane.classList.add('active');
+        } else {
+          pane.classList.remove('active');
+        }
+      });
+    });
+  });
+
+  // 2. Profile Avatar Click/Tap Tooltip Toggle
+  let tooltipTimer = null;
+  if (avatarBtn && tooltip) {
+    avatarBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isVisible = tooltip.classList.contains('is-visible');
+      if (isVisible) {
+        tooltip.classList.remove('is-visible');
+        tooltip.setAttribute('aria-hidden', 'true');
+        if (tooltipTimer) clearTimeout(tooltipTimer);
+      } else {
+        tooltip.classList.add('is-visible');
+        tooltip.setAttribute('aria-hidden', 'false');
+        if (tooltipTimer) clearTimeout(tooltipTimer);
+        tooltipTimer = setTimeout(() => {
+          tooltip.classList.remove('is-visible');
+          tooltip.setAttribute('aria-hidden', 'true');
+        }, 3200);
+      }
+    });
+
+    // Close tooltip when clicking outside inside phone
+    phoneViewport.addEventListener('click', (e) => {
+      if (!avatarBtn.contains(e.target) && tooltip.classList.contains('is-visible')) {
+        tooltip.classList.remove('is-visible');
+        tooltip.setAttribute('aria-hidden', 'true');
+        if (tooltipTimer) clearTimeout(tooltipTimer);
+      }
+    });
+  }
+
+  // 3. Functional "Start Project" Button Inside Mobile UI
+  phoneStartBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Try opening inquiry modal first if available
+      const modal = document.getElementById('project-inquiry-modal');
+      if (modal && typeof window.openProjectInquiryModal === 'function') {
+        window.openProjectInquiryModal();
+      } else {
+        // Smooth scroll to contact section
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.location.href = 'contact.html';
+        }
+      }
+    });
+  });
+
+  // 4. Smooth Mousewheel Scroll Containment inside Phone Viewport
+  // Prevents scrolling the main outer page until reaching boundary
+  phoneViewport.addEventListener('wheel', (e) => {
+    const atTop = phoneViewport.scrollTop <= 0;
+    const atBottom = phoneViewport.scrollTop + phoneViewport.clientHeight >= phoneViewport.scrollHeight - 1;
+    if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) {
+      e.stopPropagation();
+    }
+  }, { passive: false });
+}
+
+// ===================================================
+// PROJECT INQUIRY MODAL CONTROLLER
+// ===================================================
+function initProjectInquiryModal() {
+  const modal = document.getElementById('project-inquiry-modal');
+  const backdrop = document.getElementById('modal-backdrop');
+  const closeBtn = document.getElementById('modal-close-btn');
+  const triggers = document.querySelectorAll('.open-inquiry-trigger');
+
+  if (!modal) return;
+
+  function openModal() {
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('nav-open');
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('nav-open');
+  }
+
+  window.openProjectInquiryModal = openModal;
+  window.closeProjectInquiryModal = closeModal;
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      // If href is #contact, open modal
+      const href = trigger.getAttribute('href');
+      if (href === '#contact') {
+        e.preventDefault();
+        openModal();
+      }
+    });
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeModal();
+    });
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', closeModal);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+}
+
 // Initialize sequence
 function init() {
   initCustomCursor();
@@ -924,6 +1079,8 @@ function init() {
   initSlidingNav();
   initPricingTimelineToggle();
   initPlanTierToggle();
+  initInteractivePhoneMockup();
+  initProjectInquiryModal();
 
   if (canvas && ctx) {
     updateTarget();
