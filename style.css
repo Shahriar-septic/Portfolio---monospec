@@ -2,15 +2,6 @@
    STRUCT — MODERN CINEMATIC DESIGN SYSTEM
    =================================================== */
 
-@media (prefers-reduced-motion: no-preference) {
-  @view-transition {
-    navigation: auto;
-  }
-}
-::view-transition-group(nav-indicator-pill) {
-  animation-duration: 0.38s;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-}
 
 :root {
   --font-hero-bold: 'Clash Display', 'Bricolage Grotesque', 'Outfit', sans-serif;

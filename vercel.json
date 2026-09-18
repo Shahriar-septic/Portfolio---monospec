@@ -3,7 +3,13 @@
   "rewrites": [
     { "source": "/services", "destination": "/services.html" },
     { "source": "/pricing", "destination": "/pricing.html" },
-    { "source": "/contact", "destination": "/contact.html" }
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/plan-agency", "destination": "/plan-agency.html" },
+    { "source": "/plan-landing-page", "destination": "/plan-landing-page.html" },
+    { "source": "/plan-portfolio", "destination": "/plan-portfolio.html" },
+    { "source": "/plan-shopify", "destination": "/plan-shopify.html" },
+    { "source": "/plan-travel", "destination": "/plan-travel.html" },
+    { "source": "/plan-woocommerce", "destination": "/plan-woocommerce.html" }
   ],
   "headers": [
     {

@@ -407,6 +407,7 @@ function initMobileNav() {
   if (!hamburgerBtn || !drawer) return;
 
   function openMenu() {
+    drawer.style.pointerEvents = 'auto';
     drawer.classList.add('is-open');
     hamburgerBtn.classList.add('is-open');
     hamburgerBtn.setAttribute('aria-expanded', 'true');
@@ -456,11 +457,52 @@ function initMobileNav() {
     }
   });
 
-  // Auto-close menu when clicking any link
-  mobileNavLinks.forEach(link => {
-    link.addEventListener('click', () => {
+  // Smart link click handling for all mobile drawer interactive links
+  const allDrawerLinks = drawer.querySelectorAll('a[href]');
+  allDrawerLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Don't intercept external links (e.g. WhatsApp, external URLs)
+      if (link.target === '_blank' || link.getAttribute('target') === '_blank' || link.href.startsWith('mailto:') || link.href.startsWith('tel:')) {
+        closeMenu();
+        return;
+      }
+
+      const targetUrl = new URL(link.href, window.location.origin);
+      const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+      const targetPath = targetUrl.pathname.replace(/\/$/, '') || '/';
+      const targetHash = targetUrl.hash;
+
+      // Case 1: Tapping link to the exact current page without hash - just close drawer smoothly
+      if (currentPath === targetPath && !targetHash) {
+        e.preventDefault();
+        closeMenu();
+        return;
+      }
+
+      // Case 2: Tapping hash link on current page - smooth scroll without reloading
+      if (currentPath === targetPath && targetHash) {
+        e.preventDefault();
+        closeMenu();
+        const targetEl = document.querySelector(targetHash);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+          if (history.pushState) {
+            history.pushState(null, '', targetHash);
+          }
+        }
+        return;
+      }
+
+      // Case 3: Navigating to another page - guard against duplicate concurrent clicks during page unload
+      drawer.style.pointerEvents = 'none';
       closeMenu();
     });
+  });
+
+  // Ensure drawer state and interactivity are restored on back/forward navigation (bfcache)
+  window.addEventListener('pageshow', () => {
+    drawer.style.pointerEvents = 'auto';
+    closeMenu();
   });
 
   // Close menu if viewport resized to desktop (> 900px)

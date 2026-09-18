@@ -27,12 +27,11 @@ const server = http.createServer((req, res) => {
   let reqPath = decodeURI(req.url.split('?')[0]);
   if (reqPath === '/' || reqPath === '') {
     reqPath = '/index.html';
-  } else if (reqPath === '/services') {
-    reqPath = '/services.html';
-  } else if (reqPath === '/pricing') {
-    reqPath = '/pricing.html';
-  } else if (reqPath === '/contact') {
-    reqPath = '/contact.html';
+  } else if (!path.extname(reqPath)) {
+    const candidate = path.join(ROOT_DIR, reqPath + '.html');
+    if (fs.existsSync(candidate)) {
+      reqPath = reqPath + '.html';
+    }
   }
 
   if (reqPath === '/api/contact' && req.method === 'POST') {
