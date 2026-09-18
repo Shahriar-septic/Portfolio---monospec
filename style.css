@@ -1521,11 +1521,12 @@ body.nav-open {
 }
 
 .phone-mockup-monogram {
-  font-family: monospace;
+  font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: 0.06em;
-  font-size: 13.5px;
+  letter-spacing: -0.02em;
+  font-size: 15px;
   color: #ffffff;
+  line-height: 1;
 }
 
 .phone-mockup-tabs {
