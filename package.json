@@ -5,9 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "node scripts/server.mjs",
-    "start:local": "node scripts/server.mjs"
+    "start:local": "node scripts/server.mjs",
+    "optimize:frames": "node scripts/optimize-frames.mjs"
   },
-  "keywords": ["scroll-animation", "canvas", "video-frames"],
+  "keywords": [
+    "scroll-animation",
+    "canvas",
+    "video-frames"
+  ],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "sharp": "^0.35.4"
+  }
 }

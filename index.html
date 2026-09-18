@@ -6,12 +6,17 @@
   <title>Shahriar Rafi — Creative Web Developer & UI/UX Designer</title>
   <meta name="description" content="Bridging aesthetic design and precision engineering to build immersive, high-conversion web experiences that make brands unforgettable.">
   
+  <!-- LCP Hero Canvas Frame Priority Preload -->
+  <link rel="preload" href="./frames/frame_001.webp" as="image" type="image/webp" fetchpriority="high">
+
   <!-- Preconnect & Typography: Clash Display + Bricolage Grotesque + Inter + Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700,800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800;12..96,900&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260918g">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260918_opt">
 </head>
 <body>
   <!-- Custom Sleek Cursor Elements -->
@@ -334,7 +339,7 @@
                   <!-- Interactive Profile Avatar Card -->
                   <div class="phone-avatar-card">
                     <div class="phone-avatar-wrap" id="phone-avatar-trigger" role="button" tabindex="0" title="Tap for collaborator status">
-                      <img src="./assets/shahriar-avatar.jpg?v=20260918_v3" alt="Shahriar Rafi" class="phone-avatar-img">
+                      <img src="./assets/shahriar-avatar.webp?v=20260918_opt" alt="Shahriar Rafi" class="phone-avatar-img" width="48" height="48" loading="lazy" decoding="async">
                       <span class="phone-live-indicator" aria-label="Available now"></span>
                     </div>
 
@@ -528,6 +533,6 @@
     </div>
   </div>
 
-  <script src="app.js?v=20260918g"></script>
+  <script src="app.js?v=20260918_opt" defer></script>
 </body>
 </html>

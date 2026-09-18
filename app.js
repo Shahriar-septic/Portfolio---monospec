@@ -1,31 +1,31 @@
-// Fallback list of frames for Create_a_cinematic__realistic_video_20260917081853_frames
+// Optimized WebP list of frames for Create_a_cinematic__realistic_video_20260917081853_frames
 const FALLBACK_FRAMES = [
-  "frame_001.jpg","frame_002.jpg","frame_003.jpg","frame_004.jpg","frame_005.jpg",
-  "frame_006.jpg","frame_007.jpg","frame_008.jpg","frame_009.jpg","frame_010.jpg",
-  "frame_011.jpg","frame_012.jpg","frame_013.jpg","frame_014.jpg","frame_015.jpg",
-  "frame_016.jpg","frame_017.jpg","frame_018.jpg","frame_019.jpg","frame_020.jpg",
-  "frame_021.jpg","frame_022.jpg","frame_023.jpg","frame_024.jpg","frame_025.jpg",
-  "frame_026.jpg","frame_027.jpg","frame_028.jpg","frame_029.jpg","frame_030.jpg",
-  "frame_031.jpg","frame_032.jpg","frame_033.jpg","frame_034.jpg","frame_035.jpg",
-  "frame_036.jpg","frame_037.jpg","frame_038.jpg","frame_039.jpg","frame_040.jpg",
-  "frame_041.jpg","frame_042.jpg","frame_043.jpg","frame_044.jpg","frame_045.jpg",
-  "frame_046.jpg","frame_047.jpg","frame_048.jpg","frame_049.jpg","frame_050.jpg",
-  "frame_051.jpg","frame_052.jpg","frame_053.jpg","frame_054.jpg","frame_055.jpg",
-  "frame_056.jpg","frame_057.jpg","frame_058.jpg","frame_059.jpg","frame_060.jpg",
-  "frame_061.jpg","frame_062.jpg","frame_063.jpg","frame_064.jpg","frame_065.jpg",
-  "frame_066.jpg","frame_067.jpg","frame_068.jpg","frame_069.jpg","frame_070.jpg",
-  "frame_071.jpg","frame_072.jpg","frame_073.jpg","frame_074.jpg","frame_075.jpg",
-  "frame_076.jpg","frame_077.jpg","frame_078.jpg","frame_079.jpg","frame_080.jpg",
-  "frame_081.jpg","frame_082.jpg","frame_083.jpg","frame_084.jpg","frame_085.jpg",
-  "frame_086.jpg","frame_087.jpg","frame_088.jpg","frame_089.jpg","frame_090.jpg",
-  "frame_091.jpg","frame_092.jpg","frame_093.jpg","frame_094.jpg","frame_095.jpg",
-  "frame_096.jpg","frame_097.jpg","frame_098.jpg","frame_099.jpg","frame_100.jpg",
-  "frame_101.jpg","frame_102.jpg","frame_103.jpg","frame_104.jpg","frame_105.jpg",
-  "frame_106.jpg","frame_107.jpg","frame_108.jpg","frame_109.jpg","frame_110.jpg",
-  "frame_111.jpg","frame_112.jpg","frame_113.jpg","frame_114.jpg","frame_115.jpg",
-  "frame_116.jpg","frame_117.jpg","frame_118.jpg","frame_119.jpg","frame_120.jpg",
-  "frame_121.jpg","frame_122.jpg","frame_123.jpg","frame_124.jpg","frame_125.jpg",
-  "frame_126.jpg","frame_127.jpg","frame_129.jpg","frame_130.jpg","frame_131.jpg"
+  "frame_001.webp","frame_002.webp","frame_003.webp","frame_004.webp","frame_005.webp",
+  "frame_006.webp","frame_007.webp","frame_008.webp","frame_009.webp","frame_010.webp",
+  "frame_011.webp","frame_012.webp","frame_013.webp","frame_014.webp","frame_015.webp",
+  "frame_016.webp","frame_017.webp","frame_018.webp","frame_019.webp","frame_020.webp",
+  "frame_021.webp","frame_022.webp","frame_023.webp","frame_024.webp","frame_025.webp",
+  "frame_026.webp","frame_027.webp","frame_028.webp","frame_029.webp","frame_030.webp",
+  "frame_031.webp","frame_032.webp","frame_033.webp","frame_034.webp","frame_035.webp",
+  "frame_036.webp","frame_037.webp","frame_038.webp","frame_039.webp","frame_040.webp",
+  "frame_041.webp","frame_042.webp","frame_043.webp","frame_044.webp","frame_045.webp",
+  "frame_046.webp","frame_047.webp","frame_048.webp","frame_049.webp","frame_050.webp",
+  "frame_051.webp","frame_052.webp","frame_053.webp","frame_054.webp","frame_055.webp",
+  "frame_056.webp","frame_057.webp","frame_058.webp","frame_059.webp","frame_060.webp",
+  "frame_061.webp","frame_062.webp","frame_063.webp","frame_064.webp","frame_065.webp",
+  "frame_066.webp","frame_067.webp","frame_068.webp","frame_069.webp","frame_070.webp",
+  "frame_071.webp","frame_072.webp","frame_073.webp","frame_074.webp","frame_075.webp",
+  "frame_076.webp","frame_077.webp","frame_078.webp","frame_079.webp","frame_080.webp",
+  "frame_081.webp","frame_082.webp","frame_083.webp","frame_084.webp","frame_085.webp",
+  "frame_086.webp","frame_087.webp","frame_088.webp","frame_089.webp","frame_090.webp",
+  "frame_091.webp","frame_092.webp","frame_093.webp","frame_094.webp","frame_095.webp",
+  "frame_096.webp","frame_097.webp","frame_098.webp","frame_099.webp","frame_100.webp",
+  "frame_101.webp","frame_102.webp","frame_103.webp","frame_104.webp","frame_105.webp",
+  "frame_106.webp","frame_107.webp","frame_108.webp","frame_109.webp","frame_110.webp",
+  "frame_111.webp","frame_112.webp","frame_113.webp","frame_114.webp","frame_115.webp",
+  "frame_116.webp","frame_117.webp","frame_118.webp","frame_119.webp","frame_120.webp",
+  "frame_121.webp","frame_122.webp","frame_123.webp","frame_124.webp","frame_125.webp",
+  "frame_126.webp","frame_127.webp","frame_129.webp","frame_130.webp","frame_131.webp"
 ];
 
 let frameFiles = FALLBACK_FRAMES;
@@ -114,6 +114,9 @@ function updateTarget() {
   const progress = Math.max(0, Math.min(1, scrollY / (cachedMaxScroll || 1)));
   targetFrame = progress * (totalFrames - 1);
 
+  // Buffer upcoming frames around the user's scroll direction
+  bufferWindowAround(Math.round(targetFrame), 14);
+
   // Navbar subtle blur background toggle on scroll
   if (navbar) {
     if (scrollY > 50) {
@@ -177,15 +180,20 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-// Preload all frames in memory with priority for the hero section
-function preloadFrames() {
-  if (!canvas || !ctx) return;
-  loadedImages = new Array(totalFrames);
-  loadedCount = 0;
-  if (loader) loader.classList.remove('hidden');
-  if (loaderBar) loaderBar.style.width = '0%';
+let frameStatus = new Uint8Array(totalFrames); // 0=unrequested, 1=loading, 2=loaded, 3=error
 
-  function onFrameReady(index, img) {
+function loadSingleFrame(index, priorityHigh = false) {
+  if (index < 0 || index >= totalFrames || frameStatus[index] !== 0) return;
+  frameStatus[index] = 1;
+
+  const filename = frameFiles[index];
+  const img = new Image();
+  if (priorityHigh && 'fetchPriority' in img) {
+    img.fetchPriority = 'high';
+  }
+
+  const onReady = () => {
+    frameStatus[index] = 2;
     loadedImages[index] = img;
     loadedCount++;
 
@@ -195,59 +203,98 @@ function preloadFrames() {
       lastRenderedIndex = 0;
     }
 
-    const pct = Math.round((loadedCount / totalFrames) * 100);
-    if (loaderBar) loaderBar.style.width = `${pct}%`;
-
-    if (loadedCount === totalFrames) {
-      setTimeout(() => {
-        if (loader) loader.classList.add('hidden');
-      }, 250);
-    }
-  }
-
-  function loadSingleFrame(index) {
-    const filename = frameFiles[index];
-    const img = new Image();
-
-    img.onload = () => {
-      if ('decode' in img) {
-        img.decode()
-          .then(() => onFrameReady(index, img))
-          .catch(() => onFrameReady(index, img));
-      } else {
-        onFrameReady(index, img);
+    if (loaderBar) {
+      // Progress bar reflects hero readiness (first 8 frames) for immediate feedback
+      const heroTarget = Math.min(8, totalFrames);
+      const heroCount = loadedImages.slice(0, heroTarget).filter(Boolean).length;
+      const pct = Math.min(100, Math.round((heroCount / heroTarget) * 100));
+      loaderBar.style.width = `${pct}%`;
+      if (heroCount >= heroTarget) {
+        setTimeout(() => {
+          if (loader) loader.classList.add('hidden');
+        }, 150);
       }
-    };
+    }
+  };
 
-    img.onerror = () => {
-      console.warn('Failed to load frame:', filename);
+  img.onload = () => {
+    if ('decode' in img) {
+      img.decode().then(onReady).catch(onReady);
+    } else {
+      onReady();
+    }
+  };
+
+  img.onerror = () => {
+    // Graceful fallback to .jpg if .webp somehow fails to load
+    if (filename.endsWith('.webp')) {
+      const jpgFallback = filename.replace(/\.webp$/i, '.jpg');
+      const fallbackImg = new Image();
+      fallbackImg.onload = () => {
+        loadedImages[index] = fallbackImg;
+        frameStatus[index] = 2;
+        loadedCount++;
+      };
+      fallbackImg.onerror = () => {
+        frameStatus[index] = 3;
+        loadedCount++;
+      };
+      fallbackImg.src = BASE_PATH + jpgFallback;
+    } else {
+      frameStatus[index] = 3;
       loadedCount++;
-    };
+    }
+  };
 
-    img.src = BASE_PATH + filename;
-  }
+  img.src = BASE_PATH + filename;
+}
 
-  // Phase 1: Load the first 24 frames immediately for instant, smooth hero interaction
-  const immediateFrames = Math.min(24, totalFrames);
-  for (let i = 0; i < immediateFrames; i++) {
-    loadSingleFrame(i);
-  }
-
-  // Phase 2: Progressively queue the remaining frames in small batches so network isn't clogged
-  let nextBatchStart = immediateFrames;
-  const batchSize = 16;
-  function loadNextBatch() {
-    if (nextBatchStart >= totalFrames) return;
-    const batchEnd = Math.min(nextBatchStart + batchSize, totalFrames);
-    for (let i = nextBatchStart; i < batchEnd; i++) {
+// Proactively buffer a window of frames around the active scrub position
+function bufferWindowAround(centerIndex, radius = 12) {
+  const start = Math.max(0, centerIndex - 4);
+  const end = Math.min(totalFrames - 1, centerIndex + radius);
+  for (let i = start; i <= end; i++) {
+    if (frameStatus[i] === 0) {
       loadSingleFrame(i);
     }
-    nextBatchStart = batchEnd;
-    if (nextBatchStart < totalFrames) {
-      setTimeout(loadNextBatch, 50);
-    }
   }
-  setTimeout(loadNextBatch, 80);
+}
+
+// Preload priority hero frames, then buffer ahead during scroll & idle
+function preloadFrames() {
+  if (!canvas || !ctx) return;
+  loadedImages = new Array(totalFrames);
+  frameStatus = new Uint8Array(totalFrames);
+  loadedCount = 0;
+  if (loader) loader.classList.remove('hidden');
+  if (loaderBar) loaderBar.style.width = '0%';
+
+  // Phase 1: Immediately fetch the first 8 frames to guarantee instant hero render and smooth start
+  const heroFrames = Math.min(8, totalFrames);
+  for (let i = 0; i < heroFrames; i++) {
+    loadSingleFrame(i, i === 0);
+  }
+
+  // Phase 2: Progressively buffer upcoming frames using requestIdleCallback / throttled idle
+  let idlePtr = heroFrames;
+  function scheduleIdleBuffer() {
+    if (idlePtr >= totalFrames) return;
+    const idleCallback = window.requestIdleCallback || ((cb) => setTimeout(() => cb({ timeRemaining: () => 15 }), 120));
+    idleCallback((deadline) => {
+      while ((deadline.timeRemaining() > 4 || deadline.didTimeout) && idlePtr < totalFrames) {
+        if (frameStatus[idlePtr] === 0) {
+          loadSingleFrame(idlePtr);
+        }
+        idlePtr++;
+      }
+      if (idlePtr < totalFrames) {
+        setTimeout(scheduleIdleBuffer, 120);
+      }
+    }, { timeout: 1000 });
+  }
+
+  // Delay idle queue slightly so initial DOM, fonts, and critical assets have 100% bandwidth
+  setTimeout(scheduleIdleBuffer, 400);
 }
 
 // ===================================================
