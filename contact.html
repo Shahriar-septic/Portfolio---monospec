@@ -252,6 +252,11 @@
         <div class="contact-glass-card" id="contact-glass-card">
           <form id="contact-intake-form" class="intake-form-glass">
 
+            <!-- Anti-Spam Bot Trap (Invisible to real users, catches automated scrapers) -->
+            <div style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+              <input type="text" name="website_url_hp" id="website-url-hp" tabindex="-1" autocomplete="off">
+            </div>
+
             <!-- Name -->
             <div class="glass-field-group">
               <input type="text" id="user-name" class="glass-field-input" placeholder="Your Name" required autocomplete="name">
@@ -382,6 +387,8 @@
     const successDesc = document.getElementById('success-desc');
     const metaTime = document.getElementById('meta-time');
     const resetBtn = document.getElementById('btn-reset-form');
+    const honeypotInput = document.getElementById('website-url-hp');
+    const formLoadTime = Date.now();
 
     // UI Helper: show field error
     function showFieldError(inputEl, errorEl, message) {
@@ -403,20 +410,132 @@
     planSelect.addEventListener('change', () => clearFieldError(planSelect, planError));
     reqInput.addEventListener('input', () => clearFieldError(reqInput, reqError));
 
-    // 1. Name Validator
+    // Keyboard sequence walk patterns for keyboard-mash detection
+    const KEYBOARD_PATTERNS = [
+      'asdf', 'fdsa', 'qwerty', 'ytrewq', 'zxcv', 'vcxz',
+      'hjkl', 'lkjh', 'asda', 'sdas', 'wasd', 'dsaw',
+      'ghjk', 'kjhg', 'bnm', 'mnb', 'qaz', 'wsx', 'edc',
+      'rfv', 'tgb', 'yhn', 'ujm', 'ik,', 'poiuy', 'yuiop'
+    ];
+
+    // Genuine English words with 3 consecutive vowels (prevents flagging real words)
+    const THREE_VOWEL_WHITELIST = new Set([
+      'beauty', 'beautiful', 'beautifully', 'beautify', 'queue', 'queuing', 'queued',
+      'audio', 'audiovisual', 'serious', 'seriously', 'review', 'reviewing', 'reviewed', 'reviewer',
+      'previous', 'previously', 'gorgeous', 'gorgeously', 'quiet', 'quietly', 'quietness',
+      'anxious', 'anxiously', 'curious', 'curiously', 'curiosity', 'obvious', 'obviously',
+      'various', 'continuously', 'continuous', 'precious', 'spacious', 'gracious', 'conscious',
+      'delicious', 'suspicious', 'jealous', 'famous', 'courageous', 'outrageous', 'advantageous',
+      'religious', 'generous', 'ambitious', 'cautious', 'infectious', 'fictitious', 'efficacious',
+      'spurious', 'tedious', 'dubious', 'copious', 'glorious', 'furious', 'mysterious', 'victorious',
+      'canoeist', 'onomatopoeia', 'liaison', 'lieutenant', 'plateau', 'bureau', 'chateau', 'milieu',
+      'roulette', 'souvenir', 'tourist', 'tourism', 'boulevard', 'boutique', 'coupon', 'silhouette',
+      'guarantee', 'guardian', 'guidance', 'juice', 'juicy', 'suit', 'suite', 'suitable',
+      'suitcase', 'fruit', 'fruits', 'cruise', 'bruise', 'pursuit', 'nuisance', 'receipt',
+      'receive', 'receiving', 'received', 'ceiling', 'deceive', 'perceive', 'conceive',
+      'view', 'views', 'viewer', 'viewing', 'interview', 'preview', 'overview',
+      'cooperate', 'cooperative', 'coordinate', 'coordination', 'poet', 'poetry', 'poetic', 'phoenix'
+    ]);
+
+    // Comprehensive Dictionary of conversational, business, tech, and agency terms
+    const COMMON_WORDS = new Set([
+      'hi', 'hello', 'hey', 'greetings', 'dear', 'good', 'morning', 'afternoon', 'evening',
+      'salam', 'assalamu', 'alaikum', 'kemon', 'achen', 'bhai', 'bro', 'sir', 'madam',
+      'dorkar', 'lagbe', 'janbo', 'janaben', 'khoj', 'khobor', 'dhonnobad', 'thanks', 'thank', 'you',
+      'i', 'me', 'my', 'we', 'us', 'our', 'you', 'your', 'he', 'she', 'it', 'they', 'them',
+      'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had',
+      'do', 'does', 'did', 'can', 'could', 'would', 'should', 'will', 'shall', 'may', 'might', 'must',
+      'a', 'an', 'the', 'and', 'or', 'but', 'if', 'because', 'as', 'until', 'while', 'of', 'at', 'by',
+      'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after',
+      'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under',
+      'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all',
+      'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not',
+      'only', 'own', 'same', 'so', 'than', 'too', 'very', 'just',
+      'project', 'website', 'web', 'site', 'app', 'application', 'design', 'designer', 'develop',
+      'development', 'developer', 'frontend', 'backend', 'fullstack', 'software', 'tech',
+      'technology', 'system', 'expert', 'hire', 'team', 'portfolio', 'agency', 'store',
+      'ecommerce', 'woocommerce', 'shopify', 'wordpress', 'nextjs', 'react', 'tailwind',
+      'landing', 'page', 'pages', 'services', 'service', 'pricing', 'price', 'cost', 'quote',
+      'quotation', 'timeline', 'features', 'details', 'info', 'information', 'help', 'discuss',
+      'discussion', 'talk', 'call', 'contact', 'interested', 'inquiry', 'inquiries', 'inquire',
+      'create', 'build', 'make', 'launch', 'scale', 'dominate', 'custom', 'scope', 'work',
+      'business', 'company', 'brand', 'startup', 'start', 'fast', 'urgent', 'express', 'priority',
+      'standard', 'budget', 'taka', 'bdt', 'usd', 'dollar', 'please', 'like', 'love', 'want',
+      'need', 'know', 'tell', 'send', 'proposal', 'brochure', 'consultation', 'consult',
+      'advice', 'audit', 'redesign', 'revamp', 'seo', 'ui', 'ux', 'graphic', 'graphics', 'logo',
+      'clean', 'modern', 'responsive', 'mobile', 'desktop', 'speed', 'fast', 'quality',
+      'question', 'questions', 'ready', 'transform', 'digital', 'architecture', 'engineering',
+      'online', 'payment', 'gateway', 'checkout', 'cart', 'product', 'products', 'inventory',
+      'client', 'clients', 'customer', 'customers', 'sales', 'lead', 'leads', 'revenue',
+      'marketing', 'solution', 'solutions', 'platform', 'management', 'portal', 'dashboard',
+      'secure', 'security', 'database', 'cloud', 'hosting', 'domain', 'setup', 'maintain',
+      'maintenance', 'support', 'assist', 'assistance', 'requirements', 'requirement', 'spec',
+      'specification', 'monospec', 'shahriar', 'estimate', 'tier', 'plan', 'package', 'starter',
+      'pro', 'elite', 'enterprise', 'customized', 'revised', 'revision', 'brief', 'contract',
+      'look', 'looking', 'see', 'get', 'give', 'take', 'come', 'think', 'find', 'feel', 'try',
+      'ask', 'show', 'leave', 'feel', 'put', 'mean', 'keep', 'let', 'begin', 'seem',
+      'talk', 'turn', 'start', 'might', 'show', 'hear', 'play', 'run', 'move', 'live',
+      'believe', 'hold', 'bring', 'happen', 'write', 'provide', 'sit', 'stand', 'lose',
+      'pay', 'meet', 'include', 'continue', 'set', 'learn', 'change', 'lead', 'understand',
+      'watch', 'follow', 'stop', 'speak', 'read', 'allow', 'add', 'spend', 'grow',
+      'open', 'walk', 'win', 'offer', 'remember', 'consider', 'appear', 'buy', 'wait',
+      'serve', 'expect', 'stay', 'reach', 'remain'
+    ]);
+
+    // Linguistic stemming helper
+    function isWordInDict(word) {
+      const w = word.toLowerCase();
+      if (COMMON_WORDS.has(w)) return true;
+      if (w.endsWith('ing') && COMMON_WORDS.has(w.slice(0, -3))) return true;
+      if (w.endsWith('ing') && COMMON_WORDS.has(w.slice(0, -3) + 'e')) return true;
+      if (w.endsWith('ed') && COMMON_WORDS.has(w.slice(0, -2))) return true;
+      if (w.endsWith('ed') && COMMON_WORDS.has(w.slice(0, -1))) return true;
+      if (w.endsWith('es') && COMMON_WORDS.has(w.slice(0, -2))) return true;
+      if (w.endsWith('s') && COMMON_WORDS.has(w.slice(0, -1))) return true;
+      if (w.endsWith('ly') && COMMON_WORDS.has(w.slice(0, -2))) return true;
+      if (w.endsWith('er') && COMMON_WORDS.has(w.slice(0, -2))) return true;
+      if (w.endsWith('est') && COMMON_WORDS.has(w.slice(0, -3))) return true;
+      if (w.endsWith('ment') && COMMON_WORDS.has(w.slice(0, -4))) return true;
+      if (w.endsWith('tion') && COMMON_WORDS.has(w.slice(0, -4))) return true;
+      return false;
+    }
+
+    // 1. Name Validator (Guards against gibberish like puioniub, asdfgh, repeating keys)
     function validateName(raw) {
       const name = (raw || '').trim();
-      if (!name || name.length < 2) {
-        return { valid: false, message: 'Please enter your name (at least 2 letters).' };
+      if (!name || name.length < 2 || name.length > 50) {
+        return { valid: false, message: 'Please enter your real name (2-50 characters).' };
       }
-      if (!/[a-zA-Z]/.test(name)) {
-        return { valid: false, message: 'Name must contain letters.' };
+      if (!/^[a-zA-Z\s\.\'\-]+$/.test(name)) {
+        return { valid: false, message: 'Name can only contain letters, spaces, hyphens, and periods.' };
       }
-      if (/^(.)\1+$/.test(name)) {
-        return { valid: false, message: 'Please enter your real name.' };
+      if (!/[aeiouyAEIOUY]/.test(name)) {
+        return { valid: false, message: 'Please enter a genuine name with vowels.' };
       }
-      if (/asdf|qwerty|zxcv/i.test(name)) {
-        return { valid: false, message: 'Please enter a genuine name.' };
+      if (/(.)\1{2,}/.test(name)) {
+        return { valid: false, message: 'Please enter a genuine name, not repeated characters.' };
+      }
+
+      const words = name.toLowerCase().match(/[a-z]+/g) || [];
+      for (const w of words) {
+        for (const pat of KEYBOARD_PATTERNS) {
+          if (w.includes(pat)) {
+            return { valid: false, message: 'Name contains random keyboard patterns.' };
+          }
+        }
+        if (/[bcdfghjklmnpqrstvwxz]{5,}/.test(w)) {
+          return { valid: false, message: 'Please enter a real name.' };
+        }
+        // 3 consecutive vowels check in name (e.g. puioniub -> uio)
+        if (/[aeiou]{3,}/.test(w) && !['louise', 'louisa', 'beau', 'eunice', 'mia'].includes(w)) {
+          return { valid: false, message: 'Please enter a genuine name.' };
+        }
+        if (w.length >= 6) {
+          const vCount = (w.match(/[aeiouy]/g) || []).length;
+          if (vCount / w.length > 0.60 || vCount / w.length < 0.18) {
+            return { valid: false, message: 'Please enter a genuine name.' };
+          }
+        }
       }
       return { valid: true };
     }
@@ -443,10 +562,15 @@
         return { valid: false, message: 'Please type a valid mobile number, not repeating digits.' };
       }
 
+      // Block repeating suffix (e.g. 01700000000, 01811111111)
+      if (digitsOnly.length >= 11 && /^01\d(\d)\1{7,}$/.test(digitsOnly)) {
+        return { valid: false, message: 'Please enter a genuine phone number, not dummy repeating digits.' };
+      }
+
       // Block dummy sequential patterns like 12341234, 123456, 12345678901
       const sequentialDummies = [
         '123456', '12341234', '12345678', '123456789', '1234567890', '12345678901',
-        '987654321', '9876543210', '0123456789', '12121212', '123123123'
+        '987654321', '9876543210', '0123456789', '01234567890', '12121212', '123123123'
       ];
       if (sequentialDummies.includes(digitsOnly) || '0123456789012345'.includes(digitsOnly) || '9876543210987654'.includes(digitsOnly)) {
         return { valid: false, message: 'Please type the number correctly, not a dummy placeholder.' };
@@ -458,7 +582,7 @@
         if (/^01[3-9]\d{8}$/.test(localPart)) {
           return { valid: true };
         } else {
-          return { valid: false, message: 'Bangladesh numbers must have 11 digits starting with 01 (e.g. +8801700-000000).' };
+          return { valid: false, message: 'Bangladesh numbers must have 11 digits starting with 01 (e.g. +88017XXXXXXXX).' };
         }
       }
 
@@ -476,7 +600,7 @@
         return { valid: false, message: 'Mobile number must be at least 11 digits (starts with 01, like 01XXXXXXXXX).' };
       }
 
-      if (cleaned.length > 11 && !cleaned.startsWith('+')) {
+      if (cleaned.length > 11) {
         return { valid: false, message: 'Local numbers must be exactly 11 digits (e.g. 01XXXXXXXXX). Use "+" for international.' };
       }
 
@@ -487,26 +611,7 @@
       return { valid: true };
     }
 
-    // 3. Meaningful Message Validator (Prevents keyboard smash like "asilhjdbalsib", "ijbnasjidb", "asdasdawdasda")
-    const COMMON_WORDS = new Set([
-      'hi', 'hello', 'hey', 'greetings', 'i', 'we', 'you', 'my', 'our', 'am', 'is', 'are',
-      'want', 'need', 'know', 'more', 'about', 'to', 'for', 'the', 'a', 'an', 'and', 'or',
-      'project', 'website', 'web', 'site', 'app', 'design', 'development', 'developer',
-      'portfolio', 'agency', 'store', 'ecommerce', 'woocommerce', 'shopify', 'landing',
-      'page', 'services', 'pricing', 'price', 'cost', 'quote', 'timeline', 'features',
-      'details', 'info', 'information', 'help', 'discuss', 'talk', 'call', 'contact',
-      'interested', 'inquiry', 'inquire', 'create', 'build', 'make', 'launch', 'scale',
-      'dominate', 'custom', 'scope', 'work', 'business', 'company', 'brand', 'start',
-      'fast', 'urgent', 'express', 'standard', 'budget', 'taka', 'bdt', 'usd', 'dollar',
-      'please', 'can', 'could', 'would', 'like', 'love', 'have', 'do', 'how', 'much',
-      'what', 'when', 'where', 'who', 'why', 'tell', 'me', 'us', 'send', 'proposal',
-      'brochure', 'consultation', 'advice', 'audit', 'redesign', 'revamp', 'seo', 'ui', 'ux',
-      'graphic', 'logo', 'clean', 'modern', 'responsive', 'mobile', 'frontend', 'backend',
-      'fullstack', 'software', 'tech', 'technology', 'system', 'expert', 'hire', 'team',
-      'kemon', 'achen', 'bhai', 'dorkar', 'lagbe', 'janbo', 'janaben', 'khoj', 'khobor',
-      'question', 'questions', 'ready', 'transform', 'digital', 'architecture', 'engineering'
-    ]);
-
+    // 3. Meaningful Message Validator (Prevents gibberish like puioniub, asilhjdbalsib, ijbnasjidb, asdasdawdasda)
     function validateMessage(raw) {
       const text = (raw || '').trim();
       if (!text || text.length < 2) {
@@ -524,25 +629,22 @@
         return { valid: false, message: 'Please write meaningful words in your message.' };
       }
 
-      // Check if any recognized common word is present (e.g. "hi", "want", "more", "project")
-      const hasCommonWord = words.some(w => COMMON_WORDS.has(w));
-
       // Examine words for keyboard smash & gibberish patterns
       for (const word of words) {
         // Repeated single letter (e.g. aaaaa, zzzzz)
-        if (/(.)\1{3,}/.test(word)) {
-          return { valid: false, message: 'Please type a real message, not repeating characters.' };
+        if (/(.)\1{2,}/.test(word)) {
+          return { valid: false, message: 'Please type a real message, not repeating characters like "' + word + '".' };
         }
 
-        // Keyboard rows and mash patterns (e.g. asdf, wasd, asda, hjkl)
-        const KEYBOARD_PATTERNS = [
-          'asdf', 'fdsa', 'qwerty', 'ytrewq', 'zxcv', 'vcxz',
-          'hjkl', 'lkjh', 'asda', 'sdas', 'wasd', 'dsaw',
-          'ghjk', 'kjhg', 'bnm', 'mnb'
-        ];
+        // Repeating syllable keys (e.g. asdasd, ababab)
+        if (word.length >= 6 && /(..)\1{2,}/.test(word)) {
+          return { valid: false, message: 'Please write real words, not repeating syllable keys.' };
+        }
+
+        // Keyboard rows and mash patterns (e.g. asdf, wasd, asda, hjkl, qwerty)
         for (const pat of KEYBOARD_PATTERNS) {
-          if (word.includes(pat) && !COMMON_WORDS.has(word)) {
-            return { valid: false, message: 'Your message appears to contain random keyboard typing. Please write something meaningful.' };
+          if (word.includes(pat) && !isWordInDict(word)) {
+            return { valid: false, message: 'Your message appears to contain random keyboard typing ("' + pat + '"). Please write something meaningful.' };
           }
         }
 
@@ -551,30 +653,54 @@
           return { valid: false, message: 'Please write meaningful words. Unreadable words like "' + word.slice(0, 8) + '..." are not allowed.' };
         }
 
+        // 3 or more consecutive vowels (e.g. "puioniub" has "uio")
+        if (/[aeiou]{3,}/.test(word)) {
+          let isWhitelisted = false;
+          for (const white of THREE_VOWEL_WHITELIST) {
+            if (word.includes(white) || white.includes(word)) {
+              isWhitelisted = true;
+              break;
+            }
+          }
+          if (!isWhitelisted && !isWordInDict(word)) {
+            return { valid: false, message: 'Unrecognized word with abnormal vowel sequence ("' + word + '"). Please write a meaningful message.' };
+          }
+        }
+
         // Words >= 5 letters with NO vowels at all (e.g. qwrtyp, zxcvb)
         if (word.length >= 5 && !/[aeiouy]/.test(word)) {
           return { valid: false, message: 'Please type meaningful words with vowels.' };
         }
 
-        // Long words (10+ chars) with repeating syllables or abnormal vowel distribution
-        if (word.length >= 10 && !COMMON_WORDS.has(word)) {
-          const sub = word.slice(0, 4);
-          if (word.split(sub).length > 2) {
-            return { valid: false, message: 'Please type a real message, not repeating letter combinations.' };
-          }
-          const vowels = (word.match(/[aeiouy]/g) || []).length;
-          if (vowels / word.length < 0.2 || vowels / word.length > 0.8) {
-            return { valid: false, message: 'Please write a real, meaningful message (e.g. "Hi, I want to know more about your services").' };
+        // Words >= 6 letters with extreme vowel ratios (< 18% or > 70%) unless dictionary word
+        if (word.length >= 6 && !isWordInDict(word)) {
+          const vowelCount = (word.match(/[aeiouy]/g) || []).length;
+          const ratio = vowelCount / word.length;
+          if (ratio < 0.18 || ratio > 0.70) {
+            return { valid: false, message: 'The word "' + word + '" does not appear to be a real word. Please write a meaningful message.' };
           }
         }
       }
 
-      // If only 1 word and >= 7 characters, check that it's not gibberish
-      if (words.length === 1 && words[0].length >= 7 && !hasCommonWord) {
-        const w = words[0];
-        const vowels = (w.match(/[aeiouy]/g) || []).length;
-        if (vowels / w.length < 0.28) {
-          return { valid: false, message: 'Please type a meaningful message (e.g. "Hi, I want to know more").' };
+      // Single word check: If the message consists of only 1 word, it MUST be recognized in dictionary or whitelist
+      if (words.length === 1) {
+        const singleWord = words[0];
+        if (!isWordInDict(singleWord) && !THREE_VOWEL_WHITELIST.has(singleWord)) {
+          return { valid: false, message: 'The word "' + singleWord + '" is not recognized. Please type a meaningful message or inquiry (e.g. "Hi, I want to know more").' };
+        }
+      }
+
+      // Multi-word density check: At least 40% of words in multi-word messages must be recognizable dictionary words
+      if (words.length >= 2) {
+        let recognizedCount = 0;
+        for (const w of words) {
+          if (isWordInDict(w) || THREE_VOWEL_WHITELIST.has(w)) {
+            recognizedCount++;
+          }
+        }
+        const ratio = recognizedCount / words.length;
+        if (ratio < 0.40) {
+          return { valid: false, message: 'Your message could not be understood. Please write your requirements clearly in English or conversational Bengali.' };
         }
       }
 
@@ -589,6 +715,36 @@
       clearFieldError(contactInput, contactError);
       clearFieldError(planSelect, planError);
       clearFieldError(reqInput, reqError);
+
+      // 0. Anti-Bot Honeypot Trap check (Bots fill invisible fields)
+      if (honeypotInput && honeypotInput.value.trim() !== '') {
+        console.warn('Bot trap triggered via honeypot.');
+        submitBtn.disabled = true;
+        setTimeout(() => {
+          form.style.display = 'none';
+          successCard.style.display = 'flex';
+          successDesc.textContent = 'Thank you! Your request has been recorded.';
+        }, 300);
+        return;
+      }
+
+      // Submission velocity check (< 1.8s from page load indicates automated headless bot)
+      if (Date.now() - formLoadTime < 1800) {
+        statusMsg.textContent = 'Submission was too fast. Please review your details and submit again.';
+        statusMsg.className = 'form-status-msg error';
+        statusMsg.style.display = 'block';
+        return;
+      }
+
+      // Cooldown / Anti-Flood check (prevents spam clicking)
+      const lastSubmit = localStorage.getItem('monospec_contact_cooldown');
+      if (lastSubmit && (Date.now() - parseInt(lastSubmit, 10)) < 25000) {
+        const waitSec = Math.ceil((25000 - (Date.now() - parseInt(lastSubmit, 10))) / 1000);
+        statusMsg.textContent = `Please wait ${waitSec}s before sending another submission.`;
+        statusMsg.className = 'form-status-msg error';
+        statusMsg.style.display = 'block';
+        return;
+      }
 
       const name = nameInput.value.trim();
       const contact = contactInput.value.trim();
@@ -650,10 +806,14 @@
         message: req,
         req: req,
         dateTime: formattedDateTime,
-        timestamp: now.toISOString()
+        timestamp: now.toISOString(),
+        website_url_hp: honeypotInput ? honeypotInput.value.trim() : ''
       };
 
-      // 1. Submit to Google Apps Script Web App
+      // Record cooldown in localStorage
+      localStorage.setItem('monospec_contact_cooldown', Date.now().toString());
+
+      // 1. Submit to Google Apps Script Web App (Primary backend)
       if (GOOGLE_SCRIPT_WEBAPP_URL && GOOGLE_SCRIPT_WEBAPP_URL.startsWith('http')) {
         try {
           await fetch(GOOGLE_SCRIPT_WEBAPP_URL, {
@@ -667,7 +827,7 @@
         }
       }
 
-      // 2. Also send to Serverless Function endpoint /api/contact
+      // 2. Also send to Serverless Function endpoint /api/contact for redundancy
       try {
         await fetch('/api/contact', {
           method: 'POST',

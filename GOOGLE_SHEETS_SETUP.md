@@ -43,6 +43,17 @@ const GOOGLE_SCRIPT_WEBAPP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
 Replace `"YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"` with your copied Web app URL.
 
 That's it! As soon as any client submits the form on your Contact Me page:
-- A new row will instantly appear in your Google Sheet with **Date & Time**, **Name**, **Email/WhatsApp**, **Selected Plan**, and **Message**.
-- A high-end confirmation card will be shown to the client.
+- A new row will instantly appear in your Google Sheet with **Date & Time**, **Name**, **WhatsApp/Phone**, **Selected Plan**, and **Message**.
+- A high-end frosted glass confirmation card will be shown to the client.
 - No WhatsApp redirection will occur.
+
+---
+
+### How to Update an Existing Deployment (Important)
+Whenever you update `Code.gs` with new anti-spam features:
+1. Open your Apps Script project and paste the updated [`google-sheets-backend/Code.gs`](./google-sheets-backend/Code.gs).
+2. Click **Save** (`Ctrl + S`).
+3. Click **Deploy** > **Manage deployments**.
+4. Click the **Edit** (pencil) icon next to your Active deployment.
+5. In the **Version** dropdown, select **`New version`**.
+6. Click **Deploy**. *(Your Web App URL stays the exact same!)*
