@@ -135,6 +135,18 @@ function updateTarget() {
       link.classList.remove('active');
     }
   });
+
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  if (mobileNavLinks.length > 0 && sections.length > 0) {
+    mobileNavLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === `#${currentSection}` || href === `index.html#${currentSection}`) {
+        link.classList.add('active');
+      } else if (href && href.includes('#')) {
+        link.classList.remove('active');
+      }
+    });
+  }
 }
 
 window.addEventListener('scroll', updateTarget, { passive: true });
@@ -277,7 +289,7 @@ function initCustomCursor() {
   requestAnimationFrame(renderCursor);
 
   // Hover detection for all interactive elements
-  const interactiveSelector = 'a, button, input, select, textarea, .contact-info-card, .pricing-card, .tier-card, .btn-choose-plan, .btn-contact, .ask-whatsapp-btn, .curr-btn, .social-icon, .btn-start-project, .btn-send-message';
+  const interactiveSelector = 'a, button, input, select, textarea, .contact-info-card, .pricing-card, .tier-card, .btn-choose-plan, .btn-contact, .ask-whatsapp-btn, .curr-btn, .social-icon, .btn-start-project, .btn-send-message, .hamburger-btn, .mobile-nav-link, .mobile-drawer-close, .mobile-btn-contact, .mobile-btn-whatsapp';
 
   document.addEventListener('mouseover', (e) => {
     const target = e.target.closest(interactiveSelector);
@@ -296,9 +308,88 @@ function initCustomCursor() {
   });
 }
 
+// ===================================================
+// MOBILE NAVIGATION DRAWER CONTROLLER
+// ===================================================
+function initMobileNav() {
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const drawer = document.getElementById('mobile-nav-drawer');
+  const backdrop = document.getElementById('mobile-drawer-backdrop');
+  const closeBtn = document.getElementById('mobile-drawer-close');
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  const mainContent = document.querySelector('main');
+
+  if (!hamburgerBtn || !drawer) return;
+
+  function openMenu() {
+    drawer.classList.add('is-open');
+    hamburgerBtn.classList.add('is-open');
+    hamburgerBtn.setAttribute('aria-expanded', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('nav-open');
+    if (mainContent) mainContent.setAttribute('inert', '');
+  }
+
+  function closeMenu() {
+    drawer.classList.remove('is-open');
+    hamburgerBtn.classList.remove('is-open');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('nav-open');
+    if (mainContent) mainContent.removeAttribute('inert');
+  }
+
+  function toggleMenu() {
+    const isOpen = drawer.classList.contains('is-open');
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
+
+  hamburgerBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMenu();
+    });
+  }
+
+  if (backdrop) {
+    backdrop.addEventListener('click', closeMenu);
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+      closeMenu();
+    }
+  });
+
+  // Auto-close menu when clicking any link
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      closeMenu();
+    });
+  });
+
+  // Close menu if viewport resized to desktop (> 900px)
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && drawer.classList.contains('is-open')) {
+      closeMenu();
+    }
+  }, { passive: true });
+}
+
 // Initialize sequence
 function init() {
   initCustomCursor();
+  initMobileNav();
 
   if (canvas && ctx) {
     updateTarget();
@@ -313,3 +404,4 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
